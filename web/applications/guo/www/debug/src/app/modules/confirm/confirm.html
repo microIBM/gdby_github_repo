@@ -1,0 +1,91 @@
+<div class="mt-nav mb-nav container-fluid" ng-show="!showLoading" active_class="autoCart">
+  <div class="row block block-col pt-10 pb-10">
+    <h4 class="col-xs-12  text-brown">
+ 
+        <div class="inline hw-20 -ml-10 pt-5">
+        <span class="pr sprite_icon sprite-confirm m-t-1"></span>
+      </div>     
+      请确认订单内容</h4>
+    <div class="col-xs-12">
+      <div class="row pb-10 pt-10 block-col" ng-repeat="item in cartlist.items[0].list">
+        <div class="col-xs-6">
+          {{item.title}}<span class="text-brown"><br><small ng-repeat="spec in item.spec" ng-show="spec.val">{{spec.name}}：{{spec.val}}<br></small></span>
+        </div>
+        <div class="col-xs-3 text-center text-f60 pl-0 pr-0">&yen;
+          {{item.price}}
+        </div>
+        <div class="col-xs-3 text-center pl-0 pr-0">
+          {{item.quantity}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="row block">
+      <div class="col-xs-12">
+
+        <a ui-sref="page.chooseCoupon" class="text-333">
+          <h4 class="text-brown pull-left flex_c">
+
+
+        <div class="inline hw-20 -ml-10 p-t-1 m-r-5">
+        <span class="pr sprite_icon sprite-coupon"></span>
+      </div>
+            优惠劵
+            <span class="label label-success m-l-5" ng-show="coupon.active_data && coupon.active_data.length != 0"> <span class="orange">{{coupon.active_data.length}}</span>张可用</span>
+
+            <span class="label label-default m-l-5" ng-show="coupon.active_data && coupon.active_data.length == 0">无可用</span>
+          </h4>
+          <h5 class="pull-right text-333" ng-show="coupon.choose_sum">已抵用<span class="orange">{{coupon.choose_sum}}</span>元<span class="glyphicon glyphicon-chevron-right"></span></h5>
+
+          <h5 class="pull-right text-333" ng-show="!coupon.choose_sum">未使用<span class="glyphicon glyphicon-chevron-right"></span></h5>
+        </a>
+      </div>
+    </div>
+
+    <div class="row block">
+    <div class="col-xs-12 text-right">
+      <h5>商品总价<span class="text-f60">约{{cartlist.items[0].sum}}</span>元</h5>
+      <h5>优惠<span class="text-f60">- {{minus_amount}}</span>元</h5>
+      <h5>应付<span class="text-f60">{{sum_price}}</span>元</h5>
+    </div>
+    </div>
+  <form class="row block block-col form pt-10 pb-10" name="confirmForm" role="form" novalidate ng-submit="confirm();">
+    <h4 class="col-xs-12 text-brown">
+      
+        <div class="inline hw-20 -ml-10 pt-5">
+        <span class="pr sprite_icon sprite-time"></span>
+      </div>     
+      请选择期望送货时间</h4>
+    <div class="col-xs-12">
+      <div class="row pb-10 pt-10 block-col">
+        <div class="col-xs-6">
+          <select class="input-lg w100" ng-model="deliver_date" ng-options="m.name for m in dates" ng-change="dateChange();" required>
+            <option value="">请选择送货日期</option>
+          </select>
+        </div>
+        <div class="col-xs-6">
+          <select class="input-lg w100" ng-model="deliver_time" ng-options="m.msg for m in times" required>
+            <option value="">请选择送货时间</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12">
+        <h4 class="text-brown" >收货地址</h4>
+        <label>{{uinfo.address}}</label>
+        <h5>收货人：{{uinfo.name}}({{uinfo.mobile}})</h5>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-xs-12">
+        <h4 class="text-brown">其他要求</h4>
+        <textarea id="content" class="input-lg form-control" rows="3" ng-model="remarks" placeholder="请输入其他要求"></textarea>
+      </div>
+    </div>
+    <div class="col-xs-12 pb-10 pt-10">
+      <button class="btn btn-block btn-lg btn-orange" type="submit">确认订单</button>
+    </div>
+  </form>
+</div>

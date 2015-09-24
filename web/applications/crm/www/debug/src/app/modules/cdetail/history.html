@@ -1,0 +1,21 @@
+<div ng-show="isLoading === false" class="cdetail_wp">
+  <dl class="block cdedl">
+    <dt>
+      <span class="pull-right">所属销售</span>
+      <span>时间</span>
+    </dt>
+    <dd ng-repeat="m in historylist.list">
+    <span class="pull-right">{{m.name}}({{m.role}})</span>
+      {{m.time | date :'yyyy/MM/dd'}}
+    </dd>
+  <a ng-click="func.goback()" class="btn btn-block btn-success">返回</a>
+  </dl>
+</div>
+<div ng-show="isLoading" class="cdetail_load">
+  <div class="loading_spinner">
+    <div class="loading_bounce1"></div>
+    <div class="loading_bounce2"></div>
+    <div class="loading_bounce3"></div>
+  </div>
+</div>
+

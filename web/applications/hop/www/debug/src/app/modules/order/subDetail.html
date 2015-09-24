@@ -1,0 +1,339 @@
+<div class="container-fluid">
+  <script type="text/ng-template" id="set_status.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+        <h3 class="text-left">{{items.bodyText}}</h3>
+            <div class="form-group" ng-if="items.status == 0">
+              <select ng-model="items.remark" class="form-control" name="remark"
+                ng-options="m.msg for m in items.reasonList"> 
+                <option value="">
+                请选择关闭理由
+                </option>
+              </select>
+            </div>
+        <div class="form-group" ng-if="(items.order.status == 6 || items.order.status == 5) || (items.status == 0 && items.remark.code == 6)">
+        请填写备注信息
+        <textarea cols="20" rows="6" class="form-control" ng-model="items.sign_msg"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="items.ok(items.sign_msg, items.remark);cancel();" ng-if="items.actionText">
+          {{items.actionText}}
+        </button>
+        <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+  <script type="text/ng-template" id="set_remark.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+        <h2 class="text-center">{{items.bodyText}}</h2>
+        <div class="form-group" >
+        请填写备注信息
+        <textarea cols="20" rows="6" class="form-control" ng-model="items.remark_msg"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="items.ok(items.remark_msg);cancel();" ng-if="items.actionText">
+          {{items.actionText}}
+        </button>
+        <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+  <script type="text/ng-template" id="set_deliver_free.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group" >
+         运费：
+        <input type="text"   class="w100" ng-model="items.deliver_fee" /> 
+        <span style="color:red" ng-show='items.errorCode==0'>{{ items.errorMsg }}<span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="items.ok(items,this);" ng-if="items.actionText">
+          {{items.actionText}}
+        </button>
+        <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+  <script type="text/ng-template" id="set_time.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+        <h2 class="text-left">{{items.bodyText}}</h2>
+            <div class="form-group">
+              <select ng-model="items.deliver_date" class="input-lg w100" name="items.deliver_date"
+                ng-options="m.name for m in items.deliver_times" required>
+                <option value="">请选择送货日期</option>
+              </select>
+              <select ng-model="items.deliver_time" class="input-lg w100" ng-options="m.msg for m in items.deliver_date.time" ng-change="items.change(items);" required>
+                <option value="">请选择送货时间</option>
+              </select>
+              <span style="color:red" ng-show="items.status==1">注意！订单将被标记为加急送订单！</span>
+            </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="items.ok(items.deliver_date,items.deliver_time);cancel();" ng-if="items.actionText">
+          {{items.actionText}}
+        </button>
+        <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+
+  <div class="width_change" id="row block-title">
+    <div class=" col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h4>母订单：<a ng-href="order/detail/{{data.main_order_number}}">{{data.order_id}}</a></h4>
+        <h4>内部编号：{{data.id}}</h4>
+        <h4>订单编号：{{data.order_number}}</h4>
+        <h5 style="margin-top:10px;">状态：{{data.status_cn}}</h5>
+      </div>
+      <div class="row text-center" ng-if="data==''">
+        <h5>暂无记录</h5>
+      </div>
+      <div ng-if="data">
+        <table class="table table-bordered table-striped">
+          <colgroup>
+            <col class="col-xs-3">
+            <col class="col-xs-3">
+            <col class="col-xs-3">
+            <col class="col-xs-3">
+          </colgroup>
+          <tbody>
+            <tr>
+              <td class="text-center"><h5>客户名称</h5></td>
+              <td class="text-center"><h5>{{data.realname}}</h5></td>
+              <td class="text-center"><h5>电话</h5></td>
+              <td class="text-center"><h5>{{data.mobile}}</h5></td>
+            </tr>
+            <tr>
+              <td class="text-center"><h5>送货地点</h5></td>
+              <td class="text-center"><h5>{{data.deliver_addr}}</h5></td>
+              <td class="text-center"><h5>送货时间</h5></td>
+              <td class="text-center"><h5>{{data.deliver_date}} {{data.deliver_time}}</h5></td>
+            </tr>
+            <tr>
+              <td class="text-center"><h5>下单时间</h5></td>
+              <td class="text-center"><h5>{{data.created_time}}&nbsp;</h5></td>
+              <td class="text-center"><h5>订单线路</h5></td>
+              <td class="text-center"><h5>{{data.line}}&nbsp;</h5></td>
+            </tr>
+            <tr>
+              <td class="text-center"><h5>订单金额</h5></td>
+              <td class="text-center"><h5>{{data.total_price}}&nbsp;元&nbsp;<span class="label label-danger" ng-if="data.minus_amount > 0">优惠{{data.minus_amount}}元</span><span class="label label-warning" ng-if="data.deliver_fee > 0">运费{{data.deliver_fee}}元</span><span class="label label-danger" ng-if="data.pay_reduce > 0">微信支付减免{{data.pay_reduce}}元</span></h5></td>
+              <td class="text-center"><h5>订单应付金额</h5></td>
+              <td class="text-center"><h5>{{data.final_price}}&nbsp;</h5></td>
+            </tr>
+            <tr>
+              <td class="text-center"><h5>店铺名称</h5></td>
+              <td class="text-center"><h5>{{data.shop_name}}&nbsp;</h5></td>
+              <td class="text-center"><h5>负责销售</h5></td>
+              <td class="text-center"><h5>{{data.sale.role}}：{{data.sale.name}} {{data.sale.mobile}}</h5></td>
+            </tr>
+            <tr>
+              <td class="text-center"><h5>客户类型</h5></td>
+              <td class="text-center"><h5>{{data.customer_type_name}}</h5></td>
+              <td class="text-center"><h5>客户备注</h5></td>
+              <td class="text-left"><h5>{{data.remarks}}&nbsp;</h5></td>
+            </tr>
+            <tr>
+              <td class="text-center"><h5>收货人姓名</h5></td>
+              <td class="text-center"><h5>{{data.recieve_name}}</h5></td>
+              <td class="text-center"><h5>收货人电话</h5></td>
+              <td class="text-center"><h5>{{data.recieve_mobile}}&nbsp;</h5></td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table table-bordered table-striped">
+          <colgroup>
+            <col class="col-xs-3">
+            <col class="col-xs-2">
+            <col class="col-xs-2">
+            <col class="col-xs-2">
+            <col class="col-xs-1">
+          </colgroup>
+          <tbody ng-if="data.status != 6">
+            <tr>
+              <td class="text-center" colspan="5"><h5>订单内容</h5></td>
+            </tr>
+            <tr>
+              <td class="text-center col-xs-1"><h5><strong>商品名称</strong></h5></td>
+              <!--
+              <td class="text-center col-xs-1"><h5><strong>结算单价</strong></h5></td>
+              -->
+              <td class="text-center col-xs-1"><h5><strong>单价</strong></h5></td>
+              <td class="text-center col-xs-1"><h5><strong>数量</strong></h5></td>
+              <td class="text-center col-xs-1"><h5><strong>小计</strong></h5></td>
+            </tr>
+            <tr ng-repeat="item in data.detail">
+              <td class="text-center">
+                <h5>{{item.name}}</h5>
+                <span class="text-warning">
+                  <small ng-repeat="spec in item.spec" ng-show="spec.val">
+                    {{spec.name}}：{{spec.val}}<br>
+                  </small>
+                </span>
+              </td>
+              <!--
+              <td class="text-center">
+                <h5>{{item.single_price}}元/{{item.close_unit}}</h5>
+              </td>
+              -->
+              <td class="text-center">
+                <h5>{{item.price}}元</h5>
+              </td>
+              <td class="text-center">
+                <h5>{{item.quantity}}{{item.unit_id}}</h5>
+              </td>
+              <td class="text-center">
+                <h5>{{item.sum_price}}元</h5>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table table-bordered table-striped">
+          <tbody ng-if="data.status == 6">
+            <tr>
+              <td class="text-center" colspan="4"><h5>订单内容</h5></td>
+            </tr>
+            <tr>
+              <td class="text-center col-xs-5"><h5><strong>商品名称</strong></h5></td>
+              <td class="text-center"><h5><strong>实收单价</strong></h5></td>
+              <td class="text-center"><h5><strong>实收数量</strong></h5></td>
+              <td class="text-center"><h5><strong>实收小计</strong></h5></td>
+            </tr>
+            <tr ng-repeat="item in data.detail" ng-if="data.status == 6">
+              <td class="text-center">
+                <h5>{{item.name}}</h5>
+                <span class="text-warning">
+                  <small ng-repeat="spec in item.spec" ng-show="spec.val">
+                    {{spec.name}}：{{spec.val}}<br>
+                  </small>
+                </span>
+              </td>
+              <td class="text-center">
+                <div class="input-group">
+                  <span class="input-group-addon" >￥</span>
+                  <input type="text" class="form-control text-center" ng-model="item.price" readonly="readonly"/>
+                  <span class="input-group-addon" >元</span>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="input-group input-group-sm">
+                  <span class="input-group-addon">
+                    <em class="glyphicon glyphicon-minus text-primary" ng-click="minus(item)"></em>
+                  </span>
+                  <input type="text" class="form-control text-center" ng-model="item.quantity" ng-focus="clearNum(item)" ng-blur="setNum(item, true)" ng-change="setNum(item)">
+                  <span class="input-group-addon">
+                    <em class="glyphicon glyphicon-plus text-primary" ng-click="plus(item)"></em>
+                  </span>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="input-group">
+                  <span class="input-group-addon" >￥</span>
+                  <input type="text" class="form-control text-center" ng-model="item.sum_price" ng-blur="setSumPrice(item, true)" ng-change="setSumPrice(item)"/>
+                  <span class="input-group-addon" >元</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td class="text-center">实收金额总计:</td>
+              <td class="text-center">
+                <div class="input-group">
+                  <span class="input-group-addon" >￥</span>
+                  <input type="text" class="form-control text-center" ng-model="deal_price.key" ng-blur="setDealPrice(true)" ng-change="setDealPrice();"/>
+                  <span class="input-group-addon" >元</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table table-bordered table-striped">
+          <tbody ng-if="data.status == 6 || data.status== 1">
+            <tr class="success">
+              <td class="text-center" colspan="4"><h5>订单内容</h5></td>
+            </tr>
+            <tr class="success">
+              <td class="text-center col-xs-5"><h5><strong>商品名称</strong></h5></td>
+              <td class="text-center"><h5><strong>实收单价</strong></h5></td>
+              <td class="text-center"><h5><strong>实收数量</strong></h5></td>
+              <td class="text-center"><h5><strong>实收小计</strong></h5></td>
+            </tr>
+            <tr ng-repeat="item in data.detail" class="success">
+              <td class="text-center">
+                <h5>{{item.name}}</h5>
+                <span class="text-warning">
+                  <small ng-repeat="spec in item.spec" ng-show="spec.val">
+                    {{spec.name}}：{{spec.val}}<br>
+                  </small>
+                </span>
+              </td>
+              <td class="text-center">
+                <h5>{{item.actual_price}}元</h5>
+              </td>
+              <td class="text-center">
+                <h5>{{item.actual_quantity}}</h5>
+              </td>
+              <td class="text-center">
+                <h5>{{item.actual_sum_price}}元</h5>
+              </td>
+            </tr>
+            <tr class="success">
+              <td></td>
+              <td></td>
+              <td class="text-center">实收金额总计:</td>
+              <td class="text-center">{{data.deal_price}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-xs-12 btn-group form-group">
+        <button style="background:black" class="btn col-xs-3 btn-lg btn-primary pull-left" ng-click="setRemark(data.id, 18);" >添加工作人员备注</button>
+        <button class="btn col-xs-3 btn-lg btn-info pull-left" ng-click="setStatus('delivering');" ng-if="(data.status == 3 || data.status == 13 || data.status == 14) && !is_operate">已发货</button>
+        <button class="btn col-xs-3 btn-lg btn-warning pull-left" ng-click="setStatus('signed');" ng-if="(data.status == 5 || data.status == 8) && !is_operate">已签收</button>
+        <button class="btn col-xs-3 btn-lg btn-danger pull-left" ng-click="setStatus('delivering');" ng-if="data.status == 1 && !is_operate">修改签收信息</button>
+        <button class="btn col-xs-3 btn-lg btn-danger pull-left" ng-click="setStatus('rejected');" ng-if="data.status == 5 && !is_operate">已退货</button>
+        <button class="btn col-xs-3 btn-lg btn-danger pull-left" ng-click="setStatus('success');" ng-if="data.status == 6 && !is_operate">已回款</button>
+        <button  ng-if="data.deliver_fee > 0" class="btn col-xs-3 btn-lg btn-primary pull-left" ng-if="deliver_flag" ng-click="setDeliverFree()">修改运费</button>
+        <button class="btn col-xs-3 btn-lg btn-success pull-left" ng-click="back();">返回</button>
+      </div>
+      <table class="table table-striped">
+        <colgroup>
+          <col class="col-xs-3">
+          <col class="col-xs-6">
+          <col class="col-xs-3">
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="text-center" colspan="3"><h5>订单动态</h5></td>
+          </tr>
+          <tr>
+            <td class="text-center"><h5><strong>处理时间</strong></h5></td>
+            <td class="text-center"><h5><strong>处理信息</strong></h5></td>
+            <td class="text-center"><h5><strong>操作人</strong></h5></td>
+          </tr>
+          <tr ng-repeat="item in data.log_list">
+            <td class="text-center">
+              <h5>{{item.created_time}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.log_info}}<span ng-if="item.remark"> 备注：{{item.remark}}</span></h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.operator_type_cn}}[{{item.operator}}]</h5>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

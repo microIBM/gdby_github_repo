@@ -1,0 +1,2 @@
+ALTER TABLE `t_suborder` ADD COLUMN `neglect_payment` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '抹零金额，即司机直接不收的部分小额';
+ALTER TABLE `t_suborder` ADD COLUMN `deposit` INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '押金';

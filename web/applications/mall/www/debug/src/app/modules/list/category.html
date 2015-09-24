@@ -1,0 +1,74 @@
+<div class="container">
+  <h2 class="cate-title" ng-if="0">
+  
+    <span ng-repeat="(k ,  item) in DC.topTwoCid"  ng-class="{active : $index == DC.cate_spec.length -1}">
+    <a ui-sref="page.list({cateId : {{k}}})"> {{item}} </a>
+  </span>
+  </h2>
+<ol class="breadcrumb m-0">
+    <li>您的当前位置：</li>
+    <li><a ui-sref="page.home">首页</a></li>
+    <li ng-repeat="cate in DC.cate_spec"  ng-class="{active : $index == DC.cate_spec.length -1}">
+    <a ui-sref="page.list({cateId : {{cate.id}}})"> {{cate.name}} </a>
+    </li>
+  </ol>
+  <div class="cate-list">
+
+  <div class="container text-center text-20 " ng-show="products.length == 0">
+    <img ng-src="assets/images/no_bg.png" class="m-t-120 m-b-60">
+    <p class="">此分类暂无商品！</p>
+    <a ui-sref="page.home " class="m-b-120 go-btn">去逛逛</a>
+  </div>
+    <ul>
+      <li class="pull-left pr m-b-20" ng-repeat="item in products" >
+      <span class="label" data-follow="{{item.follow_status}}" data-follow_tab="list"  ng-click="DC.follow(item)">关注</span>
+      <div class="thumbnail b-rd-0 m-b-0" ng-class="{'m-r-0' : ($index + 1) %5 == 0}">
+        <a ui-sref="page.detail({cateId:item.id})" class="pr">
+          <img ng-src="/assets/images/image_loading.jpg" ng-show="!showloading" >
+          <img ng-if="!item.pictures[0].pic_url" ng-src="assets/images/no_image.jpg" alt="" image-onload  load-callback="DC.imgLoad()" >
+          <img ng-if="item.pictures[0].pic_url" ng-src="{{item.pictures[0].pic_url}}" image-onload  load-callback="DC.imgLoad()" alt="">
+          <div class="no-storage" ng-if="item.storage == 0">补货中</div>
+        </a>
+        <div class="caption">
+          <h3 class="text-14">{{item.title}}</h3>
+          <p ng-if="item.spec_info.length  != 0">{{item.spec_info.name}} : {{item.spec_info.val}}</p>
+          <p ng-if="item.spec_info.length  == 0 && item.productSpec.id ">规格 : {{item.productSpec.val}}</p>
+          <p ng-if="item.spec_info.length  == 0 && !item.productSpec.id ">规格 : 暂无 </p>
+          <p ng-if="item.net_weight_price">单价：¥<span>{{item.net_weight_price}}</span></p>
+          <p ng-if="!item.net_weight_price" class="text-white">暂无净重</p>
+          <p ><span class="text-green text-24">¥{{item.price}}</span> <span ng-if="item.buy_limit && item.buy_limit != 0">(限购{{item.buy_limit}}{{item.close_unit_name}})</span></p>
+          <div class="col-xs-12 m-b-10 p-0 cate-btn">
+            <div class="col-xs-6 p-0 pull-left">
+              <div class="p-tb-5" ng-show="DC.cartlist.ids.indexOf(item.id) >= 0">已加入{{item.quantity}}{{item.unit}}
+              </div>
+              <div class="diy_cartP input-group input-group-sm mb-0" ng-show="DC.cartlist.ids.indexOf(item.id) < 0">
+                <span class="input-group-addon order-btn-minus p-lr-3">
+                  <em class="glyphicon glyphicon-minus " ng-click="minus(item)"></em>
+                </span>
+                <input type="text" min="1" class="form-control text-center" ng-model="item.quantity" ng-focus="clearNum(item)" ng-blur="setNum(item, true)" ng-change="setNum(item)">
+                <span class="input-group-addon order-btn-plus p-lr-3">
+                  <em class="glyphicon glyphicon-plus "   ng-click="plus(item)"></em>
+                </span>
+              </div>
+            </div>
+            <div class="col-xs-5 p-0 pull-right text-right " ng-show="item.storage == 0 ">
+              <button class="p-tb-4 p-lr-4 btn btn-defualt w100 cart_btn" ng-disabled="true" ><span class="text">&nbsp;补货中&nbsp;</span></button>
+            </div>
+            <div class="col-xs-5 p-0 pull-right text-right " ng-show="item.storage > 0 || item.storage == -1 ">
+              <button class="btn btn-plus p-tb-4 p-lr-4" id="{{item.id}}" ng-click="toggleItems(item, item.quantity)" set-class="{{item}}"> <span class="text">加入购物车</span></button>
+            </div>
+          </div>
+          </li>
+        </ul>
+      </div>
+      <nav class="text-center p-tb-50">
+        <dachu-pagination conf="paginationConf"></dachu-pagination>
+      </nav>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>

@@ -1,0 +1,95 @@
+<div class="cart-main p-b-20">
+
+  <div class="container text-center text-20 " ng-show="!products.length">
+    <img ng-src="assets/images/no_bg.png" class="m-t-120 m-b-60">
+    <p class="">您的购物车暂无商品</p>
+    <a tjid ui-sref="page.home " class="m-b-120 go-btn">去逛逛</a>
+  </div>
+  <div class="container p-0" ng-show="products.length">
+    <div class="ov cart-title">
+      <div class="col-xs-2">
+        <input type="checkbox" name="all" id="all" ng-click="checkValid('all')" ng-model="DC.isAll" ng-checked="cartlist.allCheck" >
+        <label for="all">全选</label>
+        <a tjid ng-click="checkRemove()" class="text-blank">批量删除</a>
+      </div>
+      <div class="col-xs-2">
+        商品
+      </div>
+      <div class="col-xs-2">
+        订货数量
+      </div>
+      <div class="col-xs-2">
+        单价
+      </div>
+      <div class="col-xs-2">
+        订货金额
+      </div>
+      <div class="col-xs-2">
+        操作
+      </div>
+    </div>
+    <div class="white-bg p-tb-15">
+      <div ng-repeat="item in products track by $index" class="ov b-b-gray m-b-15 p-b-10" ng-class="{'b-0' : $index == products.length -1}">
+        <div class="col-xs-1 p-r-0">
+          <input tjid type="checkbox" ng-checked="item.isChecked" ng-model="item.isChecked" ng-click="cartlist.checkValid(item)">
+        </div>
+        <div class="col-xs-3 p-0">
+          <div class="col-xs-4 cart-img m-r-10">
+          <img ng-src="/assets/images/image_loading.jpg" ng-show="!showloading" >
+          <img ng-if="!item.pictures[0].pic_url && !item.pictures.raw_image.length" ng-src="assets/images/no_image.jpg" alt="" image-onload  load-callback="imgLoad()" >
+          <img ng-if=" item.pictures[0].pic_url ||item.pictures.raw_image.length" ng-src="{{item.pictures[0].pic_url ||item.pictures.raw_image[0].pic_url}}" image-onload  load-callback="imgLoad()" alt="">
+          </div>
+          <div class="col-xs-8 p-0">
+            <h4>{{item.title}}</h4>
+            <p ng-repeat="k in item.spec " class="text-c6c6">{{k.name}}: {{k.val}} </p>
+          </div>
+        </div>
+        <div class="col-xs-2">
+          <div class="ov">
+            <div class="input-group  detail-sum" >
+              <span class="input-group-addon order-btn-minus p-lr-3">
+                <em tjid class="glyphicon glyphicon-minus " ng-click="minus(item)"></em>
+              </span>
+              <input type="text" min="1" class="form-control text-center" ng-model="item.quantity" ng-focus="clearNum(item)" ng-blur="setNum(item, true)" ng-change="setNum(item , true)">
+              <span class="input-group-addon order-btn-plus p-lr-3">
+                <em tjid class="glyphicon glyphicon-plus "   ng-click="plus(item)"></em>
+              </span>
+            </div>
+            <span class="line-34 col-xs-10" ng-if="item.buy_limit && item.buy_limit != 0 ">&nbsp; (限购{{item.buy_limit}}{{item.unit}})</span>
+          </div>
+        </div>
+        <div class="col-xs-2">
+          {{item.price | money : 2}} / {{item.unit}}</br>
+          {{item.normal_signle_price}}
+        </div>
+        <div class="col-xs-2">
+          {{item.price * item.quantity | money : 2}}元
+        </div>
+        <div class="col-xs-2">
+          <a tjid ng-click="remove(item)">删除</a>
+        </div>
+      </div>
+    </div>
+    <div class=" p-tb-20 ov col-xs-12 p-0" >
+      <div class="container cart-footer p-0">
+      <div class="col-xs-10">
+        <div class="col-xs-3 p-0 m-t-10">
+        <input type="checkbox" name="all" id="all" ng-click="checkValid('all')" ng-model="DC.isAll" ng-checked="cartlist.allCheck" >
+        <label for="all">全选</label>
+        <a tjid ng-click="checkRemove()" class="text-white">批量删除</a>
+        </div>
+        <div class="pull-right p-0">
+          <span class="m-r-35">含 {{validCart.validLen || 0}} 种商品</span>
+          <span class="m-r-35">共 {{validCart.validCount || 0}} 件</span>
+          <span>共计：<span class="text-24">{{validCart.validSum | money : 2 || 0}}</span>元</span>
+        </div>
+      </div>
+      <div class="col-xs-2 text-24 text-center lightGreen-bg">
+        <a tjid class="text-white" ng-click="createOrder()"> 结算<a>
+      </div>
+    </div>
+
+    </div>
+  </div>
+
+</div>

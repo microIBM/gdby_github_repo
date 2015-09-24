@@ -1,0 +1,242 @@
+<div class="col-xs-offset-2 container-fluid">
+  <div class="col-md-8 amp-info">
+    <div class="row amap-wrap">
+      <div class="btn-group m-10 col-md-12">
+        <a class="btn btn-default" ng-class="{true:'btn btn-primary', false:'btn btn-default'}[viewShow=='list']" ng-click="viewFn('list')">列表</a>
+        <a class="btn btn-default" ng-class="{true:'btn btn-primary', false:'btn btn-default'}[viewShow=='map']" ng-click="viewFn('map')">地图</a>
+      </div>
+      <div class="col-md-12">
+        <div class="clearfix">
+          <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-default">共{{orderdata.orderlen}}个订单</button>
+            <button type="button" class="btn btn-success">已分配{{orderdata.successlen}}单</button>
+            <button type="button" class="btn btn-info">未分配{{orderdata.orderlen - orderdata.successlen}}单</button>
+          </div>
+          <div class="bg-danger mt-10" style="padding:10px" ng-if="geolist.length > 0">此用户没有坐标地址：<span class="mr-10" ng-repeat="m in geolist">{{m}}</span></div>
+        </div>
+        <div class="form-inline mt-10">
+          <div class="form-group">
+            <!--
+            <div class="input-group">
+              <div class="input-group-addon">系统</div>
+              <select class="form-control" ng-change="switchCity()" ng-model="site" ng-options="m.name for m in siteList" required>
+                <option value="">请选择系统</option>
+              </select>
+            </div>
+            -->
+            <div class="input-group">
+              <div class="input-group-addon">城市</div>
+              <select class="form-control" ng-change="switchCity()" ng-model="city" ng-options="m.name for m in cityList" required>
+                <option value="">请选择城市</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <div class="input-group-addon">订单类别</div>
+                <select class="form-control" ng-model="orderType" ng-options="m.msg for m in orderTypeList">
+                  <option value="">请选择订单类别</option>
+                </select>
+            </div>
+            <div class="input-group">
+              <select class="form-control" style="max-width:400px;" ng-model="router" ng-options="router.name for router in lineListCur">
+                <option value="">请选择路线</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <div class="input-group-addon">日期</div>
+              <input type="text" is-open="opened" datepicker-popup="yyyy-MM-dd" ng-click="open($event)" datepicker-options="dateOptions" min-mode="day" class="form-control" ng-model="dateValue" placeholder="点击获取时间" required>
+            </div>
+            <div class="input-group">
+              <div class="input-group-addon">时段</div>
+              <select class="form-control" ng-model="time" ng-options="m.val for m in timeList" required>
+                <option value="">请选择</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <button type="button" ng-click="mapfilter()" class="btn btn-success">筛选</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12" ng-show="viewShow == 'map'">
+        <div id="mapContainer" class="mt-10" map="" style="width:100% ;height:700px;"></div>
+      </div>
+      <div id="list" class="" ng-show="viewShow == 'list'">
+        <div class="col-xs-12 ml-default">
+          <div class="form-inline">
+
+            <div class=" mt-10 pr-0">
+              <div class="input-group pr-0 pglobal-search col-xs-5" >
+                <input type="text" class="form-control full-right" ng-model="orderdata.filter.id" placeholder="请输入分拣单号">
+                <label for="" class="input-group-addon ">分拣单号号搜索</label>
+              </div>
+              <div class="input-group   global-search col-xs-5 mr-10">
+                <input type="text" class="form-control full-right" ng-model="orderdata.filter.order_number" placeholder="请输入订单编号">
+                <label for="" class="input-group-addon ">订单编号搜索</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-10 col-xs-12 table-responsive">
+          <table class="table table-bordered table-striped table-hover">
+            <colgroup>
+              <col class="col-xs-1" ng-if="!init.release">
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+              <col class="col-xs-2">
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+              <col class="col-xs-2">
+              <col class="col-xs-1">
+            </colgroup>
+            <thead>
+              <tr>
+                <td class="text-center" ng-if="!init.release">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" ng-change="selectAll()" ng-model="isAll"/>
+                    </label>
+                  </div>
+                </td>
+                <td class="text-center"><h5>订单id</h5></td>
+                <td class="text-center"><h5>订单线路</h5></td>
+                <td class="text-center"><h5>送货地址</h5></td>
+                <td class="text-center"><h5>送货时间</h5></td>
+                <td class="text-center"><h5>货品名称</h5></td>
+                <td class="text-center"><h5>规格</h5></td>
+                <td class="text-center"><h5>数量</h5></td>
+              </tr>
+            </thead>
+
+            <tbody ng-if="orderdata.data.length===0">
+              <tr>
+                <td colspan="9" class="text-center"><h5>暂无数据</h5></td>
+              </tr>
+            </tbody>
+            <tbody ng-repeat="item in orderdata.data|filter:orderdata.filter">
+              <tr ng-repeat="detail in item.detail">
+                <td ng-if="$index == 0" rowspan="{{item.detail.length}}" class="text-center" ng-if="!init.release">
+                  <div class="checkbox">
+                    <label>
+                      <input ng-disabled="item.ngDisabled" ng-click="checked(item)" type="checkbox" ng-model="item.isChecked">
+                      </input>
+                    </label>
+                  </div>
+                </td>
+                <td ng-if="$index == 0" rowspan="{{item.detail.length}}" class="text-center"><h5>{{item.id}}</h5></td>
+              
+                <td ng-if="$index == 0" rowspan="{{item.detail.length}}" class="text-center"><h5>{{item.line}}</h5></td>
+                <td ng-if="$index == 0" rowspan="{{item.detail.length}}" class="text-center"><h5>{{item.deliver_addr}}</h5></td>
+                <td ng-if="$index == 0" rowspan="{{item.detail.length}}" class="text-center"><h5>{{item.deliver_date}} {{item.deliver_time}}</h5></td>
+                <td><small>{{detail.name}}</small></td>
+                <td><small><span ng-repeat="spec in detail.spec" ng-show="spec.name != '描述'">{{spec.name}}：{{spec.val}}<span></small></td>
+                <td><h5>{{detail.quantity}}{{detail.unit_id}}</h5></td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 maplist" style="overflow:auto;">
+    <!--新页面结构-->
+    <div class="row">
+      <div class="clearfix">
+        <h3><button type=button   class="btn btn-success pull-right" ng-click="listOk()">加入待配送列表</button>
+          已选订单</h3>
+      </div>
+      <div class="gray-title">
+        <span>已选{{orderList.length}}单</span>
+        <span>{{sum}}行</span>
+        <span>{{quantity}}件</span>
+        <span>{{customerSum}}个客户</span>
+      </div>
+    </div>
+    <dl class="maporderdl" as-sortable="sortableOptions" data-ng-model="orderList">
+      <dt class="maporderdt">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-9">
+          <div class="row" ng-if="orderList.length == 0">
+            您还没有选择任何订单
+          </div>
+          <div class="row" ng-if="orderList.length > 0">
+            <div class="col-md-3">订单id</div>
+            <div class="col-md-3">客户id</div>
+            <div class="col-md-3">线路</div>
+            <div class="col-md-3">店名</div>
+          </div>
+        </div>
+      </div>
+      </dt>
+      <dd ng-repeat="order in orderList" data-as-sortable-item >
+      <div class="row orderlistrow" data-as-sortable-item-handle>
+        <button type="button" class="close" aria-label="Close" ng-click="removelist(order.id,order.model,order.sum,order.quantity)"><span aria-hidden="true">&times;</span></button>
+        <div class="col-md-2 map-number">{{$index +1}}</div>
+        <div class="col-md-9" ng-click="orderdetail(order.detail)">
+          <div class="row">
+            <div class="clearfix">
+              <div class="col-md-3">{{order.id}}</div>
+              <div class="col-md-3">{{order.userId}}</div>
+              <div class="col-md-6">{{order.line}}</div>
+            </div>
+            <p>{{order.address}} {{order.store}}</p> </div>
+        </div>
+      </div>
+      </dd>
+    </dl>
+    <div class="bg-success count-bg m-10">一共{{orderdata.success.length}}个配送单</div>
+    <div class="list-group" ng-if="orderdata.success.length > 0">
+      <table class="table table-striped table-condensed">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>线路</th>
+            <th>客户数</th>
+            <th>单数</th>
+            <th>行数</th>
+            <th>件数</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="success in orderdata.success">
+            <th>{{$index + 1}}</th>
+            <td>{{success.line}}</td>
+            <td>{{success.customersum}}</td>
+            <td>{{success.len}}</td>
+            <td>{{success.sum}}</td>
+            <td>{{success.quantity}}</td>
+            <td><button type="button" class="close" ng-click="removeorder($index,success.model,success.date,success.id , success.len)" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
+          </tr>
+        </tbody>
+      </table>
+      <button ng-click="maporderOk(orderdata.success)" type="button" class="btn btn-success pull-right">生成配送单</button>
+    </div>
+  </div>
+</div>
+<div></div>
+</div>
+<script type="text/ng-template" id="dist.html">
+  <div class="modal-header">
+        <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+        <h2 class="text-center">{{items.bodyText}}
+              <select ng-model="deliver_time" class="form-control" name="deliver_time"> 
+                <option value="">请选择配送时间</option>
+                <option value="1">上午</option>
+                <option value="2">下午</option>
+              </select>
+        </h2>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="items.ok(deliver_time);cancel();" ng-if="items.actionText">
+          {{items.actionText}}
+        </button>
+        <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+    </div>
+</script>

@@ -1,0 +1,242 @@
+ <script type="text/ng-template" id="dialog.html">
+  <div class="modal-header">
+      <h3 class="modal-title">{{items.headerText}}</h3>
+  </div>
+  <div class="modal-body">
+      <h2 class="text-center">{{items.bodyText}}</h2>
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="items.ok();cancel();" ng-if="items.actionText">
+        {{items.actionText}}
+      </button>
+      <button class="btn btn-warning" ng-click="items.ok();cancel()">{{items.closeText}}</button>
+  </div>
+</script>
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-sm-offset-2 col-sm-10 col-xs-12">
+      <div class="bs-callout bs-callout-danger">
+        <h5>退货退款单填写</h5>
+      </div>
+      <!--  <div class="form-group" ng-show="basic_form.$invalid && basic_form.$dirty && show_error">
+      <div class="col-sm-12">
+        <div class="alert alert-danger">
+          <ul>
+            <li ng-show="basic_form.site_id.$error.required">请选择用户所属系统！</li>
+            <li ng-show="basic_form.mobile.$error.required">请输入手机号码！</li>
+            <li ng-show="basic_form.mobile.$error.pattern">手机号码格式不对！</li>
+            <li ng-show="basic_form.name.$error.required">请输入用户姓名！</li>
+            <li ng-show="basic_form.province.$error.required">请选择省份！</li>
+            <li ng-show="basic_form.customerModel.$error.required">请选择客户类型！</li>
+            <li ng-show="basic_form.kaCustomerType.$error.required">请选择KA客户账号类型！</li>
+            <li  ng-show="kaCustomerType.value==1 && basic_form.kaBillCycle.$error.required">请选择结账周期！</li>
+            <li  ng-show="kaCustomerType.value==1 && basic_form.kaCheckDate.$error.required">请选择对账日期！</li>
+            <li  ng-show="kaCustomerType.value==1 && basic_form.kaInvoiceDate.$error.required">请选择开票日期！</li>
+            <li  ng-show="kaCustomerType.value==1 && basic_form.kaPayDate.$error.required">请选择付款日期！</li>
+            <li ng-show="kaCustomerType.value==2 && basic_form.kaParentMobile.$error.required">请输入关联母账号！</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    -->
+      <form class="form-horizontal showcase-form" role="form" id="basic_form" name="basic_form">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">运营受理人：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.operator_name" class="form-control" placeholder="请输入店铺名称"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">地区：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.city_cn" class="form-control" placeholder="请输入店铺名称"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">线路：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.line_cn" class="form-control" placeholder="请输入店铺名称"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">订单号(母订单号)：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.order_number" class="form-control" placeholder="请输入店铺名称"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">订单号(子订单号)：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.suborder_number" class="form-control" placeholder="请输入店铺名称"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">店铺名称：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.shop_name" class="form-control" placeholder="请输入详细地址"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">客户名称：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.name" class="form-control" placeholder="请输入详细地址"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">客户电话：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.mobile" class="form-control" placeholder="请输入备注"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">客户地址：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.address" class="form-control" placeholder="请输入备注"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">送货日期：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.deliver_date" class="form-control" placeholder="请输入备注"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">所属BD：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.bd_name" class="form-control" placeholder="请输入备注"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">订单金额：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.total_price" class="form-control" placeholder="请输入备注"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">优惠金额：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.minus_amount" class="form-control" placeholder="请输入备注"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">运费：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.deliver_fee" class="form-control" placeholder="请输入备注"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">押金：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.deposit|currency:''" class="form-control" placeholder=""></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">拒收金额：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.refuse_price|currency:''" class="form-control" placeholder=""></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">应付金额：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.deal_price|currency:''" class="form-control" placeholder=""></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">支付方式：</label>
+          <div class="col-sm-10">
+            <input type="text" readonly ng-model="info.pay_type_cn" class="form-control" placeholder="请输备注"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">退货原因：</label>
+          <div class="col-sm-10">
+            <select class="form-control" ng-model="vm.reason" ng-options="m.name for m in info.reasons" required>
+              <option value="">请选择退货原因</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">退货内容：</label>
+          <div class="col-sm-10">
+            <div class="table-responsive" style="margin-top:10px;">
+              <table class="table table-bordered table-striped table-hover">
+                <tr>
+                  <td>货品名</td>
+                  <td>单价</td>
+                  <td>数量</td>
+                  <td>金额</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                    <select name="line" class="form-control" ng-model="contentSelModel"
+                    ng-options="m.name for m in info.content">
+                      <option value="">请选择货品名</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input ng-disabled="true" type="text" ng-model="contentSelModel.actual_price" class="form-control" placeholder="单价"></td>
+                  <td>
+                    <input  type="text" maxLength="4"  ng-model="contentSelModel.number" class="form-control" placeholder="{{contentSelModel.text||'数量'}}"></td>
+                  <td>
+                    <input ng-disabled="true" type="text" ng-model="contentSelModel.totalPrice|currency:''" class="form-control" placeholder="金额"></td>
+                    <td>
+                    <button ng-disabled="!contentSelModel.number"  type="button" class="btn btn-success" ng-click="addContent(contentSelModel);">
+                      确认添加
+                    </button>
+                  </td>
+                </tr>
+                <!-- 等待退货的商品 -->
+                <tr ng-show="returnContents.length>0" ng-repeat="item in returnContents">
+                  <td>
+                    <select ng-disabled="true" name="line" class="form-control" ng-model="item"
+                    ng-options="m.name for m in returnContents" required>
+                    </select>
+                  </td>
+                  <td><input ng-disabled="true" type="text" ng-model="item.actual_price" class="form-control"</td>
+                  <td><input type="text" maxLength="4"  ng-model="item.number" class="form-control" placeholder="请输入数量"></td>
+                  <td><input ng-disabled="true" type="text" ng-model="item.totalPrice" class="form-control"></td>
+                   <td>
+                    <button  type="button" class="btn btn-danger" ng-click="reduceContent(item);">
+                      <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                      删除
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">退款总计金额：</label>
+          <div class="col-sm-10">
+            <input type="text"  ng-disabled="true" ng-model="totalReturnPrice|currency:''" class="form-control" placeholder="请先选择退款的商品"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">退款方式：</label>
+          <div class="col-sm-10">
+            <input type="text"  ng-disabled="true" value="{{info.pay_type==1?'微信退款':'银行退款'}}" class="form-control" placeholder="请输入备注"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">开户行：</label>
+          <div class="col-sm-10">
+            <input type="text"  ng-model="vm.deposit_bank" class="form-control" placeholder="请输入开户行"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">银行卡号：</label>
+          <div class="col-sm-10">
+            <input type="text"  ng-model="vm.bank_number" class="form-control" placeholder="请输入银行卡号"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">开户人姓名：</label>
+          <div class="col-sm-10">
+            <input type="text"  ng-model="vm.account_holder" class="form-control" placeholder="请输入开户人姓名"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">退货处理方式：</label>
+          <div class="col-sm-10">
+             <select name="line" ng-disabled="isExistFloat" class="form-control" ng-model="vm.deal_method"
+              ng-options="m.name for m in info.deal_methods" required>
+                <option value="">请选择退货处理方式</option>
+              </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">客服处理意见：</label>
+          <div class="col-sm-10">
+            <input type="text"  ng-model="vm.remark" class="form-control" placeholder="请输入客服处理意见"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label"></label>
+          <div class="col-sm-0">
+            <button class="btn btn-info btn-lg col-sm-2 col-sm-offset-1" ng-click="create();">提交</button>
+            <button class="btn btn-warning btn-lg col-sm-2 col-sm-offset-1" ng-click="reset()">取消</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+CREATE TABLE `t_order` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `order_number` char(32) NOT NULL DEFAULT '' COMMENT '订单号',
+    `username` char(32) NOT NULL DEFAULT '' COMMENT '用户姓名',
+    `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+    `remarks` varchar(500) NOT NULL DEFAULT '' COMMENT '下单备注，可以填一些特殊需求之类',
+    `status` tinyint(3) unsigned NOT NULL DEFAULT '20',
+    `created_time` int(11) unsigned NOT NULL DEFAULT '0',
+    `updated_time` int(11) unsigned NOT NULL DEFAULT '0',
+    `total_price` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '应收额',
+    `deal_price` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '实收额',
+    `city_id` int(10) unsigned NOT NULL DEFAULT '0',
+    `market_id` int(10) unsigned NOT NULL DEFAULT '0',
+    `site_src` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '0 大厨网，1 大果网',
+    `sign_msg` varchar(500) NOT NULL DEFAULT '' COMMENT '签收留言，在收到货物有问题的时候可以用',
+    PRIMARY KEY (`id`),
+    KEY `order_number` (`order_number`),
+    KEY `user_id` (`user_id`),
+    KEY `city_id` (`city_id`),
+    KEY `market_id` (`market_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='供应订单表'

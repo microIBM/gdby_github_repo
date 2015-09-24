@@ -1,0 +1,1 @@
+ALTER TABLE `d_dachuwang`.`t_message_log` ADD COLUMN `task_id` int(10) UNSIGNED NOT NULL COMMENT '推送任务id' AFTER `app_uid`

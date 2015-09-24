@@ -1,0 +1,118 @@
+<div class="col-xs-offset-2">
+  <div class="bs-callout bs-callout-danger">
+    <h5>{{title}}</h5>
+  </div>
+  <div class="bs-callout">
+    <div class="block mt-10 ml-default">
+      <form class="form-inline" role="form">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">城市</div>
+            <select ng-model="location" class="form-control" ng-options="location.name for location in locations">
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">分类</div>
+            <select ng-model="category" ng-selected="category" class="form-control" ng-options="category.name for category in categories">
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">货号</div>
+            <input type="text" ng-model="key" class="form-control" placeholder="请输入货号" />
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-block btn-warning" ng-click="reset();">重置 </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="bs-callout">
+      <button ng-show="showSync && !isEdit" class="btn btn-info m-block" ng-click="sync();">确认同步</button>
+      <button class="btn m-block" ng-class="{true: 'btn-info', false: 'btn-warning'}[isEdit]" ng-click="edit();">{{editName}}</button>
+  </div>
+<!-- 商品列表 -->
+  <div class="table-responsive" style="margin-top:10px;">
+    <table class="table table-bordered table-striped table-hover">
+      <colgroup>
+        <col class="col-xs-1">
+        <col class="col-xs-1">
+        <col class="col-xs-1">
+        <col class="col-xs-1">
+        <col class="col-xs-1">
+        <col class="col-xs-2">
+        <col class="col-xs-1">
+        <col class="col-xs-2">
+        <col class="col-xs-2">
+        <col class="col-xs-1">
+      </colgroup>
+      <thead>
+        <tr>
+          <td><h5><em class="text-danger">货号</em></h5></td>
+          <td class="text-center"><h5>商品名称</h5></td>
+          <td class="text-center"><h5>所属分类</h5></td>
+          <td class="text-center"><h5>城市</h5></td>
+          <td class="text-center"><h5>现价<br>(普通客户)</h5></td>
+          <td class="text-center"><h5>调整后价格<br>(普通用户)</h5></td>
+          <td class="text-center"><h5>更新时间</h5></td>
+          <td ng-show="isEdit" class="text-center"><h5>操作</h5></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in products" class="text-center">
+          <!-- 货号 -->
+          <td>
+            <h5><em class="text-danger">{{item.sku_number}}</em></h5>
+          </td>
+          <!-- 商品名称 -->
+          <td>
+            <h5 ng-if="isEdit">{{item.title}}</h5>
+            <h5 ng-if="!isEdit">{{item.product_name}}</h5>
+          </td>
+          <!-- 所属分类 -->
+          <td>
+            <h5>{{item.top_category_name}}</h5>
+          </td>
+          <!-- 城市 -->
+          <td>
+            <h5>{{item.location_name}}</h5>
+          </td>
+          <!-- 现价（普通客户）-->
+          <td >
+            <h5 ng-if="item.price != 0"><span ng-if="item.is_round == 1"> 约 </span>{{item.price}} 元</h5>
+            <h5 ng-if="item.price == 0">--</h5>
+          </td>
+          <!-- 调整后价格（普通用户） -->
+          <td>
+            <h5 ng-if="item.price != 0">
+              <div class="input-group">
+                <div ng-if="item.is_round == 1" class="input-group-addon">约</div>
+                <input ng-disabled="!isEdit" class="form-control" ng-model="item.dest_price">
+                <div class="input-group-addon">元</div>
+              </div>
+            </h5>
+            <h5 ng-if="item.price == 0">--</h5>
+          </td>
+          <!-- 更新时间 -->
+          <td>
+            <h5>{{item.operator}}<br>{{item.updated_time}}</h5>
+          </td>
+          <!-- 操作 -->
+          <td ng-show="isEdit">
+            <h5><a ng-if="1 == 1" class="btn btn-warning btn-sm btn_mb5" ng-click="save(item)">保存</a></h5>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <nav>
+    <dachu-pagination conf="paginationConf"></dachu-pagination>
+  </nav>
+</div>

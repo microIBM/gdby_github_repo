@@ -1,0 +1,127 @@
+/*
+  基本通用css文件 如 原子类 例 p-l-0 等同于 padding-left : 10 ; 原子类用方法批量定义 @febobo
+*/
+
+
+/*批量造原子类方法 @febobo*/
+
+body{
+    font-family:'microsoft yahei';
+}
+ul ,ol ,dl ,li ,img {
+  list-style : none ;
+}
+h1,h2,h3,h4,h5,h6{
+  padding : 0;
+  margin :0;
+  font-size: 14px ;
+}
+.a ,a , img , button{
+  cursor : pointer ;
+  outline : none !important ;
+}
+
+img.animated{
+  opacity : 1 !important;
+ }
+
+$batchTwo = 0 3 4 5 10 15 20 25 30 40 50 60;
+$dimension = 0 3 4 5 7.5 10 12 15 20 25 30 35 40 50 60 120;
+$class = (b p p-t p-b p-l p-r m m-t m-b m-l m-r);
+$attr = (border padding padding-top padding-bottom padding-left padding-right margin margin-top margin-bottom margin-left margin-right);
+batch(class , attr , dimension){
+    for row in dimension{
+        .{class}-{row} {
+            {attr} : row * 1px !important;
+        }
+    }
+}
+
+for $index in 0..length($attr) - 1{
+  batch($class[$index] , $attr[$index] , $dimension);
+}
+
+/*文字大小原子类 @febobo*/
+
+$size-bt = 12 13 14 15 16 18 20 24 30;
+$size-attr = (font-size);
+for $index in 0..length($size-bt) - 1{
+  batch('text' , 'font-size' , $size-bt)
+}
+
+/*批量多维度生成方法 如left , right 两方向 @febobo*/
+batchTwo(class ,attr , attrs,dimension){
+    for row in dimension{
+        .{class}-{row} {
+            for $attr , index in attr{
+               {$attr} : row * 1px !important;
+            }
+        }
+    }
+}
+
+batchTwo('p-lr' , (padding-left padding-right), 'attrs' , $batchTwo)
+batchTwo('p-tb' , (padding-top padding-bottom), 'attrs' , $batchTwo)
+
+batchTwo('m-tb' , (margin-top margin-bottom), 'attrs' , $batchTwo)
+
+batchTwo('m-lr' , (margin-left margin-right), 'attrs' , $batchTwo)
+
+/*色彩区*/
+$green = #549235;
+$gray = #f6f6f6;
+$lightgray = #e6e5e5;
+$white = #fff;
+$deepGreen = #396c1f;
+$e4e4 = #e4e4e4;
+$blank = #333;
+$orange = #fb9c15;
+$lightGreen = #a6cc20;
+$c6c6 = #969696;
+$eee = #eee;
+$ccc = #ccc;
+
+/*zoom*/
+.zoom-5{
+  zoom : 0.5;
+}
+
+.b-rd-0{
+ border-radius : 0;
+}
+
+/*按妞类*/
+.btn-plus {
+  background : $green ;
+  color : $white;
+}
+
+/*定位类*/
+.pr {
+  position: relative;
+}
+.pa{
+  position : absolute;
+}
+
+/*不可见*/
+.invisible {
+  visibility : hidden;
+}
+
+/*不存在*/
+.dispy-none {
+  display : none;
+}
+
+/*文本对齐方式*/
+.text-left:{
+    left!important;
+}
+/*模态框背景色*/
+.modal-backdrop{
+    bottom:0;
+    top:0;
+    left:0;
+    right:0;
+}

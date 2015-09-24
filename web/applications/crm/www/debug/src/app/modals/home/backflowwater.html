@@ -1,0 +1,21 @@
+<div class="modal-header pos-rel">
+  <h3 class="modal-title">新增回款流水</h3>
+  <span class="pos-abs to-right-top ft-20 pd-10" ng-click="close()">&times;</span>
+</div>
+<div class="modal-body">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>店铺名</th>
+        <th>回款流水(元)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in dataLists">
+        <td>{{item.shop_name}}</td>
+        <td>{{item.flow_water/100}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <pager total-items="page.total" ng-model="page.currentPage" items-per-page="page.itemsPerPage" previous-text="上一页" next-text="下一页"></pager>
+</div>

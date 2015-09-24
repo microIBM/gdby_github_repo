@@ -1,0 +1,246 @@
+  <script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+      <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+      <h2 class="text-center">{{items.bodyText}}</h2>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="ok()" ng-if="items.actionText">
+      {{items.actionText}}
+      </button>
+      <button class="btn btn-warning" ng-click="cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+ <div class="col-xs-offset-2">
+   <div class="bs-callout bs-callout-danger">
+     <h5>{{title}}</h5>
+   </div>
+   <div class="row block">
+     <form role="form" >
+       <div class="form-group col-xs-12">
+         <label for="exampleInputPassword1">
+           <h6>
+             <b>
+               <em class="text-danger">*</em> 大品类
+             </b>
+           </h6>
+         </label>
+         <select ng-change="getChilds(init.category_id.id, 'secondCategory', 'seconds')" ng-model="init.category_id" class="input-md form-control"
+           ng-options="m.name for m in topCategory" required>
+           <option value="">
+           选择大品类
+           </option>
+         </select>
+       </div>
+       <div class="form-group col-xs-12" style="{{cate_style}}">
+        <label for="exampleInputPassword1">
+          <h6>
+            <b><em class="text-danger">*</em> 小品类</b>
+          </h6>
+        </label>
+        <select ng-model="init.childid" ng-change="getChilds(init.childid.id, 'productCategory', 'secondChild')" class="input-md form-control"
+          ng-options="m.name for m in secondCategory" required> 
+          <option value="">
+          选择小品类
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <label for="exampleInputPassword1">
+          <h6>
+            <b><em class="text-danger">*</em>  选择货物分类</b>
+          </h6>
+        </label>
+        <select ng-model="init.productid" class="input-md form-control"
+          ng-options="m.name for m in productCategory" ng-change="getChilds(init.productid.id, 'productsChild', 'thirdChild')" required> 
+          <option value="">
+          选择货物分类
+          </option>
+        </select>
+      </div>
+      
+      <div class="form-group col-xs-12"  ng-if="productsChild.length > 0" >
+        <label for="exampleInputPassword1">
+          <h6>
+            <b> 品种</b>
+          </h6>
+        </label>
+      
+          <select ng-model="init.productidChild" class="input-md form-control"
+          ng-options="m.name for m in productsChild" > 
+          <option value=""> --选择品种--</option>
+        </select>
+      </div>
+
+
+      <div class="form-group col-xs-12">
+        <label for="exampleInputPassword1">
+          <h6>
+            <b><em class="text-danger">*</em> 货物标题</b>
+          </h6>
+        </label>
+        <input type="text" class="input-md form-control" ng-model="product.title" />
+      </div>
+      <div class="form-group col-xs-12" ng-if="properties.length">
+        <label for="exampleInputPassword1">
+          <h6>
+            <b><em class="text-danger">*</em>
+              规格
+            </b>
+          </h6>
+        </label>
+        <div class="col-xs-12" ng-repeat="prop in properties">
+          <div class="col-xs-1">
+            <h5 ><b>{{prop.name}}</b></h5>
+          </div>
+          <div class="col-xs-9">
+           <span>
+            <input ng-if="prop.is_required==1 && prop.input_type==0"  ng-model="init.spec[prop.id]"
+            type="text" class="col-xs-2 input-md form-control" required>
+            <input ng-if="prop.is_required==0 && prop.input_type==0" 
+            ng-model="init.spec[prop.id]" type="text"
+            class="col-xs-2 input-md form-control" >
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-xs-12">
+        <label for="exampleInputPassword1">
+          <h6>
+            <b>保质期</b>
+          </h6>
+        </label>
+        <input type="text" class="input-md form-control" ng-model="product.guarantee_period" />
+      </div>
+      <div class="form-group col-xs-12">
+        <label for="exampleInputPassword1">
+          <h6>
+            <b>近效期</b>
+          </h6>
+        </label>
+        <input type="text" class="input-md form-control" ng-model="product.effect_stage" />
+      </div>
+      <div class="form-group col-xs-12">
+        <label for="exampleInputPassword1">
+          <h6>
+            <b>录入条码</b>
+          </h6>
+        </label>
+        <input type="text" class="input-md form-control" ng-model="product.code" />
+      </div>
+      <div class="form-group col-xs-12">
+        <label for="exampleInputPassword1">
+          <h6>
+            <b>净重(固定单位：斤)</b>
+          </h6>
+        </label>
+        <input type="text" class="input-md form-control" ng-model="product.net_weight" />
+      </div>
+      <div class="form-group col-xs-12">
+        <label for="exampleInputPassword1">
+          <h6>
+            <b>最小安全库存</b>
+          </h6>
+        </label>
+        <input type="text" class="input-md form-control" ng-model="product.min_safe_storage" />
+      </div>
+      <div class="form-group col-xs-12">
+        <label for="exampleInputPassword1">
+          <h6>
+            <b>最大安全库存</b>
+          </h6>
+        </label>
+        <input type="text" class="input-md form-control" ng-model="product.max_safe_storage" />
+      </div>
+      <div class="form-group col-xs-12">
+        <label for="exampleInputPassword1">
+          <h6>
+            <b><em class="text-danger">*</em>
+              计量单位
+            </b>
+          </h6>
+        </label>
+        <select ng-model="unit"  class="col-xs-4 input-md form-control"
+          ng-options="m.name for m in units" required>
+          <option value="">--请选择计量单位--</option>
+        </select>
+      </div>
+
+      <!--上传图片-->
+      <div class="form-group col-xs-12">
+        <label for="exampleInputPassword1">
+          <h6>
+            <b> 上传图片 </b>
+          </h6>
+        </label>
+        <div class="col-xs-12">
+          <span class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
+            <i class="glyphicon glyphicon-plus"></i>
+            <span class="button" ng-multiple="true" ng-file-select ng-model="files">
+            上传图片
+            </span>
+          </span>
+          <!--原有图-->
+       <div class="panel panel-default" ng-if="imgs.length">
+          <div class="panel-heading">原有图片</div>
+          <div class="panel-body">
+            <table class="table table-striped  files">
+              <tr ng-repeat="files in imgs">
+                <td>
+                  <div class="col-xs-6 col-md-3">
+                    <img width="100" ng-show="files.pic_url != null" ng-src="{{files.pic_url}}" class="thumbnail" />
+                  </div>
+                </td>
+                <td>{{files.file_size}}</td>
+                <td>
+                  <div class="btn btn-warning cancel" ng-click="picCancel(files, 1)">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>取消</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <!--上传图片区域-->
+        <div class="panel panel-default" ng-if="imgUploads.length">
+          <div class="panel-heading"> 当前上传图片</div>
+          <div class="panel-body">
+            <!---上传图片-->
+            <table class="table table-striped  files">
+              <tr ng-repeat="files in imgUploads">
+                <td>
+                  <div class="col-xs-6 col-md-3">
+                    <img width="100" ng-show="files.dataUrl != null" ng-src="{{files.dataUrl}}" class="thumbnail" />
+                  </div>
+                </td>
+                <td>{{files.name}}</td>
+                 <td>
+                    <div class="btn btn-warning cancel" ng-click="picCancel(files, 0)">
+                      <i class="glyphicon glyphicon-ban-circle"></i>
+                      <span>取消</span>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-xs-12">
+        <div class="col-xs-6">
+          <button type="submit" ng-disabled ="disabled" class="btn btn-block btn-success btn-md" ng-click="add({{id}})">保存</button>
+        </div>
+        <div class="col-xs-6">
+          <button type="reset" class="btn btn-block btn-default btn-md" ng-click="reback()">返回</button>
+        </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+<div class="block-title"></div>

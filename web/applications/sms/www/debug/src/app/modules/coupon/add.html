@@ -1,0 +1,190 @@
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+    <h3 class="modal-title">{{items.headerText}}</h3>
+  </div>
+  <div class="modal-body">
+    <h2 class="text-center">{{items.bodyText}}</h2>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()" ng-if="items.actionText">
+    {{items.actionText}}
+    </button>
+    <button class="btn btn-warning" ng-click="cancel()">{{items.closeText}}</button>
+  </div>
+</script>
+<div class="col-xs-offset-2">
+  <div class="bs-callout bs-callout-danger">
+    <h5>{{title}}</h5>
+  </div>
+
+  <form class="form-horizontal"  novalidate  role="form" id="addForm" name="addForm">
+    <div  class="row block ml-default bs-callout">
+      <table class="table table-striped">
+        <tr>
+          <td class="active col-xs-2">
+            <b><em class="text-danger">*</em> 规则信息 </b>
+          </td>
+          <td class="success col-xs-12">
+            <input class="form-control" type="text" ng-model="ruleInfo" disabled  required/>
+            </td>
+        </tr>
+        <tr>
+          <td class="active col-xs-2">
+            <b><em class="text-danger">*</em> 券活动名称 </b>
+          </td>
+          <td class="success col-xs-12">
+            <input class="form-control" type="text" ng-model="name" required/>
+          </td>
+        </tr>
+        <tr>
+          <td class="active col-xs-2">
+            <b><em class="text-danger">*</em> 券码发放次数 </b>
+          </td>
+          <td class="success col-xs-12">
+            <input class="form-control" type="text" ng-model="couponNums" required/>
+          </td>
+        </tr>
+        <tr>
+          <td class="active col-xs-2">
+            <b><em class="text-danger">*</em> 所属系统 </b>
+          </td>
+          <td class="success col-xs-12">
+            <select ng-model="site"  class="col-xs-4 input-md form-control"
+              ng-options="m.name for m in siteSrcs"  required>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="active col-xs-2">
+            <b><em class="text-danger">*</em>所属城市 </b>
+          </td>
+          <td class="success col-xs-12">
+            <select ng-model="location"  class="col-xs-4 input-md form-control"
+              ng-options="m.name for m in locationInfo" ng-change="selectCity()" required>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="active col-xs-2">
+            <b><em class="text-danger">*</em> 可见性 </b>
+          </td>
+          <td class="success col-xs-12">
+            <select ng-model="visiable"  class="col-xs-4 input-md form-control"
+              ng-options="m.name for m in visiables" required>
+            </select>
+          </td>
+        </tr>
+
+        <tr ng-show="visiable.id == 2">
+          <td class="active col-xs-2">
+            <b><em class="text-danger">*</em> 所属线路 </b>
+          </td>
+          <td class="success col-xs-12">
+            <div class="checkbox col-xs-3" ng-repeat="line in lines">
+              <label>
+                <input type="checkbox" ng-model="line.checked"> {{line.name}}
+              </label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="active col-xs-2">
+            <b><em class="text-danger">*</em>有效时间段 </b>
+          </td>
+          <td class="success col-xs-12">
+            <div class="input-group">
+              <span class="input-group-addon">从</span>
+              <input type="text" is-open="opened"  datepicker-popup="yyyy-MM-dd" ng-click="open($event)" datepicker-options="dateOptions"  class="form-control" max-date="endTime" ng-model="startTime"  id="startTime" placeholder="点击获取时间" required>
+              <span class="input-group-addon">至</span>
+              <input type="text" ng-model="endTime" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-options="endDateOptions" min-date="startTime"  ng-click="endOpen($event)" is-open="endOpened" id="endTime" placeholder="点击获取时间" required>
+            </div>
+
+          </td>
+        </tr>
+       <tr>
+          <td class="active col-xs-2">
+            <b><em class="text-danger">*</em>触发类型 </b>
+          </td>
+          <td class="success col-xs-12">
+            <select ng-model="couponTrigger"  class="col-xs-4 input-md form-control"
+              ng-options="m.name for m in couponTriggers"  required>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="active col-xs-2">
+            <b> 优惠对象 </b>
+          </td>
+          <td class="success col-xs-12">
+            <select ng-model="couponObject"  class="col-xs-4 input-md form-control"
+              ng-options="m.name for m in couponObjects">
+              <option value="">--选择优惠对象--</option>
+            </select>
+          </td>
+        </tr>
+
+       <tr ng-if="couponObject.id == 1">
+          <td class="active col-xs-2">
+            <b><em class="text-danger">*</em>添加分类 </b>
+          </td>
+          <td class="success col-xs-12">
+            <div ng-repeat="item in category">
+              <div class="col-xs-8">
+                <input type="text"  ng-model="item.value"  class="form-control"
+                name="name_value" id="name_value" required  placeholder="请输入分类名称或者分类id" ng-change="showProduct(item , 'category')">
+                <div ng-if="item.category">
+                  <ul class="list-group col-xs-12">
+                    <li class="list-group-item"  ng-click="selectProduct(mitem, item , 'category')" ng-repeat="mitem in item.category">
+                    <i class="text-danger">{{mitem.id}}</i>|<span class="text-default">{{mitem.name}}</span></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <span class="btn btn-lg {{item.cls}}" ng-click="{{item.clk}}(item , category)">
+                  <span class="glyphicon {{item.icon}}">{{item.name}}</span>
+                </span>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr ng-if="couponObject.id == 2">
+          <td class="active col-xs-2">
+            <b><em class="text-danger">*</em>添加商品 </b>
+          </td>
+          <td class="success col-xs-12">
+            <div ng-repeat="item in products">
+              <div class="col-xs-8">
+                <input type="text"  ng-model="item.value"  class="form-control"
+                name="name_value" id="name_value" required  placeholder="请输入商品名称或者sku" ng-change="showProduct(item , 'product')">
+                <div ng-if="item.products">
+                  <ul class="list-group col-xs-12">
+                    <li class="list-group-item"  ng-click="selectProduct(mitem, item , 'product')" ng-repeat="mitem in item.products">
+                    <i class="text-danger">{{mitem.sku_number}}</i>|<span>{{mitem.title}}</span>|<span class="text-default">{{mitem.price}}/{{mitem.unit}}</span></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xs-4">
+                <span class="btn btn-lg {{item.cls}}" ng-click="{{item.clk}}(item , products)">
+                  <span class="glyphicon {{item.icon}}">{{item.name}}</span>
+                </span>
+              </div>
+            </div>
+          </td>
+        </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>
+              <div class="col-xs-6">
+                <button type="submit" class="btn btn-block btn-success btn-md" ng-click="add(addForm)">保存</button>
+              </div>
+              <div class="col-xs-6">
+                <button type="reset" class="btn btn-block btn-default btn-md" ng-click="reset()">重置</button>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+  <div class="block-title"></div>

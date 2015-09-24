@@ -1,0 +1,61 @@
+<section class="container">
+  <div class="nav-show clearfix">
+    <nav class="head-nav clearfix">
+      <ul class="nav nav-list nav-list1">
+       <li tjid drop-down index="$index" ng-repeat="v in DC.navList.top | limitTo : 8">
+        <i></i>
+        <h3 tjid ng-click="productList(v.origin_id)">{{v.name}}</h3>
+        <div class="sm-title">
+          <a tjid ng-repeat="m in v.itemChild[0] | limitTo :3" ng-click="productList(m.id)">{{m.name}}</a>
+        </div>
+        <div class="nav-hover">
+          <div class="seconed-list">
+            <h4 tjid class="seconed-list-title" ng-click="productList(v.origin_id )">{{v.name}}</h4>
+            <div class="seconed-list-bd">
+              <a tjid ng-repeat="m in v.itemChild[0]" ng-click="productList(m.id)">{{m.name}}</a>
+            </div>
+          </div>
+        </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="ban-show">
+      <div class="row mb-10" ng-show="showAdv" >
+        <carousel interval="myinterval" class="pr-0 pl-0 col-xs-12">
+        <slide ng-repeat="slide in slides">
+        <div class="thumbnail mb-0 p-0 b-rd-0 b-0">
+          <!--广告幻灯--->
+          <a tjid ui-sref="{{slide.sref}}" class="diy_block">
+            <img ng-src="{{slide.url}}" alt="{{slide.caption}}" class="img-thumbnail b-0 p-0 b-rd-0">
+            </img>
+          </a>
+        </div>
+        </slide>
+        </carousel>
+      </div>
+    </div>
+  </div> 
+  <div class="daChu-recommend" ng-if="DC.recommends.length" ng-repeat="recommend in DC.recommends">
+    <h2 class="recommend-title m-tb-20">{{recommend.title}}</h2>
+    <ul class="cate-list p-l-0">
+      <li class="pull-left pr " ng-repeat="item in recommend.products" >
+      <span class="label" data-follow="{{item.follow_status}}" data-follow_tab="list"  ng-click="DC.follow(item)">关注</span>
+      <div class="thumbnail b-rd-0 m-b-0" ng-class="{'m-r-0' : ($index + 1) %5 == 0}">
+        <a tjid ui-sref="page.detail({cateId:{{item.id}}})">
+          <img ng-src="/assets/images/image_loading.jpg" ng-show="!showloading" >
+          <img ng-if="!item.pictures[0].pic_url" ng-src="assets/images/no_image.jpg" alt="" image-onload  load-callback="DC.imgLoad()" >
+          <img ng-if="item.pictures[0].pic_url" ng-src="{{item.pictures[0].pic_url}}" image-onload  load-callback="DC.imgLoad()" alt="">
+          <div class="no-storage" ng-if="item.storage == 0">补货中</div>
+        </a>
+        <div class="caption">
+          <h3 class="text-14">{{item.title}}</h3>
+          <p ng-if="item.spec_info.length  != 0">{{item.spec_info.name}} : {{item.spec_info.val}}</p>
+          <p ng-if="item.spec_info.length  == 0 && item.productSpec.id ">规格 : {{item.productSpec.val}}</p>
+          <p ng-if="item.spec_info.length  == 0 && !item.productSpec.id ">规格 : 暂无 </p>
+          <p ng-if="item.net_weight_price">单价：¥<span class="font-arial">{{item.net_weight_price}}</span></p>
+          <p ng-if="!item.net_weight_price" class="text-white">暂无净重</p>
+          <p ><span class="text-green text-24 font-arial">¥{{item.price}}</span> <span ng-if="item.buy_limit && item.buy_limit != 0">(限购{{item.buy_limit}}{{item.close_unit_name}})</span></p>
+          </li>
+        </ul>
+      </div>
+    </section>

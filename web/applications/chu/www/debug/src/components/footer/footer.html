@@ -1,0 +1,13 @@
+<nav class="nav fix-bottom action-nav f6_bg" ng-controller="footerController">
+  <div class="container"  active_calss="body_height">
+    <ul class="nav action-nav actionbar-tabs f6_bg">
+      <li class="col-xs-3" ng-repeat="tab in tabList" ng-class="{active : $index === $state.current.data.tabIndex}">
+      <a tjid ui-sref="{{tab.href}}">
+        <h4 class="m-0 text-center hei-24"><span class="footsprite {{tab.glyphicon}} scale5 flex inline"></span>
+          
+        </h4>
+          {{tab.name}}<span ng-if="tab.showBadge && cartlist.ids.length > 0" class="badge badge-alert badge-cart" ng-bind="cartlist.ids.length"></span></a>
+      </li>
+    </ul>
+  </div>
+</nav>

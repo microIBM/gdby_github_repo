@@ -1,0 +1,27 @@
+<div class="warp-page container-fluid">
+	<div class="head-bottom ng-scope">
+		<div class="flex-nav">
+			<ul class="flex-center-50">
+				<li ng-repeat="item in tabList" ng-class="{'active':item.active}">
+					<a  ng-click="tabSwitch(item)">{{item.name}}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div ng-if="showItem==1" infinite-scroll="pagination.nextPage();" infinite-scroll-disabled="pagination.isDone || pagination.isProcessing" infinite-scroll-distance="0" class="row margin-top-50">
+		<ul class="list-group ul-bd-index" ng-repeat="item in list" >
+			<li>店铺名称：<span>{{item.shop_name}}</span></li>
+			<li>拜访日期：<span>{{item.visit_date}}</span></li>
+		</ul>
+		<div ng-show="pagination.isProcessing">
+	       <div class="loading_spinner">
+		        <div class="loading_bounce1"></div>
+		        <div class="loading_bounce2"></div>
+		        <div class="loading_bounce3"></div>
+	       </div>
+	    </div>
+	</div>
+	<div ng-if="showItem==2" class="row margin-top-60">
+		<md-date td-call-back="cellClick()" list-tags="calendarLists" is-normal="0"></md-date>
+	</div>
+</div>

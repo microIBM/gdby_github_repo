@@ -1,0 +1,55 @@
+
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class=" col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h4>修改客户配送线路：</h4>
+      </div>
+      <form class="form-horizontal showcase-form" role="form" id="basic_form" name="basic_form">
+        <div ng-if="data">
+          <table class="table table-bordered table-striped">
+            <colgroup>
+              <col class="col-xs-3">
+              <col class="col-xs-3">
+              <col class="col-xs-3">
+              <col class="col-xs-3">
+            </colgroup>
+            <tbody>
+              <tr>
+                <td class="text-center"><h5>客户姓名</h5></td>
+                <td class="text-center"><h5>{{data.name}}</h5></td>
+                <td class="text-center"><h5>客户电话</h5></td>
+                <td class="text-center"><h5>{{data.mobile}}</h5></td>
+              </tr>
+              <tr>
+                <td class="text-center"><h5>店铺名称</h5></td>
+                <td class="text-center"><h5>{{data.shop_name}}&nbsp;</h5></td>
+                <td class="text-center"><h5>所属系统</h5></td>
+                <td class="text-center"><h5>{{data.site_id == 1 ? '大厨网' : '大果网'}}</h5></td>
+              </tr>
+              <tr>
+                <td class="text-center"><h5>送货日期</h5></td>
+                <td class="text-center form-group">
+                  <select class="input-lg w100" ng-model="data.line" ng-options="m.name for m in lines" required>
+                    <option value="">请选择配送线路</option>
+                  </select>
+                </td>
+                <td class="text-center"><h5>备注</h5></td>
+                <td class="text-left"><h5>{{data.remark}}&nbsp;</h5></td>
+              </tr>
+              <tr>
+                <td class="text-center"><h5>详细地址</h5></td>
+                <td class="text-left" colspan="3"><h5>{{data.province_str}} {{data.address}}&nbsp;</h5></td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <div class="col-xs-12 btn-group form-group">
+          <button class="btn col-xs-3 btn-lg btn-danger pull-left" ng-click="editLine();">确认修改</button>
+          <button class="btn col-xs-3 btn-lg btn-success" ng-click="back();">返回</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

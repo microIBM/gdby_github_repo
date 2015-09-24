@@ -1,0 +1,12 @@
+<div class=" warp-page">
+  <div class="head-bottom">
+    <div class="flex-nav">
+      <ul class="flex-center-33">
+        <li ng-class="{active : showType == tab.status}" ng-repeat="tab in tabs">
+        <a ng-click="setStatus({{tab.status}});" ui-sref="{{tab.href}}" >{{tab.name}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div ui-view></div>
+</div>

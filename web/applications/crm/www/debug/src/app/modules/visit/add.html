@@ -1,0 +1,75 @@
+<div class="warp-page container-fluid">
+	<div class="head-bottom">
+		<div class="flex-nav">
+			<ul class="flex-center-50 cdelist">
+				<li ng-repeat="item in tabList" ng-class="{'active':item.active}">
+					<a  ng-click="tabSwitch(item)">{{item.name}}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div ng-if="showItem==0" class="cdetail_load add_plan container-fluid">
+		<div class="row">
+		      <div class="col-md-4">
+		       <span>拜访日期：</span> 
+		       </div>
+		      <div class="col-sm-12 mt-10">
+		            <p class="input-group">
+		              <input type="text" class="form-control" datepicker-popup  ng-model="vm.selectDate" is-open="status.datePickOpen" min-date="'1970-06-22'" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"  placeholder="请选择拜访日期"/>
+		              <span class="input-group-btn">
+		                <button type="button" class="btn btn-default" ng-click="openDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+		              </span>
+		            </p>
+		      </div>
+		</div>
+		<div class="row">
+		      <div class="col-md-4">
+		       <span>私海客户：</span> 
+		       </div>
+		      <div class="col-sm-12 mt-10">
+		          <div class="btn-group btn-group-justified">
+					<a class="btn btn-success" ng-click="statePath()">{{vm.shopName}}<div class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></div></a>
+				</div>
+		      </div>
+		</div>
+		<div class="row ">
+		      <div class="col-md-8">
+		          <div class="text-center btn-block-colomn">
+					<a class="btn btn-danger" >取消</a>
+					<a class="btn btn-success" ng-click="create()">确定</a>
+				</div>
+		      </div>
+		</div>
+	</div>
+	<div ng-if="showItem==1" class="cdetail_load add_plan container-fluid">
+		<div class="row">
+		      <div class="col-md-4">
+		       <span>拜访日期：</span> 
+		       </div>
+		      <div >
+		            <div class="col-sm-12 mt-10">
+			          <input class="form-control ng-pristine ng-valid ng-valid-required ng-touched" type="text" ng-model="vm.selectDate" name="address" ng-disabled="true">
+			        </div>
+		      </div>
+		</div>
+		<div class="row">
+		      <div class="col-md-4">
+		       <span>私海客户：</span> 
+		       </div>
+		      <div class="col-sm-12 mt-10">
+		          <div class="btn-group btn-group-justified">
+					<a class="btn btn-success" ng-click="statePath()">{{vm.shopName}}<div class="pull-right"><span class="glyphicon glyphicon-menu-right"></span></div></a>
+				</div>
+		      </div>
+		</div>
+		<div class="row ">
+		      <div class="col-md-8">
+		          <div class="btn-block-colomn">
+					<a class="btn btn-danger" >取消</a>
+					<a class="btn btn-success" ng-click="create()" >确定</a>
+				   </div>
+		      </div>
+		</div>
+	</div>
+</div>

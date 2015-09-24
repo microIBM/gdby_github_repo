@@ -1,0 +1,136 @@
+.bill_type{
+    padding-left:0;
+    background:#eee;
+    box-shadow:0px 1px 1px #CCCBCB;
+    overflow:hidden;
+    line-height:3;
+    li{
+        float:left;
+        width:50%;
+        height:50px;
+        text-align:center;
+        list-style-type:none;
+        .active{
+            color:#4cb050;
+        }
+        a{
+            color:#82828A;
+        }
+        span.scale5{
+            width:64px;
+            top:9px;
+            right:9px;
+            height:64px;
+            background:url('/assets/images/chooseType.png') no-repeat;
+            &.type_shop{
+                background-position:-68px 0;
+            }
+            &.type_date{
+                background-position: -192px 0 ;
+            }
+        }
+        .bill_title{
+            position:relative;
+            top:-34px;
+            left:-15px;
+        }
+        a.active .type_shop{
+            background-position: -3px 0px ;
+        }
+        a.active .type_date{
+            background-position: -128px 0px;
+        }
+    }
+}
+.billtype_list{
+    background:#fff;
+    padding:15px 15px 0;
+    dd{
+        padding:10px 15px;
+        margin:0 -15px;
+        border-bottom:1px solid #cacaca;
+        p{
+            margin:0;
+            line-height:2;
+        }
+    }
+}
+.agree-pay{
+    .modal-body{
+        h3{
+            font-size:20px;
+            margin-bottom:15px;
+        }
+        p{
+            font-size:16px;
+        }
+    }
+}
+
+/*- 弹出层-*/
+.dialog-block{
+    .modal-header{
+        padding:0;
+    }
+    h6{
+        background:$green;
+        text-align:center;
+        height:30px;
+        color:#fff;
+        padding:0;
+        line-height:2;
+    }
+    .rm-modal{
+        margin:8px;
+        cursor:pointer ;
+    }
+    .modal-body{
+        padding:0 20px;
+        font-size:18px;
+    }
+    .modal-footer{
+        border-top:none;
+        text-align:center;
+        padding:10px 0;
+        .btn{
+            color:#fff;
+            padding:5px;
+            border-radius:0;
+        }
+        .btn-green{
+            background:$green;
+        }
+        .btn-gray{
+            background:#999;
+        }
+    }
+}
+.upload-vouder{
+    background:#6d6d6d;
+    border:none;
+}
+.billing-list .billinfo button{
+    min-width:108px;
+}
+.billing-list .billinfo p:last-child{
+    width:50%;        
+}
+.billinfo_block{
+    position:fixed;
+    bottom:53px;
+    left:0;
+    right:0;
+    height:34px;
+    background:#333;
+    line-height:34px;
+    color:#fff;
+    padding-left:15px;
+    button{
+        border-radius:0;
+        &.upload-vouder{
+            line-height:22px;
+        }
+    }
+
+}
+

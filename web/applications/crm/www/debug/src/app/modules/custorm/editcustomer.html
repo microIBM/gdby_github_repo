@@ -1,0 +1,84 @@
+<div class="container-fluid block block-col pb-nav pt-nav">
+  <h4 class="pt-10">编辑客户信息</h4>
+  <div class="block pt-10 ml-default">
+    <form class="form-horizontal showcase-form" role="form" id="basic_form" name="basic_form" ng-submit="func.create()" novalidate>
+      <div class="form-group">
+        <label class="col-xs-5 control-label">餐饮类别：</label>
+        <div class="col-xs-7">
+          <select class="form-control" name="shop_type" ng-model="shop_type" ng-options="m.name for m in shop_types" required>
+            <option value="">
+            请选择餐饮类型
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-5 control-label">店铺规模：</label>
+        <div class="col-xs-7">
+          <select class="form-control" name="dimensions" ng-model="dimensions" ng-options="m.name for m in oDimensions" required>
+            <option value="">请选择店铺规模</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-5 control-label">收货人姓名</label>
+        <div class="col-xs-7">
+          <input class="form-control" type="text" ng-model="recieve_name" name="recieve_name" placeholder="请输入收货人姓名" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-5 control-label">收货人电话</label>
+        <div class="col-xs-7">
+          <input class="form-control" type="text" ng-model="recieve_mobile" name="recieve_mobile" placeholder="请输入收货人电话" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-5 control-label">预估日均采购量（果蔬/肉）</label>
+        <div class="col-xs-7">
+          <select class="form-control" name="greens_meat_estimated" ng-model="greens_meat_estimated" ng-options="m.name for m in estimateds" required>
+            <option value="">请选择预估日均采购量</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-5 control-label">预估日均采购量（米面粮油）</label>
+        <div class="col-xs-7">
+          <select class="form-control" name="rice_grain_estimated" ng-model="rice_grain_estimated" ng-options="m.name for m in estimateds" required>
+            <option value="">请选择预估日均采购量</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-xs-4">详细地址</label>
+        <a class="btn btn-warning btn-sm col-xs-offset-4" ng-click="func.choosePlace()">定位客户地址</a>
+        <div class="col-sm-12 mt-10">
+          <input class="form-control" type="text" ng-model="address" name="address" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-5 control-label">备注：</label>
+        <div class="col-sm-7">
+          <input type="text" name="remark" ng-model="remark" class="form-control" placeholder="请输入备注">
+        </div>
+      </div>
+      <div class="img_b mb-10 clearfix">
+        <div class="img_block">
+          <img width="100%" ng-src="{{urls[0]}}"/>
+        </div>
+      </div>
+      <div class="form-group" ng-show="isRequesting===false">
+        <div class="col-xs-offset-1 col-xs-9">
+          <a class="btn btn-block btn-warning" ng-click="func.upload()">重新上传照片</a>
+          <button class="btn btn-block btn-info" type="submit">确认修改</button>
+        </div>
+      </div>
+      <div ng-show="isRequesting">
+        <div class="loading_spinner">
+          <div class="loading_bounce1"></div>
+          <div class="loading_bounce2"></div>
+          <div class="loading_bounce3"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div class=" m-t-41">
+  <div class="billing-list">
+    <dl class="bill-dl" ng-repeat="billYear in billlist">
+      <dt class="bill-dt">{{billYear.year}}</dt>
+      <dd class="bill-dd" ng-repeat="bill in billYear.billing_list">
+        <div class="clearfix" ng-click="billinfo(bill)">
+          <span class="pull-right">{{bill.total_price}}元</span>
+          <span>{{bill.start_time | limitTo:-5}}至{{bill.end_time | limitTo:-5}}</span>
+        </div>
+        <div class="clearfix billinfo">
+          <button ng-if="bill.status == '2'" ng-click="agreePay(bill.id)" class="btn btn-order pull-right" type="button">一键对账</button>
+          <button ng-file-select accept="image/*" ng-model="$parent.$parent.$parent.files" ng-click="getId(bill)" ng-if="bill.status == '3' && !bill.imgUploads" class="btn pull-right upload-vouder" type="button">{{uploadText}}</button>
+          <button type="button" class="upload-vouder" ng-if="bill.imgUploads && bill.status != '2'" ng-click="lightBox()">查看付款凭证</button>
+         <button type="button" class="upload-vouder" ng-click="lightBox(bill.payment_evidence)" ng-if="bill.status == '4' || bill.status == '5'">查看付款凭证</button>
+          <p ng-click="billinfo(bill)">状态:{{bill.status_cn}}</p>
+          <p ng-click="billinfo(bill)">详情:共{{bill.sub_order_count}}张订单</p>
+        </div>
+      </dd>
+    </dl>
+  </div>
+

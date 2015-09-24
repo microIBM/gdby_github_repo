@@ -1,0 +1,54 @@
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+<h3 class="modal-title">{{items.headerText}}</h3>
+</div>
+<div class="modal-body">
+<h2 class="text-center">{{items.bodyText}}</h2>
+</div>
+<div class="modal-footer">
+<button tjid class="btn btn-primary" ng-click="items.ok();cancel();" ng-if="items.actionText">
+{{items.actionText}}
+</button>
+<button tjid class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+</div>
+</script>
+<div class="warp-page container-fluid diy_center" ng-show="!showLoading" active_class="autoCart">
+
+  <div class="row block ">
+    <div class="col-xs-12 man_bg text-white ">
+      <h4 class="">
+        <span class="zoom5 middle">
+           <img ng-src="/assets/images/man_top.png" >
+        </span>
+      </h4>
+      <h4>{{uinfo.mobile}}</h4>
+      <h5 >
+      <a ng-href="/user/password" class="text-gray">
+        <span class="glyphicon glyphicon-pencil m-r-5"></span>修改密码
+      </a>
+      </h5>
+    </div>
+  </div>
+
+  <div class="row block">
+    <div class="col-xs-12 block-col">
+      <h5>姓名：{{uinfo.name}}</h5>
+    </div>
+    <div class="col-xs-12 block-col">
+      <h5>店铺名称：{{uinfo.shop_name}}</h5>
+    </div>
+    <div class="col-xs-12 block-col">
+      <h5>地址：{{uinfo.address}}</h5>
+    </div>
+    <div class="col-xs-12 block-col">
+      <h5>电话：{{uinfo.mobile}}</h5>
+    </div>
+  </div>
+  <div class="row block-btn pb-10">
+    <div class="col-xs-12">
+      <a tjid ng-click="logout()" class="btn btn-danger btn-lg btn-block diy_btnD">
+        退出登录
+      </a>
+    </div>
+  </div>
+</div>

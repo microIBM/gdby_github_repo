@@ -1,0 +1,33 @@
+<section class="xpay">
+  <div class="container">
+    <div class="xpay-order">
+      <span class="xpay-text">
+        订货金额总计 ：
+        <span class="xpay-money">{{order.total | money:2}}</span>
+        元
+      </span>
+      <div class="pull-right">
+        <button tjid class="btn btn-lg btn-plus" ng-click="pay.success()">&nbsp;&nbsp;&nbsp;&nbsp;支付成功&nbsp;&nbsp;&nbsp;&nbsp;</button>
+        <button tjid class="m-l-20 btn btn-lg" ng-click="pay.error()">支付遇到问题</button>
+      </div>
+    </div>
+    <div class="xpay-box">
+      <ul class="clearfix">
+        <li class="pull-left">
+          <p class="xpay-text">微信支付</p>
+          <div ng-show="showloading" class="loading">
+            <img src="/assets/images/loading.gif"></div>
+          <img image-onload load-callback="pay.imgonload()" ng-src="{{pay.imgsrc}}" class="qrcode">
+          <p class="m-t-20"> <i class="img-code"></i>
+            <span class="img-desc">
+              请使用微信扫一扫
+              <br>扫描二维码支付</span>
+          </p>
+        </li>
+        <hr>
+        <li class="pull-left">
+          <img src="/assets/images/mobile.png"></li>
+      </ul>
+    </div>
+  </div>
+</section>

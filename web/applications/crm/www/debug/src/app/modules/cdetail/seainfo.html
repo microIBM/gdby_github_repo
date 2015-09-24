@@ -1,0 +1,51 @@
+<div ng-show="isLoading" class="cdetail_load">
+  <div class="loading_spinner">
+    <div class="loading_bounce1"></div>
+    <div class="loading_bounce2"></div>
+    <div class="loading_bounce3"></div>
+  </div>
+</div>
+<div class="warp-page cdetail_wp" ng-if="isLoading === false">
+  <accordion close-others="one">
+  <accordion-group is-open="historymsg">
+  <accordion-heading>
+  {{userinfo.history}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down' : historymsg, 'glyphicon-chevron-right' : !historymsg}"></i>
+  </accordion-heading>
+  <div class="cdelist">
+    <ul class="list-group">
+      <li>历史订单数<span class="pull-right">{{history.order_num}}</span></li>
+      <li>历史流水金额<span class=" c_fs14 pull-right">{{history.amount/100 | currency : '￥' : 2}}</span></li>
+      <li>历史移交记录<span class="pull-right">{{history.history_belong}}&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right" ng-click="func.history_detail()"></span></span></li>
+    </ul>
+  </div>
+  </accordion-group>
+  <accordion-group is-open="basemsg">
+  <accordion-heading>
+  {{userinfo.baseinfo}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down' : basemsg, 'glyphicon-chevron-right' : !basemsg}"></i>
+  </accordion-heading>
+  <div class="cdelist">
+    <ul class="list-group">
+      <li>注册时间<span class="pull-right">{{baseinfo.created_time*1000 | date:'yyyy-MM-dd'}}</span></li>
+      <li>店铺名称<span class="pull-right">{{baseinfo.shop_name}}</span></li>
+      <li>客户姓名<span class="pull-right">{{baseinfo.name}}</span></li>
+      <li>餐饮类别<span class="pull-right">{{baseinfo.shop_type}}</span></li>
+      <li>店铺规模<span class="pull-right">{{baseinfo.dimensions}}</span></li>
+      <li>所属系统<span class="pull-right">{{baseinfo.site}}</span></li>
+      <li class="address">详细地址<span class="pull-right"><a ng-click="func.view_map()"><span class="glyphicon glyphicon-map-marker ml-10"></span></a></span><span class="pull-right adress_text">{{baseinfo.address}}</li>
+      <li>配送线路<span class="pull-right">{{baseinfo.line}}</span></li>
+      <li>备注<span class="pull-right">{{baseinfo.remark}}</span></li>
+    </ul>
+  </div>
+  <div class="img_b mb-10 clearfix" ng-if = "imgurl.length > 0">
+    <div class="img_block" ng-repeat = "m in imgurl">
+      <a ng-click = "openmodal($index)">
+       <img width="100%" ng-src="{{m.url}}" />
+      </a>
+    </div>
+  </div>
+  <div class="btn-group btn-group-justified">
+    <a ng-show="role_id && baseinfo.is_new" class="btn btn-primary" ng-click="func.new_register_change_private()">加入私海</a>
+  </div>
+  </accordion-group>
+  </accordion>
+</div>

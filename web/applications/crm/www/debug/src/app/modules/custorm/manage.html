@@ -1,0 +1,19 @@
+<div class="mt-nav warp-page">
+  <div class="list-group">
+    <a class="list-group-item" ng-if="my" ng-click="viewCustom({{my.uid}})">
+      <span class="badge" ng-if="false">{{my.count}}</span>
+      <h5>{{my.name}}的客户</h5>
+    </a>
+    <a class="list-group-item" ng-repeat="people in mygroup" ng-click="viewCustom({{people.uid}})">
+      <span class="badge" ng-if="false">{{people.count}}</span>
+      <h5>{{people.name}}</h5>
+    </a>
+  </div>
+  <div ng-show="isLoading">
+    <div class="loading_spinner">
+      <div class="loading_bounce1"></div>
+      <div class="loading_bounce2"></div>
+      <div class="loading_bounce3"></div>
+    </div>
+  </div>
+</div>

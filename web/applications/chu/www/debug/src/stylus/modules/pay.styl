@@ -1,0 +1,90 @@
+/*------支付样式-------*/
+$pay-light-gray = #fafafa;
+$pay-dark-gray = #999;
+.pay-btn-gray
+    background-color $pay-light-gray
+    border $border
+    color $pay-dark-gray
+    &:hover
+        background-color $gray
+
+/*------支付说明框样式-------*/
+$left-triangle = 10px;
+$triangle-height =15px;
+.pay-dialog
+    width: auto;
+    height: auto;
+    position: relative;
+    border: 2px solid orange;
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    margin: 13px;
+    &:last-child
+        margin-bottom 0px
+    em
+        margin 5px
+        font-size 15px
+        color orange
+
+.pay-dialog .triangle
+    width 0px
+    height 0px
+    border-left $triangle-height solid transparent
+    border-right $triangle-height solid transparent
+    position absolute
+    left $left-triangle
+    &.triangle-color
+        top : -12px
+        left: 50%
+        margin-left: -($triangle-height)
+        border-bottom: $triangle-height solid white
+    &.triangle-bordercolor
+        top : -($triangle-height)
+        left: 50%
+        margin-left: -($triangle-height)
+        border-bottom $triangle-height solid orange
+
+.pay-dialog-m-0
+    margin 0px
+
+.pay-active
+    border 2px solid #398439
+    color #398439
+
+.pay-icon
+    position absolute
+    left -5px
+    top -5px
+    font-size 24px
+    color #398439
+
+.font-18
+    font-size 18px
+
+.pt-20
+    padding-top 20px
+
+.mb-70
+    margin-bottom 70px
+
+.orange
+    color orange
+
+.confirm-fix
+    position fixed
+    bottom 50px
+
+.pay-btn
+    display block
+    padding 10px
+    background-color #fdfdfd
+    background-image -webkit-gradient(linear, left top, left bottom, color-stop(0.5, white), to(#fafafa))
+    border 1px solid #cacccd
+.pay-btn-active, .pay-btn-active:hover
+    color white
+    background-color #398439
+
+input[type='radio'].pay-radio
+    position relative;
+    margin-left 0px

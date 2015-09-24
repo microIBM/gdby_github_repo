@@ -1,0 +1,113 @@
+<div class="container-fluid">
+ <a href="javascript:;" ng-click="printmap()" class="hidden-print btn btn-danger">{{text}}</a>
+
+  <div class="printpage" ng-repeat="items in list">
+    <div class="orderinfo">
+    <div class="row">
+      <div class="col-xs-4">
+        <p>配送线路单号:{{items.dist_number}} &nbsp;&nbsp;&nbsp;&nbsp;司机提货码：{{items.id}}</p>
+        <p class="">线路（片区）:{{items.line_name}}</p>
+        <p>客户数：{{items.user_count}} &nbsp;&nbsp;&nbsp;&nbsp; 订单数：{{items.orders.length}} &nbsp;&nbsp;&nbsp;&nbsp; 总件数：{{items.sku_count}}</p>
+        <p>仓库：{{items.warehouse_name}}</p>
+        <p>发车时间：{{items.deliver_date}} {{items.deliver_time == 1 ? '上午' : '下午'}}</p>
+      </div>
+      <div class="col-xs-4">
+          <p> 配送线路单</p>
+          <img ng-src="{{items.barcode}}" />
+      </div>
+      <div class="col-xs-4">
+      <p>司机提货码：{{items.id}}</p>
+        <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;安卓手机 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 苹果手机</p>
+       <img src="http://qr.liantu.com/api.php?w=100&m=0&text=http://www.dachuwang.com/siji_download.html" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+       <img src="http://qr.liantu.com/api.php?w=100&m=0&text=http://tms.dachuwang.com" />
+       
+      </div>
+    </div>
+    <div class="order_print_table">
+      <p>订单明细</p>
+      <table class="table table-condensed table-bordered table-striped">
+
+        <thead>
+          <tr>
+            <td width="5%">订单id</td>
+            <td width="8%">线路</td>
+            <td width="10%">店铺名称</td>
+            <td width="15%">送货地址</td>
+            <td width="7%">联系电话</td>
+            <td width="8%">客户备注</td>
+            <td width="5%">货品号</td>
+            <td width="10%">产品名称</td>
+            <td width="17%">规格</td>
+            <td width="5%">单价</td>
+            <td width="5%">订货数量</td>
+            <td width="5%">重量</td>
+          </tr>
+        </thead>
+        <tbody ng-repeat="order in items.orders" ng-init="pindex=$index+1">
+          <tr ng-repeat="detail in order.detail">
+            <td ng-if="$index == 0" rowspan="{{order.detail.length}}">{{order.id}}</td>
+            <td ng-if="$index == 0" rowspan="{{order.detail.length}}">{{order.line_name}}</td>
+            <td ng-if="$index == 0" rowspan="{{order.detail.length}}">{{order.shop_name}}</td>
+            <td ng-if="$index == 0" rowspan="{{order.detail.length}}">{{order.deliver_addr}}</td>
+            <td ng-if="$index == 0" rowspan="{{order.detail.length}}">{{order.mobile}}</td>
+            <td ng-if="$index == 0" rowspan="{{order.detail.length}}">{{order.remarks}}</td>
+            <td>{{detail.sku_number}}</td>
+            <td>{{detail.name}}</td>
+            <td><small><span ng-repeat="spec in detail.spec" ng-show="spec.name != '描述'">{{spec.name}}：{{spec.val}}<span></small></td>
+                <td>{{detail.single_price}}/{{detail.close_unit}}</td>
+            <td>{{detail.quantity}}{{detail.unit_id}}</td>
+            <td></td>
+          </tr>
+        </tbody>
+        <tr>
+          <td>汇总</td>
+          <td colspan="5"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>{{items.sku_count}}</td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+    <p>货品汇总</p>
+    <div class="row sth_block">
+      <div class="col-xs-6">
+        <table class="table table-condensed table-bordered table-striped">
+          <thead>
+            <tr>
+              <td>货品号</td>
+              <td>产品名称</td>
+              <!--<td>规格</td>-->
+              <td>订货数量</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="page_break_after" ng-repeat="detail in items.sku_list">
+              <td>{{detail.sku_number}}</td>
+              <td>{{detail.name}}</td>
+              <!--<td><small ng-repeat="spec in detail.spec" ng-show="spec.val">{{spec.name}}：{{spec.val}}<br></small></td>-->
+              <td>{{detail.quantity}}{{detail.unit_id}}</td>
+            </tr>
+            <tr>
+              <td>汇总</td>
+              <td colspan="1"></td>
+              <td>{{items.sku_count}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-xs-6 sign">
+        <p class="">仓库操作人员签字：</p>
+        <p class="">司机操作人员签字：</p>
+        <p class="">站点操作人员签字：</p>
+      </div>
+    </div>
+  <div class="clearfix all_count">
+      <a href="javascript:;" onclick="window.print()" class="hidden-print btn btn-success">打印全部</a>
+    </div>
+</div>
+<div class="mapimg"  ng-class="{'hidden-print':!togglemap}" ng-show="togglemap" id="mapContainer"><img ng-src={{items.map_url}} /></div>
+</div>
+</div>

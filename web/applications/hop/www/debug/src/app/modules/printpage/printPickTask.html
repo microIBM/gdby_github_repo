@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <style>
+    @page{
+      size:A4 portrait;
+    }
+  </style>
+  <div class="printpage direction" ng-repeat="items in list">
+    <div class="orderinfo">
+    <div class="row">
+      <div class="col-xs-4">
+        <p>分拣单号:{{items.pick_number}}</p>
+        <p class="">线路（片区）:{{items.line_name}}</p>
+        <p>订单数：{{items.orders.length}}</p>
+      </div>
+      <div class="col-xs-4">
+          <p> 分拣单</p>
+          <img src="{{items.barcode}}" />
+      </div>
+      <div class="col-xs-4">
+        <p>仓库：{{items.warehouse_name}}</p>
+        <p>波次号：{{items.wave_id}}</p>
+        <p>配送时间：{{items.deliver_date}}</p>
+      </div>
+    </div>
+    <div class="order_print_table">
+      <table class="table table-condensed table-bordered table-striped">
+        <colgroup>
+          <col class="col-xs-1">
+          <col class="col-xs-3">
+          <col class="col-xs-5">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+        </colgroup>
+        <thead>
+          <tr>
+            <td>货品号</td>
+            <td>产品名称</td>
+            <td>规格</td>
+            <td>结算单价</td>
+            <td>订货数量</td>
+            <td>重量</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="detail in items.sku_list">
+            <td>{{detail.sku_number}}</td>
+            <td>{{detail.name}}</td>
+            <td><small ng-repeat="spec in detail.spec" ng-show="spec.val">{{spec.name}}：{{spec.val}}<br></small></td>
+            <td>{{detail.single_price}}/{{detail.close_unit}}</td>
+            <td>{{detail.quantity}}{{detail.unit_id}}</td>
+            <td></td>
+          </tr>
+          <tr>
+              <td>汇总</td>
+              <td colspan="3"></td>
+              <td>{{items.sku_total_count}}</td>
+              <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <div class="all_count">
+      <a href="javascript:;" onclick="window.print()" class="hidden-print btn-lg btn-success">打印</a>
+    </div>
+</div>
+</div>
+</div>

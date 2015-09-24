@@ -1,0 +1,174 @@
+<script type="text/ng-template" id="suborderInfo.html">
+  <div class="modal-body">
+    <div class="modal-dialog">
+      <h4>什么是子母账号？</h4>
+      <ul>
+        <li>
+          母账号：
+          <ul>
+            <li>非连锁店，自主下单，自主结账</li>
+            <li>连锁店总店，分店及总店均由此账号结账</li>
+          </ul>
+        </li>
+        <li>
+          子账号：
+          <ul>
+            <li>连锁店分店，自主下单，但由总店的母账号统一结账</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</script>
+<div class="container-fluid block block-col pb-nav pt-nav">
+  <div class="mt-10">
+    <h5>请录入客户信息</h5>
+  </div>
+  <div class="block pt-10 ml-default">
+    <form class="form-horizontal showcase-form" role="form" id="basic_form" name="basic_form" ng-submit="create()" novalidate>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">客户类型：</label>
+        <div class="col-sm-10">
+          <select class="form-control" name="customerType" ng-model="customerType" ng-options="m.name for m in types" required>
+            <option value="">
+            请选择客户类型
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">子母账号类型：<span class="glyphicon glyphicon-question-sign" ng-click="suborderInfo()"></span></label>
+        <div class="col-sm-10">
+          <select class="form-control" name="accountType" ng-model="account_type" ng-options="m.name for m in account_types" ng-change="show_more_account_option()" required>
+            <option value="">请选择子母账号类型</option>
+          </select>
+        </div>
+      </div>
+     <div ng-show="show_account_son == true">
+        <div class="form-group">
+          <label class="col-sm-2 control-label">关联母账号：</label>
+          <div class="col-sm-10">
+            <input class="form-control" type="text" name="parentmobile" ng-model="parent_mobile" placeholder="请输入关联母账号手机号">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">上传客户门店照片：<a class="btn btn-warning btn-sm" ng-click="upload()">上传照片</a><span ng-if="urls">（已上传）</span></label>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">餐饮类别：</label>
+        <div class="col-sm-10">
+          <select name="shop" ng-model="shop" class="form-control"
+            ng-options="m.name for m in shopTypes"  required>
+            <option value="">
+              请选择餐饮类别
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">店铺规模：</label>
+        <div class="col-sm-10">
+          <select class="form-control" name="dimensions" ng-model="info.dimensions" ng-options="m.name for m in oDimensions" required>
+            <option value="">请选择店铺规模</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">预估日均采购量（果蔬/肉）：</label>
+        <div class="col-sm-10">
+          <select class="form-control" name="estimateVegetable" ng-model="info.estimateVegetable" ng-options="m.name for m in estimateds" required>
+            <option value="">请选择预估日均采购量（果蔬/肉）</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">预估日均采购量（米面粮油）：</label>
+        <div class="col-sm-10">
+          <select class="form-control" name="estimateRice" ng-model="info.estimateRice" ng-options="m.name for m in estimateds" required>
+            <option value="">请选择预估日均采购量（米面粮油）</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">客户手机号：</label>
+        <div class="col-sm-10">
+          <input name="mobile" type="text" ng-model="info.mobile" class="form-control" placeholder="请输入手机号码" ng-pattern="/^1\d{10}$/" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">客户姓名：</label>
+        <div class="col-sm-10">
+          <input name="username" type="text" ng-model="info.name" class="form-control" placeholder="请输入客户姓名" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">收货人手机号：<a class="btn btn-warning btn-xs" ng-click="getRecieveInfo()">与客户信息一致</a></label>
+        <div class="col-sm-10">
+          <input class="form-control" type="text" name="recievemobile" ng-model="info.recievemobile" placeholder="请输入收货人手机号" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">收货人姓名：</label>
+        <div class="col-sm-10">
+          <input class="form-control" type="text" name="recievename" ng-model="info.recievename" placeholder="请输入收货人姓名" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">地理位置：</label>
+        <div class="col-sm-10">
+          <select name="province" ng-model="addr.province" class="form-control"
+            ng-options="m.name for m in provinces" ng-change="getLines();" required ng-disabled="true">
+            <option value="">
+            请选择省份
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">配送线路：</label>
+        <div class="col-sm-10">
+          <select name="line" ng-model="addr.line" class="form-control"
+            ng-options="m.name for m in lines" required>
+            <option value="">
+            请选择配送线路
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="container form-group">
+        <label class=" clearfix control-label">详细地址：<a class="btn btn-warning btn-sm" ng-click="choosePlace()">定位用户地址</a></label>
+      </div>
+      <div class="input-group w-100">
+        <input name="address" type="text" ng-model="userGeo.addr" class="form-control" placeholder="请填写详细地址" required>
+        <span class="input-group-btn address-fw"><select class="form-control" name="direction" ng-model="direction" ng-options="opt as opt.label for opt in dOptions" required>
+            <option value="">方位</option>
+        </select></span>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">店铺名称：</label>
+        <div class="col-sm-10">
+          <input name="shop_name" type="text" ng-model="info.shop_name" class="form-control" placeholder="请输入店铺名称" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">备注：<span class="color-red">选填</span></label>
+        <div class="col-sm-10">
+          <input type="text" ng-model="info.remark" class="form-control" placeholder="请输入备注">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-10">
+          <button class="btn btn-block btn-info" type="submit" ng-show="!isRequesting">提交</button>
+          <div ng-show="isRequesting">
+            <div class="loading_spinner">
+              <div class="loading_bounce1"></div>
+              <div class="loading_bounce2"></div>
+              <div class="loading_bounce3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,96 @@
+<div class="container-fluid block block-col pb-nav pt-nav">
+  <h4 class="pt-10">在这里记录潜在客户信息</h4>
+  <h4>还没有获得的信息可以不填</h4>
+  <div class="block pt-10 ml-default">
+    <form class="form-horizontal showcase-form" role="form" id="basic_form" name="basic_form" ng-submit="create()" novalidate>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">所属系统：</label>
+        <div class="col-sm-10">
+          <select ng-model="site" class="form-control"
+            ng-options="m.name for m in sites"
+            ng-change="getSite()"> 
+            <option value="">
+            选择所属系统
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">餐饮类别：</label>
+        <div class="col-sm-10">
+          <select ng-model="shop" class="form-control"
+            ng-options="m.name for m in tops"
+            ng-change="getShop()"> 
+            <option value="">
+            选择商家类别
+            </option>
+          </select>
+        </div>
+        <label class="col-sm-2 control-label" ng-if="shopChilds.length"></label>
+        <div class="col-sm-10" ng-if="shopChilds.length">
+          <select ng-model="shopChild" class="form-control"
+            ng-options="m.name for m in shopChilds"> 
+            <option value="">
+            选择连锁类型
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">手机号：</label>
+        <div class="col-sm-10">
+          <input type="text" ng-model="info.mobile" class="form-control" placeholder="请输入手机号码">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">用户名：</label>
+        <div class="col-sm-10">
+          <input type="text" ng-model="info.name" class="form-control" placeholder="请输入用户名">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">地理位置：<span class="text-red">必填</span></label>
+        <div class="col-sm-10">
+          <select name="province" ng-model="info.province" class="form-control"
+            ng-options="m.name for m in provinces" ng-change="getLines();" required> 
+            <option value="">
+            选择省份
+            </option>
+          </select>
+        </div>
+        <label class="col-sm-2 control-label"></label>
+        <div class="col-sm-10">
+          <select name="line" ng-model="info.line" class="form-control"
+            ng-options="m.name for m in lines" required> 
+            <option value="">
+            选择配送线路
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">详细地址：<span class="text-red">必填</span></label>
+        <div class="col-sm-10">
+          <input name="address" type="text" ng-model="info.address" class="form-control" placeholder="请填写具体方位，路号，大厦，楼号等信息" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">店铺名称：<span class="text-red">必填</span></label>
+        <div class="col-sm-10">
+          <input name="shop_name"type="text" ng-model="info.shop_name" class="form-control" placeholder="请输入店铺名称" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">备注：</label>
+        <div class="col-sm-10">
+          <input type="text" ng-model="info.remark" class="form-control" placeholder="请输入备注">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-10">
+          <button class="btn btn-block btn-info" type="submit">记录</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

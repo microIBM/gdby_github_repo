@@ -1,0 +1,92 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>请选择要移交的销售同事</h5>
+      </div>
+      <div class="bs-callout">
+        <div class="block mt-10 ml-default">
+          <form class="form-inline" role="form" name="myForm">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">销售角色</div>
+                <select ng-model="roleType" class="form-control" name="roleType"
+                  ng-options="m.name for m in bdRoleList">
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">搜索类型</div>
+                <select ng-model="searchKey" class="form-control" name="searchKey"
+                  ng-options="m.name for m in keyList">
+                  <option value="">请选择搜索类型</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">关键词</div>
+                <input type="text" ng-model="searchValue" class="form-control" placeholder="请输入搜索关键词" />
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-warning" ng-click="reset()">重置</button>
+            </div>
+            <div class="mt-10">
+            </div>
+
+            <div class="table-responsive" style="margin-top:10px;">
+              <table class="table table-bordered table-striped table-hover">
+                <colgroup>
+                  <col class="col-xs-2">
+                  <col class="col-xs-3">
+                  <col class="col-xs-3">
+                  <col class="col-xs-2">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <td class="text-center"><h5>请选择</h5></td>
+                    <td class="text-center"><h5>姓名</h5></td>
+                    <td class="text-center"><h5>手机号</h5></td>
+                    <td class="text-center"><h5>客户数量</h5></td>
+                  </tr>
+                </thead>
+                <tbody ng-if="list.length===0">
+                  <tr>
+                    <td colspan="4" class="text-center"><h5>暂无数据</h5></td>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr ng-repeat="item in list">
+                    <td class="text-center">
+                      <h5><input type="radio" ng-model="saleUser" value="{{item.id}}" name="saleUser" ng-click="setSaleUser({{item.id}});"/></h5>
+                    </td>
+                    <td class="text-center">
+                      <h5>{{item.name}}</h5>
+                    </td>
+                    <td class="text-center">
+                      <h5>{{item.mobile}}</h5>
+                    </td>
+                    <td class="text-center">
+                      <h5>{{item.order_count}}</h5>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </form>
+          <nav>
+            <dachu-pagination conf="paginationConf"></dachu-pagination>
+          </nav>
+        </div>
+        <div class="block mt-10 ml-default text-right">
+          <button class="btn btn-success" ng-click="back();">上一步</button>
+          <button class="btn btn-danger" ng-click="transfer();">开始移交</button>
+        </div>
+      </div>
+    </div>
+  </div>

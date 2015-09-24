@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="orderList-hd">
+    <div class="row">
+      <div class="orderList-hd-type col-xs-6">
+        <ul class="ordertype-ul">
+          <li ng-class="{active : showType == tab.value}" ng-repeat="tab in tabs">
+          <a tjid ng-click="setStatus({{tab.value}});">{{tab.name}} </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-xs-6 form-inline orderList-date">
+        <div class="input-group">
+          <input type="text" is-open="opened" datepicker-popup="yyyy-MM-dd" ng-click="open($event)" datepicker-options="dateOptions" class="form-control" ng-model="startTime" clear-text="关闭" close-text="清除" current-text="今天" id="startTime" placeholder="起始时间">
+        </div>
+        <span class="m-l-5 m-r-5">到</span>
+        <div class="input-group">
+          <input type="text" ng-model="endTime" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-options="endDateOptions" ng-click=" endOpen($event)" is-open="endOpened" clear-text="关闭" close-text="清除" current-text="今天" id="endTime" placeholder="结束时间" >
+        </div>
+        <button tjid type="button" ng-click="filterTime()" class="btn data-btn">确定</button>
+        <button tjid type="button" ng-click="initTime()" class="btn init-btn">重置</button>
+      </div>
+    </div>
+  </div>
+  <div class="orderList-b" ng-repeat="bill in orderlist">
+    <div class="row orderList-number">
+      <div class="col-sm-6">
+        <span class="orderList-n">帐期：{{bill.start_time}}&nbsp;&nbsp;{{bill.end_time}}</span>
+        <span class="orderList-t">{{bill.status_cn}}</span>
+      </div>
+      <div class="col-sm-6 orderList-btn">
+        <a class="btn btn-default bill-print" target="_blank" href="{{getUrl.url}}/billing/export_billing_csv/{{bill.id}}">导出</a>
+
+        <button type="button" tjid  ng-if="bill.status == '2'" ng-click="agreePay(bill.id , bill.theory_end);" class="btn upload-vouder">一键对账</button>
+        <span ng-if="bill.status == '3' && !bill.imgUploads" class="text-danger">
+          提示：只允许上传jpg,png,jpeg的文件！
+        </span>
+        <button type="button" tjid ng-file-select accept="image/.png,.jpg,.jpeg" ng-model="$parent.$parent.files" class="upload-vouder" ng-click="getId(bill)" ng-if="bill.status == '3' && !bill.imgUploads" >{{uploadText}}</button>
+        <div class="progress pull-left vouder" ng-if="bill.imgUploads">
+          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{imgUploads[0].progressPercentage}}% ;">
+            {{imgUploads[0].progressPercentage}}%
+          </div>
+        </div>
+        <button tjid  type="button" class="upload-vouder" ng-if="bill.imgUploads && bill.status != '2'" ng-click="vouderInfo()">查看付款凭证</button>
+        <button tjid type="button" class="upload-vouder" ng-click="vouderImg(bill.payment_evidence)" ng-if="bill.status == '4'">查看付款凭证</button>
+        <button tjid  type="button" class="upload-vouder" ng-click="vouderImg(bill.payment_evidence)" ng-if="bill.status == '5'">查看付款凭证</button>
+      </div>
+    </div>
+    <table class="table orderList-table bill-table">
+      <thead>
+        <tr>
+          <th>订单编号</th>
+          <th>订货金额</th>
+          <th>拒收金额</th>
+          <th>收货金额</th>
+          <th>运费</th>
+          <th>优惠</th>
+          <th>押金</th>
+          <th>应付金额</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="k in bill.order">
+        <tr>
+          <td class="text-left" colspan="10">
+            <span>{{k.deliver_date}}</span>
+            <span class="m-l-10">{{k.deal_price | currency :'&yen;'}}</span>
+          </td>
+        </tr>
+        <tr ng-repeat="m in k.order_list">
+          <td><a tjid class="zi-order" ng-click="orderInfo(m.order_number,m.status_cn)">{{m.order_number}}</a></td>
+          <td>{{m.total_price | currency : '&yen;'}}</td>
+          <td>{{m.refuse_price | currency : '&yen;'}}</td>
+          <td>{{m.sign_price | currency : '&yen;'}}</td>
+          <td>{{m.actual_deliver_fee | currency : '&yen;'}}</td>
+          <td>{{m.minus_amount | currency : '&yen;'}}</td>
+          <td></td>
+          <td>{{m.deal_price | currency : '&yen;'}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <table>
+      <tbody>
+        <tr>
+          <div class="orderList-paytype">
+            <p class="payMoney">应付金额总计：<span>{{bill.total_price | currency : '&yen;'}}</span>元</p>
+          </div>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <nav class="text-center p-tb-50">
+      <dachu-pagination conf="paginationConf"></dachu-pagination>
+      <div ng-show="conf.totalItems <= 0">
+        <p><img src="assets/images/gwc.jpg" /></p>
+        <p class="no-order m-t-20">暂无账单</p>
+        <p class="go-home m-t-40"><button tjid class="btn" ui-sref="page.home">去商城</button></p>
+      </div>
+    </nav>
+  </div>
+
+</div>
+<script type="text/ng-template" id="upload.html">
+  <div class="dialog-block">
+<div class="modal-header">
+<span tjid class="glyphicon glyphicon-remove pull-right rm-modal" ng-click="items.close();cancel()" ng-if="items.colseBtn"></span>
+<h6 class="modal-title text-14">上传结款凭证</h6>
+</div>
+<div class="modal-body">
+      <ul>
+      <span tjid ng-click="upVoucher()">sssss</span>
+</div>
+<div class="modal-footer">
+<button tjid class="btn btn-green" ng-click="items.ok();cancel();" ng-if="items.actionText">
+  {{items.actionText}}
+</button>
+</div>
+</div>
+</script>

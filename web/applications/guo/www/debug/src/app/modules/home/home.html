@@ -1,0 +1,14 @@
+<div class="warp-page container-fluid" active_class="autoCart">
+<div ng-show="show_loading === true">
+    <div class="loading_spinner">
+      <div class="loading_bounce1"></div>
+      <div class="loading_bounce2"></div>
+      <div class="loading_bounce3"></div>
+    </div>
+  </div>
+  <div class="row block block-col">
+      <div class="row ml-0 mr-0" ng-repeat="info in infos">
+        <img ng-src="{{info.picUrl}}" alt="{{info.title}}" class="col-xs-12 img-thumbnail pd-0">
+      </div>
+  </div>
+</div>

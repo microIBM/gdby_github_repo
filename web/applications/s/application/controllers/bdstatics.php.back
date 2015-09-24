@@ -1,0 +1,443 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * CRM数据统计
+ * @author liudeen@dachuwang.com
+ * @date 2015-03-24
+ */
+class Bdstatics extends MY_Controller {
+    public function __construct() {
+        parent::__construct();
+        $this->load->model(
+            array(
+                'MCustomer',
+                'MOrder',
+                'MUser'
+            )
+        );
+    }
+
+    //用户数统计
+    //这里添加了区分站点，$_POST['site_id']传递
+    public function customer_num() {
+        $time_arr = $this->_get_start_and_end();
+        $where = [
+            'status' => C('customer.status.valid.code')
+        ];
+        if(!empty($time_arr)) {
+            $where['created_time >='] = $time_arr['start'];
+            $where['created_time <']  = $time_arr['end'];
+        }
+        //大厨、大果选择
+        if(isset($_POST['site_id'])) {
+            $where['site_id'] = $_POST['site_id'];
+        }
+
+        $bd_ids = $this->_parse_bd_id();
+        if(!empty($bd_ids)) {
+            $where['in'] = array(
+                'invite_id' => $bd_ids
+            );
+        }
+
+        $cnt = $this->MCustomer->get_one(
+            'count(*) cnt',
+            $where
+        );
+        $cnt = empty($cnt) ? 0 : $cnt['cnt'];
+        return $this->_assemble_res(0, 'success', $cnt);
+    }
+
+    //下单用户数
+    public function order_customer_num() {
+        $where = [
+            'status !=' => C('order.status.closed.code')
+        ];
+        $bd_ids = $this->_parse_bd_id();
+        if(!empty($bd_ids)) {
+            //得到这些bd邀请的用户
+            $customer_ids = $this->_get_customer_ids_by_bd($bd_ids);
+            //需要用户id在这些bd的邀请列表中
+            if(empty($customer_ids)) {
+                return $this->_assemble_res(0, 'success', 0);
+            }
+
+            $where['in'] = array(
+                'user_id' => $customer_ids
+            );
+        }
+        $time_arr = $this->_get_start_and_end();
+        if(!empty($time_arr)) {
+            $where['created_time >='] = $time_arr['start'];
+            $where['created_time <']  = $time_arr['end'];
+        }
+
+        $cnt = $this->MOrder->get_one(
+            'count(distinct user_id) cnt',
+            $where
+        );
+        $cnt = empty($cnt) ? 0 : $cnt['cnt'];
+
+        return $this->_assemble_res(0, 'success', $cnt);
+    }
+    //订单数
+    public function order_num() {
+        //区分order_status；
+        if(isset($_POST['order_status'])) {
+            if($_POST['order_status'] == C('order.status.success.code')) {
+                $where = [
+                    'status =' => C('order.status.success.code')
+                ];
+            }elseif($_POST['order_status'] == C('order.status.closed.code')) {
+                $where = [
+                    'status !=' => C('order.status.closed.code')
+                ];
+            }
+        }else {
+            $where = [
+                'status !=' => C('order.status.closed.code')
+            ];
+        }
+        //根据bd得到用户ids
+        $bd_ids = $this->_parse_bd_id();
+        if(!empty($bd_ids)) {
+            $customer_ids = $this->_get_customer_ids_by_bd($bd_ids);
+            if(empty($customer_ids)) {
+                return $this->_assemble_res(0, 'success', 0);
+            }
+            //指定用户的订单
+            $where['in'] = array(
+                'user_id' => $customer_ids
+            );
+        }
+
+        $time_arr = $this->_get_start_and_end();
+        if(!empty($time_arr)) {
+            $where['created_time >='] = $time_arr['start'];
+            $where['created_time <'] = $time_arr['end'];
+        }
+
+
+        $cnt = $this->MOrder->get_one(
+            'count(*) cnt',
+            $where
+        );
+
+        $cnt = empty($cnt) ? 0 : $cnt['cnt'];
+        return $this->_assemble_res(0, 'success', $cnt);
+    }
+    //订单金额
+    public function order_amount() {
+        //区分order_status；
+        if(isset($_POST['order_status'])) {
+            if($_POST['order_status'] == C('order.status.success.code')) {
+                $where = [
+                    'status =' => C('order.status.success.code')
+                ];
+            }elseif($_POST['order_status'] == C('order.status.closed.code')) {
+                $where = [
+                    'status !=' => C('order.status.closed.code')
+                ];
+            }
+        }else {
+            $where = [
+                'status !=' => C('order.status.closed.code')
+            ];
+        }
+
+        $time_arr = $this->_get_start_and_end();
+        if(!empty($time_arr)) {
+            $where['created_time >='] = $time_arr['start'];
+            $where['created_time <']  = $time_arr['end'];
+        }
+
+        //根据bd得到用户ids
+        $bd_ids = $this->_parse_bd_id();
+        if(!empty($bd_ids)) {
+            $customer_ids = $this->_get_customer_ids_by_bd($bd_ids);
+            if(empty($customer_ids)) {
+                return $this->_assemble_res(0, 'success', 0);
+            }
+            //指定用户的订单
+            $where['in'] = array(
+                'user_id' => $customer_ids
+            );
+        }
+
+        $amount = $this->MOrder->get_one(
+            'sum(total_price) amount',
+            $where
+        );
+        $amount = empty($amount) ? 0 : format_money($amount['amount'], 2);
+
+        return $this->_assemble_res(0, 'success', $amount);
+    }
+
+    //今日客单价
+    public function avg_amount($date = 0) {
+        $where = [
+            'status !=' => C('order.status.closed.code')
+        ];
+
+        $time_arr = $this->_get_start_and_end();
+        if(!empty($time_arr)) {
+            $where['created_time >='] = $time_arr['start'];
+            $where['created_time <']  = $time_arr['end'];
+        }
+
+        //根据bd得到用户ids
+        $bd_ids = $this->_parse_bd_id();
+        if(!empty($bd_ids)) {
+            $customer_ids = $this->_get_customer_ids_by_bd($bd_ids);
+            if(empty($customer_ids)) {
+                return $this->_assemble_res(0, 'success', 0);
+            }
+            //指定用户的订单
+            $where['in'] = array(
+                'user_id' => $customer_ids
+            );
+        }
+        $avg_amount = $this->MOrder->get_one(
+            'avg(total_price) amount',
+            $where
+        );
+
+        $avg_amount = empty($avg_amount) ? 0 : $avg_amount['amount'];
+        $avg_amount = format_money($avg_amount, 2);
+
+        return $this->_assemble_res(0, 'success', $avg_amount);
+    }
+
+    //转化率
+    public function conversion_percent() {
+        $where = [
+            'status !=' => C('order.status.closed.code')
+        ];
+
+        $time_arr = $this->_get_start_and_end();
+        if(!empty($time_arr)) {
+            $where['created_time >='] = $time_arr['start'];
+            $where['created_time <']  = $time_arr['end'];
+        }
+
+        //根据bd得到用户ids
+        $bd_ids = $this->_parse_bd_id();
+        if(!empty($bd_ids)) {
+            $customer_ids = $this->_get_customer_ids_by_bd($bd_ids);
+            //指定用户的订单，如果为空，直接返回0
+            if(empty($customer_ids)) {
+                return $this->_assemble_res(0, 'success', 0);
+            }
+
+            $where['in'] = array(
+                'user_id' => $customer_ids
+            );
+        }
+
+        //下单客户数
+        $cnt = $this->MOrder->get_one(
+            'count(distinct user_id) cnt',
+            $where
+        );
+        $cnt = !empty($cnt['cnt']) ? $cnt['cnt'] : 0;
+        //TODO 其实下单客户数应该将其中status为0的筛选掉
+        //总客户数
+        $total = $this->MCustomer->get_one(
+            'count(*) cnt',
+            array(
+                'status' => C('customer.status.valid.code')
+            )
+        );
+        $total = !empty($total['cnt']) ? $total['cnt'] : 0;
+        $rate = 0;
+        if($total != 0) {
+            $rate = sprintf("%.2f", floatval($cnt) / floatval($total));
+        }
+        return $this->_assemble_res(0, 'success', $rate);
+    }
+
+    /**
+     *  @描述：数据库中获取bd信息以及bd组长信息，原始数据（二维数组）
+     *  @author: wangyang@dachuwang.com
+     */
+    public function get_bd_info($search = FALSE)
+    {
+        $fields = array('id', 'name', 'mobile', 'role_id', 'dept_id');
+        $where  = [
+            'in' => array(
+                'role_id' => array(
+                    C('role.BD.code'),
+                    C('role.BDM.code'),
+                )
+            ),
+        ];
+        if ($search == TRUE) {
+            if(isset($_POST['search_key']) && isset($_POST['search_value']) && !empty($_POST['search_key']) && !empty($_POST['search_key']) ) {
+                $where['like'] = array(
+                    $_POST['search_key'] => $_POST['search_value'],
+                );
+            }
+        }
+        //测试数据
+        //$this->db->limit(5,10);
+
+        $bd_info = $this->MUser->get_lists($fields, $where);
+        return  empty($bd_info) ? array() : $bd_info;
+
+    }
+
+
+    /**
+     *  @描述：获取bd信息以及bd组长信息
+     *  @author: wangyang@dachuwang.com
+     */
+    public function get_bd_bdm_info() {
+        $bd_info  = $this->get_bd_info();
+        $bdm_info = $this->_get_bdm_info($bd_info);
+
+        $bd_info = $this->get_bd_info(TRUE);
+        //把bd与bdm信息拼装起来；
+        $bd_info_with_bdm  = array();
+        foreach($bd_info as $value) {
+            if(array_key_exists($value['dept_id'], $bdm_info)) {
+                $data['bdm_nam']    = $bdm_info[$value['dept_id']]['name'];
+                $data['bdm_mobile'] = $bdm_info[$value['dept_id']]['mobile'];
+                $bd_info_with_bdm[] = array_merge($value, $data);
+            }else {
+                $bd_info_with_bdm[] = $value;
+            }
+        }
+        return $this->_assemble_res(0, 'success', $bd_info_with_bdm);
+    }
+
+    /**
+     * @description: 通过customer_ids来进行 获取订单详情
+     * @author:wangyang@dachuwang.com
+     */
+    public function order_info ($site_id = 1, $stime = 0, $etime = 0) {
+        $where = [
+            'status !=' => C('order.status.closed.code')
+        ];
+        if(!empty($stime)){
+			$where['created_time >='] = $stime;
+		}
+		if(!empty($etime)){
+			$where['created_time <='] = $etime;
+		}
+
+        if(isset($_POST['bd_customer_ids'])) {
+            $where['in'] = array(
+                'user_id' => $_POST['bd_customer_ids'],
+            );
+        }
+        $where['site_src'] = $site_id;
+        $field = array('id','user_id','status','created_time','total_price','site_src','deliver_time','deliver_date');
+        $order_lists = $this->MOrder->get_lists($field, $where);
+
+        $res = !empty($order_lists) ? $order_lists : array();
+        return $this->_assemble_res(0, 'success',$res);
+    }
+
+
+
+    private function _assemble_res($status, $msg, $res) {
+        $arr = array(
+            'status' => $status,
+            'msg'    => $msg,
+            'res'    => $res
+        );
+        $this->_return_json($arr);
+    }
+
+    private function _assemble_err($status, $msg) {
+        $arr = array(
+            'status' => $status,
+            'msg'    => $msg,
+        );
+        $this->_return_json($arr);
+    }
+
+    /**
+     * @description: 开始、结束时间
+     * @author:wangyang@dachuwang.com
+     */
+    private function _get_start_and_end() {
+        $request_time = $this->input->server('REQUEST_TIME');
+        $stime = !empty($_POST['stime']) ? $_POST['stime'] : strtotime(date('Y-m-d', $request_time));
+        $etime = !empty($_POST['etime']) ? $_POST['etime'] : ($stime + 86400);
+        $res = [];
+
+        $time_type = isset($_POST['time_type']) ? $_POST['time_type'] : '';
+        switch($time_type) {
+        case 'period':
+            $res['start'] = $stime;
+            $res['end']   = $etime;
+            break;
+        case 'all':
+            break;
+        default:
+            break;
+        }
+        return $res;
+    }
+
+    private function _parse_bd_id() {
+        $res = [];
+        if(!empty($_POST['bd_ids'])) {
+            if(is_array($_POST['bd_ids'])) {
+                foreach($_POST['bd_ids'] as $item) {
+                    $res[] = intval($item);
+                }
+            } else {
+                $res = array(
+                    intval($_POST['bd_ids'])
+                );
+            }
+        }
+        return $res;
+    }
+
+    //得到属于某一BD的对应客户ids;
+    //这里添加了区分站点，$_POST['site_id']传递
+    private function _get_customer_ids_by_bd($bd_ids = array()) {
+        $res = [];
+        if(!empty($bd_ids)) {
+            $where = [
+                'status' => C('customer.status.valid.code'),
+                'in' => array(
+                    'invite_id' => $bd_ids
+                )
+            ];
+            //大厨、大果选择
+            if(isset($_POST['site_id'])) {
+                $where['site_id'] = $_POST['site_id'];
+            }
+            $invited_customers = $this->MCustomer->get_lists(
+                'id',
+                $where
+            );
+            if(!empty($invited_customers)) {
+                $res = array_column($invited_customers, 'id');
+            }
+        }
+        return $res;
+    }
+
+    /**
+     *  @描述：通过给出bd的信息，找到bd对应的组长信息，组长对应自己；
+     *  @author: wangyang@dachuwang.com
+     */
+    private function _get_bdm_info($bd_info = array()) {
+        $bdm_info = array();
+        if(!empty($bd_info)) {
+            foreach($bd_info as $value) {
+                if($value['role_id'] == C('role.BDM.code')) {
+                    $bdm_info[$value['dept_id']] = $value;
+                }
+            }
+        }
+        return $bdm_info;
+    }
+
+
+
+}

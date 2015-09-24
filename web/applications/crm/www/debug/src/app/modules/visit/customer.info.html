@@ -1,0 +1,36 @@
+<div  class="warp-page customerVisitClass container-fluid">
+ <div class="bd-customer-ul-list"> 
+   <div>
+     <ul  id="customer-column">
+      <li> 店铺名称：{{info.shop_name}}</li>
+      <li> 拜访日期：{{info.visit_date}}</li>
+     </ul>
+   </div>
+   <div id="customerType">
+       <div>客户关系品类：</div>
+       <ul class="clearfix">
+           <li ng-repeat="item in focusCategories">
+             <label>
+              <input type="checkbox" ng-checked="true" ng-disabled="true" >
+              <span>{{item.name}}</span>
+            </label>
+            </li>
+       </ul>
+   </div>
+   <div id="questionType">
+       <div>意见类型：</div>
+       <ul class="clearfix">
+           <li ng-repeat="item in suggestions">
+             <label>
+                <input type="checkbox" ng-checked="true" ng-disabled="true" >
+                 <span>{{item.name}}</span>
+             </label>
+            </li>
+       </ul>
+   </div>
+   <div class="row" id="remarkText">
+       <span>备注：</span>
+       <input type="text" ng-model="info.remarks" value="">
+   </div>
+ </div>
+</div>

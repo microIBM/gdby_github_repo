@@ -1,0 +1,69 @@
+ <!--login form-->
+ <div class="col-xs-offset-2">
+   <div class="bs-callout bs-callout-danger">
+     <h5>{{title}}</h5>
+   </div>
+   <form class="row block" role="form" ng-submit="cateAdd()">
+     <div class="form-group col-xs-12">
+       <label for="type" class="col-sm-2 control-label">一级分类</label>
+       <div class="col-sm-10"> 
+
+        <div class="col-sm-5 p-0">
+         <select ng-model="category" ng-change="getChild()"
+           ng-options="str.name for str in ups | filter : vm.filters.name"  class="  form-control">
+           <option value="">--选择分类类型--</option>
+         </select>
+
+       </div>
+        <div class="col-sm-7 input-group p-0 pull-right">
+
+          <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+          <input type="text" ng-model="vm.filters.name" class="form-control" placeholder="请输入货物名进行过滤" />
+        </div>
+       </div>
+     </div>
+     <div class="form-group col-xs-12">
+       <label for="type" class="col-sm-2 control-label">二级分类</label>
+       <div class="col-sm-10"> 
+         <select ng-model="childCate" ng-options="str.name for str in childCates" ng-change="getThird()"  class="  form-control">
+           <option value="">--选择分类类型--</option>
+         </select>
+       </div>
+     </div>
+     <div class="form-group col-xs-12">
+       <label for="type" class="col-sm-2 control-label">三级分类</label>
+       <div class="col-sm-10"> 
+         <select ng-model="thirdCate" ng-options="str.name for str in thirdCates"  class="  form-control">
+           <option value="">--选择分类类型--</option>
+         </select>
+       </div>
+
+     </div>
+    <div class="form-group col-xs-12">
+      <label for="tel" class="col-sm-2 control-label">品类名称</label>
+      <div class="col-sm-10">
+        <input type="text" required class="  form-control"
+        ng-model="cateInfo.name" name="catename"  placeholder="请输入品类名称">
+      </div>
+    </div>
+     <div class="form-group col-xs-12">
+      <label for="weight" class="col-sm-2 control-label">权重[越大越靠前]</label>
+      <div class="col-sm-10">
+        <input type="number" required class="  form-control"
+        ng-model="cateInfo.weight" name="weight"  placeholder="请输入权重值">
+      </div>
+    </div>
+
+    <div class="form-group col-xs-12">
+      <div class="col-sm-offset-2 col-sm-10 text-center">
+        <button type="submit" class="btn pull-right btn-success col-sm-3 ">
+          保存
+        </button>
+<button type="button"  ng-click="reback()" class="m-r-5 btn pull-right col-sm-3 btn-default ">
+          取消
+        </button>
+      </div>
+      </div>
+  </form>
+  <!--login form end-->
+</div>

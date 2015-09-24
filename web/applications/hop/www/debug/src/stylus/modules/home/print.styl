@@ -1,0 +1,40 @@
+.sth_block
+    position relative
+    page-break-after always
+    .col-xs-6
+        float none
+        display inline-block
+    .sign
+        vertical-align bottom
+        width 300px
+        p
+            page-break-inside avoid
+            position relative
+            page-break-before always
+            page-break-after always
+            line-height 3
+        p:after
+            content ''
+            position absolute
+            top 20px
+            width 200px
+            border-bottom 1px solid #999
+
+.page_break_after
+    page-break-after always
+
+.order_print_table
+    table
+        tr
+            page-break-after auto
+            page-break-inside avoid
+            td
+                page-break-inside avoid
+
+.word-wrap
+     word-wrap break-word
+     word-break break-all
+
+@media print
+    .sign p
+        page-break-inside avoid

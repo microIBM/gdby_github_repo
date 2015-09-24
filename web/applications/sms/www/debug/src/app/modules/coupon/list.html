@@ -1,0 +1,146 @@
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>{{title}}</h5>
+      </div>
+      <div class="bs-callout">
+         <div class="block mt-10">
+           <a ng-click="filterByStatus('all');" 
+            ng-class="{'btn-info': status == 'all'}" class="btn">
+            全部
+            <span class="badge">{{total[4]}}</span>
+          </a>
+          <a ng-click="filterByStatus('2');"
+            ng-class="{'btn-info': status == '2'}" class="btn">
+            待审核
+            <span class="badge">{{total[2]}}</span>
+          </a>
+          <a ng-click="filterByStatus('1');"
+            ng-class="{'btn-info': status == '1'}" class="btn">
+            已生效
+            <span class="badge">{{total[2]}}</span>
+          </a>
+          <a ng-click="filterByStatus('0');"
+            ng-class="{'btn-info': status == '0'}" class="btn">
+            已失效
+            <span class="badge">{{total[2]}}</span>
+          </a>
+          </div>
+        <div class="block mt-10 ml-default">
+         <!--时间筛选-->
+          <form class="form-inline" role="form">
+           <div class="form-group">
+
+              <div class="input-group">
+                <div class="input-group-addon">关键词</div>
+                <input type="text" ng-model="key" class="form-control" placeholder="请输入券活动名称" />
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-warning" ng-click="reset();">重置 </button>
+            </div>
+          </form>
+        </div>
+          </div>
+
+        <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+            <colgroup>
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+            </colgroup>
+            <thead>
+              <tr>
+                <td><h5><em class="text-danger">券活动id</em></h5></td>
+                <td class="text-center"><h5>券活动名称</h5></td>
+                <td class="text-center"><h5>券活动类型</h5></td>
+                <td class="text-center"><h5>券活动状态</h5></td>
+                <td class="text-center"><h5>所属站点</h5></td>
+                <td class="text-center"><h5>所属城市</h5></td>
+                <td class="text-center"><h5>可发放次数</h5></td>
+                <td class="text-center"><h5>已用数量</h5></td>
+                <td class="text-center"><h5>优惠券触发类型</h5></td>
+                <td class="text-center"><h5>优惠对象</h5></td>
+                <td class="text-center"><h5>有效时间段</h5></td>
+                <td class="text-center"><h5>更新时间</h5></td>
+                <td class="text-center"><h5>操作</h5></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in coupons">
+                <td>
+                  <h5><em class="text-danger">{{item.id}}</em></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.title}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5 class="label label-warning">{{item.rule_type}}</h5>
+                </td>
+               <td class="text-center">
+                  <h5>
+                    <span class="label label-default" ng-if="item.status == 2"> 待审核 </span>
+                    <span class="label label-success" ng-if="item.status == 1"> 已上线 </span>
+                    <span class="label label-danger" ng-if="item.status == 0"> 已下线 </span>
+                  </h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.site_cn}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.location_cn}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.coupon_nums}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.coupon_used_nums}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.coupon_trigger_cn}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.category_cn}}</h5>
+                </td>
+
+                <td class="text-center">
+                  <h5><span class="label label-success">{{item.valid_time}}</span>至<span class="label label-success">{{item.invalid_time}}</span></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.updated_time}}</h5>
+                </td>
+                <td class="text-center">
+                 <h5>
+                  <a ng-if="item.status == 1" class="btn btn-danger btn-sm btn_mb5" ng-click="setStatus(item, 0)">
+                      下线
+                  </a>
+                   <a ng-if="item.status != 1 " class="btn btn-success btn-sm btn_mb5" ng-click="setStatus(item, 1)">
+                      上线
+                  </a>
+                  <a ng-if="item.status == 1 && item.coupon_nums > 0 && item.coupon_type != 2" class="btn btn-info btn-sm btn_mb5" ui-sref="home.customerCouponAdd({couponId:item.id})">
+                      发券
+                  </a>
+                 </h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+         </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

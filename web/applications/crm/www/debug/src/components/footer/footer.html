@@ -1,0 +1,9 @@
+<nav class="nav fix-bottom action-nav" ng-controller="footerCtrl">
+  <div class="container" >
+    <ul class="nav action-nav actionbar-tabs">
+      <li class="col-xs-{{collen}}" ng-repeat="tab in tabList" ng-class="{active : showType == tab.status}">
+      <a ng-click="changeState(tab.href)"><span class="glyphicon {{tab.glyphicon}}"></span>{{tab.name}}</a>
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,1 @@
+ALTER TABLE `d_dachuwang`.`t_push_task_log` ADD COLUMN `status` tinyint(1) UNSIGNED DEFAULT 1 COMMENT '推送任务状态 成功1  失败0' AFTER `push_res`, ADD COLUMN `created_time` int(11) COMMENT '数据创建时间' AFTER `status`, ADD COLUMN `updated_time` int(11) AFTER `created_time`;

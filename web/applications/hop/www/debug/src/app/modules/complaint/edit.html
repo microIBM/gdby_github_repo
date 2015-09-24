@@ -1,0 +1,258 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-sm-offset-2 col-sm-10 col-xs-12">
+      <div class="bs-callout bs-callout-danger">
+        <h5>投诉单编辑</h5>
+      </div>
+      <div class="form-group" ng-show="basic_form.$invalid && basic_form.$dirty && show_error">
+        <div class="col-sm-12">
+          <div class="alert alert-danger">
+            <ul>
+              <li ng-show="basic_form.source.$error.required">请选择投诉来源！</li>
+              <li ng-show="basic_form.feedback.$error.required">请选择反馈人！</li>
+              <li ng-show="basic_form.ctype.$error.required">请选择投诉单类型！</li>
+              <li ng-show="basic_form.description.$error.required">请输入问题描述！</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="block mt-10 ml-default">
+        <form class="form-horizontal showcase-form" role="form" name="basic_form" id="basic_form">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">运营组受理人：</label>
+            <div class="col-sm-10">
+              <input type="text" name="cur_name" ng-model="data.creator" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+           <div class="form-group">
+            <label class="col-sm-2 control-label">地区：</label>
+            <div class="col-sm-10">
+              <input type="text" name="city_name" ng-model="data.city_name" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">线路：</label>
+            <div class="col-sm-10">
+              <input type="text" name="line" ng-model="data.line_name" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">订单号（母订单）：</label>
+            <div class="col-sm-9">
+              <input type="text" name="site_name" ng-model="data.order_id" class="form-control" placeholder="" readonly>
+            </div>
+            <div class="col-sm-1"><a ng-href="order/detail/{{data.order_number}}">查看</a></div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">订单号（子订单）：</label>
+            <div class="col-sm-9">
+              <input type="text" name="site_name" ng-model="data.suborder_id" class="form-control" placeholder="" readonly>
+            </div>
+            <div class="col-sm-1"><a ng-href="order/subDetail/{{data.suborder_number}}">查看</a></div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">所属销售：</label>
+            <div class="col-sm-10">
+              <input type="text" name="sale_name" ng-model="data.sale_name" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">店铺名称：</label>
+            <div class="col-sm-10">
+              <input type="text" name="shop_name" ng-model="data.shop_name" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">客户姓名：</label>
+            <div class="col-sm-10">
+              <input type="text" name="name" ng-model="data.name" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">客户电话：</label>
+            <div class="col-sm-10">
+              <input type="text" name="mobile" ng-model="data.mobile" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">客户地址：</label>
+            <div class="col-sm-10">
+              <input type="text" name="address" ng-model="data.address" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">送货日期：</label>
+            <div class="col-sm-10">
+              <input type="text" name="deliver_date" ng-model="data.deliver_date" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">投诉来源：</label>
+            <div class="col-sm-10">
+              <select name="source" ng-model="data.source" class="form-control"
+                ng-options="m.msg for m in sourceList" required>
+                <option value="">
+                请选择投诉来源
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">反馈人：</label>
+            <div class="col-sm-10">
+              <select name="feedtype" ng-model="data.feedback" class="form-control"
+                ng-options="m.msg for m in feedbackList" required>
+                <option value="">
+                请选择反馈人
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">投诉类型：</label>
+            <div class="col-sm-10">
+              <select name="ctype" ng-model="data.ctype" class="form-control"
+                ng-options="m.msg for m in ctypeList" required>
+                <option value="">
+                请选择投诉单类型
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">问题描述：</label>
+            <div class="col-sm-10">
+              <input type="text" name="description" ng-model="data.description" class="form-control" placeholder="请输入问题描述" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">信息记录：</label>
+            <div class="col-sm-2 text-right">相关图片：</div>
+            <!--上传图片-->
+            <span class="btn btn-success fileinput-button" ng-class="{disabled: disabled}">
+              <i class="glyphicon glyphicon-plus"></i>
+              <span class="button"  ng-file-select ng-model="files">
+                上传图片
+              </span>
+            </span>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-2 text-right">已上传图片列表：</div>
+            <div class="col-sm-2 col-md-2" ng-repeat="files in imgUploads">
+              <div class="thumbnail">
+                <img width="100" ng-show="files.dataUrl != null" ng-src="{{files.dataUrl}}" class="thumbnail" />
+                <div class="caption text-center">
+                  <p><a href="#" class="btn btn-primary" role="button" ng-click="picCancel($index)">删除</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+           <label class="col-sm-2 control-label"></label>
+           <div class="col-sm-2 text-right">相关内容：</div>
+           <div class="col-sm-8">
+                <select ng-disabled="true" name="relation_content" ng-model="data.relation_content" class="form-control"
+                ng-options="m.msg for m in relationContents" required>
+                <option value="">
+                请选择相关内容选项
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" ng-show="data.relation_content.code==2">
+           <label class="col-sm-2 control-label"></label>
+           <div class="col-sm-2"></div>
+           <div class="col-sm-8">
+             <div class="table-responsive" style="margin-top:10px;text-align:left;">
+               <table class="table table-bordered table-striped table-hover">
+                 <tr>
+                   <td>货品名</td>
+                   <td>单价</td>
+                   <td>数量</td>
+                   <td>金额</td>
+                 </tr>
+                 <tr ng-repeat="item in data.contents">
+                    <td>{{item.name}}</td>
+                    <td>{{item.single_price}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.sum_price}}</td>
+                 </tr>
+               </table>
+             </div>
+           </div>
+          </div>
+          <div class="form-group"  ng-show="data.relation_content.code==2">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-2 text-right">总计金额：</div>
+            <div class="col-sm-8">
+              <input type="text" name="totalPrice" ng-model="data.total_price" class="form-control" placeholder="总金额" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-2 text-right">处理进度：</div>
+            <div class="col-sm-8">
+              <input type="text" name="progress1" ng-model="data.progress1" class="form-control" placeholder="请输入客服处理意见">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-2 text-right"></div>
+            <div class="col-sm-8">
+              <input type="text" name="progress2" ng-model="data.progress2" class="form-control" placeholder="请输入销售/品控处理意见">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label"></label>
+            <div class="col-sm-2 text-right"></div>
+            <div class="col-sm-8">
+              <input type="text" name="progress3" ng-model="data.progress3" class="form-control" placeholder="请输入物流处理意见">
+            </div>
+          </div>
+          <div class="form-group">
+              <label class="col-sm-2 control-label">处理结果：</label>
+              <div class="col-sm-10">
+                  <select name="dealResult" ng-model="data.deal_result" class="form-control"
+                  ng-options="m.msg for m in dealResults">
+                  <option value="">
+                  请选择处理结果
+                  </option>
+                </select>
+              </div>
+          </div>
+          <div class="form-group" ng-if="data.deal_result.code!=1 && data.deal_result">
+             <label class="col-sm-2 control-label"></label>
+             <div class="col-sm-10" ng-if="data.deal_result.code==2">
+                <input type="text" name="result_param" ng-model="data.result_param" class="form-control" placeholder="请输入代金券金额">
+             </div>
+             <div class="col-sm-10" ng-if="data.deal_result.code==3">
+                <input type="text" name="result_param" ng-model="data.result_param" class="form-control" placeholder="请输入退货退款单号">
+             </div>
+             <div class="col-sm-10" ng-if="data.deal_result.code==4">
+                <input type="text" name="result_param" ng-model="data.result_param" class="form-control" placeholder="请输入后续处理方案">
+             </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">结果描述：</label>
+            <div class="col-sm-10">
+              <input type="text" name="solution" ng-model="data.solution" class="form-control" placeholder="请输入结果描述">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">处理状态：</label>
+            <div class="col-sm-10">
+              <select name="status" ng-model="data.status" class="form-control"
+                ng-options="m.msg for m in statusList">
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-info btn-lg col-sm-3 col-sm-offset-1" ng-click="edit();"> 提交</button>
+            <button class="btn btn-warning btn-lg col-sm-3 col-sm-offset-1" ng-click="back();">取消</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

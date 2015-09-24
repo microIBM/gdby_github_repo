@@ -1,0 +1,61 @@
+<div class="container">
+	<!-- 修改密码界面 -->
+	<div class="row">
+		<div class="panel panel-primary">
+			<div class="panel-heading clearfix">
+				<a href="javascript:history.back()" class="btn btn-info pull-left">&lt;</a>
+				<h3 class="panel-title pwd-title main-h3">修改密码</h3>
+			</div>
+			<div class="panel-body">
+				<img src="assets/images/logo.png">
+				<p ng-show="error" class="{{error.cls}}">{{error.msg}}</p>
+				<form name="modifypwdForm" novalidate ng-submit="modifypwd()">
+					<div class="alert alert-danger hide" id="wrong" role="alert"></div>
+					<!-- 用户名 -->
+					<div class="input-group-with-alert clearfix">
+						<div class="input-group">
+							<span class="input-group-addon lg-addon">用户名</span>
+							<input type="tel" name="mobile" class="form-control" placeholder="请输入手机号" required ng-model="user.mobile" ng-pattern="/^1[3|5|6|7|8|9]\d{9}$/" ng-minlength="11" ng-maxlength="11"></div>
+						<div class="col-xs-12 label label-danger" ng-show="(modifypwdForm.submitted || modifypwdForm.mobile.$dirty)  && modifypwdForm.mobile.$invalid">
+							<span ng-show="modifypwdForm.mobile.$error.minlength">请输入正确的手机号</span>
+							<span ng-show="!modifypwdForm.mobile.$error.minlength && modifypwdForm.mobile.$error.pattern">手机号格式不正确</span>
+							<span ng-show="modifypwdForm.mobile.$error.required">手机号必填</span>
+						</div>
+					</div>
+					<!-- 原来密码 -->
+					<div class="input-group-with-alert clearfix">
+						<div class="input-group">
+							<span class="input-group-addon lg-addon">原密码</span>
+							<input  name="password" type="password" class="form-control" placeholder="请输入原密码" required ng-minlength="6" ng-model="user.password"></div>
+						<div class="col-xs-12 label label-danger" ng-show="modifypwdForm.submitted  && modifypwdForm.password.$invalid">
+							<span ng-show="modifypwdForm.password.$error.minlength">密码至少6位</span>
+							<span ng-show="modifypwdForm.password.$error.required">密码必填</span>
+						</div>
+					</div>
+					<!-- 新密码 -->
+					<div class="input-group-with-alert clearfix">
+						<div class="input-group">
+							<span class="input-group-addon lg-addon">新密码</span>
+							<input name="newPassword" type="password" class="form-control" placeholder="请输入新密码" required ng-minlength="6" ng-model="user.newPassword"></div>
+						<div class="col-xs-12 label label-danger" ng-show="modifypwdForm.submitted  && modifypwdForm.newPassword.$invalid">
+							<span ng-show="modifypwdForm.newPassword.$error.minlength">密码至少6位</span>
+							<span ng-show="modifypwdForm.newPassword.$error.required">密码必填</span>
+						</div>
+					</div>
+					<!-- 确认新密码 -->
+					<div class="input-group-with-alert clearfix">
+						<div class="input-group">
+							<span class="input-group-addon sm-addon">确认新密码</span>
+							<input name="newRePassword" type="password" class="form-control" placeholder="请再一次输入新密码" required ng-minlength="6" ng-model="user.newRePassword"></div>
+						<div class="col-xs-12 label label-danger" ng-show="modifypwdForm.submitted  && modifypwdForm.newRePassword.$invalid">
+							<span ng-show="modifypwdForm.newRePassword.$error.minlength">密码至少6位</span>
+							<span ng-show="modifypwdForm.newRePassword.$error.required">密码必填</span>
+						</div>
+					</div>
+					<!-- 提交按钮 -->
+					<button type="submit" class="btn btn-success btn-lg form-control">确认</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

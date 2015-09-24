@@ -1,0 +1,34 @@
+<div class="warp-page container-fluid">
+  <div class="row block text-center pt-10 pb-10"><h4>总计： {{totalItems}} 家客户</h4></div>
+  <div infinite-scroll="pagination.nextPage()" infinite-scroll-disabled="pagination.isDone || pagination.isProcessing" infinite-scroll-distance="0">
+    <div class="row block" ng-repeat="item in list">
+      <div class="col-xs-12 block-col">
+        <h5>店铺名称：{{item.shop_name}}</h5>
+      </div>
+      <div class="col-xs-12 block-col">
+        <h5>地址：{{item.address}}</h5>
+      </div>
+      <div class="col-xs-12 block-col">
+        <h5>备注：{{item.remark}}</h5>
+      </div>
+      <div class="col-xs-12 block-col" ng-if="item.mobile">
+        <a href="tel:{{item.mobile}}" class="btn btn-warning">拨打电话:{{item.mobile}}</a>
+      </div>
+      <div class="col-xs-12 block-col">
+        <a class="btn btn-info btn-sm" ng-click="openUser({{item.id}})">开通</a>
+        <a class="btn btn-success btn-sm" ng-click="editUser({{item.id}})">编辑</a>
+        <a class="btn btn-danger btn-sm" ng-click="deleteUser({{item.id}})">删除</a>
+      </div>
+    </div>
+    <div ng-show="pagination.isProcessing">
+      <div class="loading_spinner">
+        <div class="loading_bounce1"></div>
+        <div class="loading_bounce2"></div>
+        <div class="loading_bounce3"></div>
+      </div>
+    </div>
+    <div class="row block pt-10 pb-10" ng-if="pagination.isDone">
+      <h4 class="text-center">{{pagination.more}}</h4>
+    </div>
+  </div>
+</div>

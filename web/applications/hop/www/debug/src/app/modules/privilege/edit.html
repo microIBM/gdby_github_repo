@@ -1,0 +1,61 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-sm-offset-2 col-sm-10 col-xs-12">
+      <div class="bs-callout bs-callout-danger">
+        <h5>编辑权限</h5>
+      </div>
+      <div class="form-group" ng-show="basic_form.$invalid && basic_form.$dirty && show_error">
+        <div class="col-sm-12">
+          <div class="alert alert-danger">
+            <ul>
+              <li ng-show="basic_form.name.$error.required">请输入权限名称！</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="block mt-10 ml-default">
+        <form class="form-horizontal showcase-form" role="form" name="basic_form" id="basic_form">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">上级权限：</label>
+            <div class="col-sm-10">
+              <select ng-model="data.parent" class="form-control"
+                ng-options="m.pre_name for m in list"> 
+                <option value="">
+                选择上级权限
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">权限名称：</label>
+            <div class="col-sm-10">
+              <input type="text" name="name" ng-model="data.name" class="form-control" placeholder="请输入权限名称" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">模块名称：</label>
+            <div class="col-sm-10">
+              <input type="text" ng-model="data.module" class="form-control" placeholder="请输入模块名称">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">资源名称：</label>
+            <div class="col-sm-10">
+              <input type="text" ng-model="data.resource" class="form-control" placeholder="请输入资源名称">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">操作名称：</label>
+            <div class="col-sm-10">
+              <input type="text" ng-model="data.operation" class="form-control" placeholder="请输入操作名称">
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-info btn-lg col-sm-3 col-sm-offset-1" ng-click="edit();"> 提交</button>
+            <button class="btn btn-warning btn-lg col-sm-3 col-sm-offset-1" ng-click="reset()">重置</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

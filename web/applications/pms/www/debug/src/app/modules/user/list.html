@@ -1,0 +1,100 @@
+<div class="container-fluid" ng-controller="UserListCtrl">
+  <div class="width_change" id="row block-title">
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>用户列表</h5>
+      </div>
+      <div class="bs-callout">
+        <div class="block mt-10 ml-default">
+          <!--时间筛选-->
+          <form class="form-inline" role="form">
+            <div class="form-group">
+                <select ng-model="role" class="form-control" name="role"
+                  ng-options="m.name for m in role_list"> 
+                  <option value="">
+                  请选择角色类型
+                  </option>
+                </select>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <input type="text" ng-model="searchValue" class="form-control" placeholder="请输入搜索关键词">
+                <div class="input-group-addon">起始时间</div>
+                <input type="text" is-open="opened"  datepicker-popup="yyyy-MM-dd" ng-click="open($event)" datepicker-options="dateOptions"  class="form-control" ng-model="startTime"  id="startTime" placeholder="点击获取时间">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">截止时间</div>
+                <input type="text" ng-model="endTime" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-options="endDateOptions"  ng-click="endOpen($event)" is-open="endOpened" id="endTime" placeholder="点击获取时间">
+              </div>
+            </div>
+            <div class="form-group">
+                <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+              </div>
+              <div class="form-group">
+                <button class="btn btn-block btn-warning" ng-click="reset()">重置</button>
+              </div>
+              <div class="form-group">
+                <button class="btn btn-block btn-primary" ng-click="exportData()">导出数据</button>
+              </div>
+              <div class="form-group">
+                  <a class="btn btn-primary btn-sm" href="/user/create">添加用户</a>
+              </div>
+            </div>
+            </div>
+          </form>
+      <div style="margin-top:10px;" class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+          <colgroup>
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-2">
+            <col class="col-xs-2">
+            <col class="col-xs-2">
+            <col class="col-xs-3">
+          </colgroup>
+          <thead>
+            <tr>
+              <td class="text-center"><h5>编号</h5></td>
+              <td class="text-center"><h5>姓名</h5></td>
+              <td class="text-center"><h5>角色</h5></td>
+              <td class="text-center"><h5>手机号</h5></td>
+              <td class="text-center"><h5>注册时间</h5></td>
+              <td class="text-center"><h5>操作</h5></td>
+            </tr>
+          </thead>
+          <tbody ng-if="list.length===0">
+            <tr>
+              <td colspan="8" class="text-center"><h5>暂无数据</h5></td>
+            </tr>
+          </tbody>
+          <tbody ng-if="list.length>0">
+            <tr ng-repeat="item in list">
+              <td class="text-center"><h5>{{item.id}}</h5></td>
+              <td class="text-center"><h5>{{item.name}}</h5></td>
+              <td class="text-center"><h5>{{item.role}}</h5></td>
+              <td class="text-center"><h5>{{item.mobile}}</h5></td>
+              <td class="text-center"><h5>{{item.created_time}}</h5></td>
+              <td class="text-center">
+                <h5>
+                  <a class="btn btn-info btn-sm btn_mb5" href="/user/edit/{{item.id}}">编辑用户</a>
+                  <a class="btn btn-danger btn-sm btn_mb5" ng-click="setStatus($index, 0)"
+                    ng-if="item.status == 1">禁用账号</a>
+                  <a class="btn btn-success btn-sm btn_mb5" ng-click="setStatus($index, 1)"
+                    ng-if="item.status == 0">启用账号</a>
+                  <a class="btn btn-info btn-sm btn_mb5"
+                    ng-click="resetPassword($index)">重置密码</a>
+                </h5>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+    </div>
+  </div>
+</div>

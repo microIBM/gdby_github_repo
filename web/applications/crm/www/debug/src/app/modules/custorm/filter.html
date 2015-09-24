@@ -1,0 +1,64 @@
+<div class="">
+  <div class="modal-header">
+    <h4 class="modal-title">筛选客户</h4>
+  </div>
+  <div class="modal-body" style="overflow:hidden;">
+    <form class="form">
+      <div class="form-group row">
+        <label class="control-label col-xs-4">所属地区</label>
+        <div class="col-xs-8">
+          <select class="form-control input-sm" ng-options="item.name for item in property.provinces" ng-model="sift.province" ng-change="func.getLines()" ng-disabled="true"></select>
+        </div>
+      </div>
+      <div class="form-group row" >
+        <label class="control-label col-xs-4">配送线路</label>
+        <div class="col-xs-8">
+          <select class="form-control input-sm" ng-disabled="!sift.province" ng-options="item.name for item in property.lines" ng-model="sift.line">
+            <option value="">全部</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="control-label col-xs-4">客户规模</label>
+        <div class="col-xs-8">
+          <select class="form-control input-sm" ng-options="item.name for item in property.dimensions" ng-model="sift.dimensions">
+            <option value="">全部</option>
+          </select>
+        </div>
+      </div>
+      <!--div class="form-group">
+      <label class="control-label">客户下单情况</label>
+      <select class="form-control" ng-options="item.name for item in property.customer_type" ng-model="sift.customer_type"></select>
+    </div-->
+      <div class="form-group row">
+        <label class="control-label col-xs-4">餐饮类别</label>
+        <div class="col-xs-8">
+          <select class="form-control input-sm" ng-options="item.name for item in property.shop_types" ng-model="sift.shop_type">
+            <option value="">全部</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="control-label col-xs-4">客户类型</label>
+        <div class="col-xs-8">
+          <select class="form-control input-sm" ng-options="item.name for item in property.types" ng-model="sift.customer_type">
+            <option value="">全部</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="control-label col-xs-4">下单情况</label>
+        <div class="col-xs-8">
+          <select class="form-control input-sm" ng-options="item.name for item in property.order_type" ng-model="sift.order_type">
+            <option value="">全部</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-block btn-success" ng-click="func.reset()">重置</button>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="func.ensure()" ng-disabled="isloading">确定</button>
+    <button class="btn btn-warning" type="button" ng-click="func.cancel()">取消</button>
+  </div>
+</div>

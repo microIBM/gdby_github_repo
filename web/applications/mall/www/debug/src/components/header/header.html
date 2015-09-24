@@ -1,0 +1,213 @@
+<div ng-controller="headerController" >
+  <header class="head" ng-show="$state.current.url != 'user/login'" ng-class="{ 'b-b-2' : $state.current.data.showHeader == 3}">
+    <div class="ua-tips" ng-if="uaTips">
+       <div class="container">
+        为了您更好的体验商城服务，建议您使用chrome浏览器进行购物，点击下载按钮进行下载
+        <a ng-href="http://rj.baidu.com/soft/detail/25718.html?ald" target="_blank">Mac版下载</a>
+        <a ng-href="http://rj.baidu.com/soft/detail/14744.html?ald" target="_blank">Windows版下载</a>
+        <span class="glyphicon glyphicon-remove pull-right m-t-10" ng-click="DC.uaTipsShow()" tjid></span>
+       </div>
+    </div>
+    <nav class="navbar navbar-default navbar-static-top m-0">
+      <div class="container">
+        <ul class="navbar-nav nav pull-right right-nav">
+          <li ng-show="!DC.isLogin"><a class="p-r-0">欢迎访问大厨网商城，</a><a ui-sref="page.login" class="p-l-0" tjid><span class="text-green">登录</span> &nbsp; 注册</a></li>
+          <li ng-show="DC.isLogin" >您好，<a ui-sref="page.userCenter" class="p-lr-0 text-green" tjid>{{DC.userInfo.name}}</a>
+          <a ng-click="DC.login_out()" class="p-lr-0" tjid>退出</a>
+          </li>
+         <li><a ui-sref="page.home" tjid>大厨网首页</a></li>
+          <li ng-mouseenter="DC.erweiIn()" ng-mouseleave="DC.erweiOut()">
+          <a><i class="icon iphone"></i>手机大厨网</a>
+          <div class="erwei" ng-show="DC.erwei">
+            <h3>手机扫描二维码</h3>
+            <p>
+            <img src="assets/images/APP.png" />
+            下载APP
+            </p>
+            <p>
+            <img src="assets/images/gongzhong.png" />
+            关注公众号
+            </p>
+          </div>
+          </li>
+          <li><a ui-sref="page.cart" class="p-r-0" tjid><i class="icon cart-b"></i>购物车<span class="cart-tips" ng-if="DC.cartlist.ids.length">{{DC.cartlist.ids.length}}</span></a></li>
+        </ul>
+        <ul class="navbar-nav nav">
+          <li class="dropdown" is-open="status.isopen" dropdown on-toggle="toggled(open)">
+          <a dropdown-toggle ng-if="!DC.isLogin" class="p-l-0" tjid>
+            {{localInfo.name}}
+            <i class=" icon chev-down" ></i>
+          </a>
+          <a  ng-if="DC.isLogin" class="p-l-0" tjid>
+            {{localInfo.name}}
+            <i class="glyphicon glyphicon-map-marker" ></i>
+          </a>
+          <ul class="dropdown-menu city-nav" tjid>
+
+            <li><a href="#" ng-click="DC.citySelect(city)" ng-repeat="city in cities" tjid>{{city.name}}</a></li>
+          </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fuild" ng-show="$state.current.data.showHeader == 4">
+      <div class=" p-tb-30 row container common-top" >
+        <div class="tel p-l-20 pull-right col-xs-2 text-right">
+          <div class="text-left">
+            <i class="icon pull-left phone"></i>
+            <span>全国统一服务热线</span></br>
+            <span>400-8199-491</span>
+          </div>
+        </div>
+        <div>
+          <a ui-sref="page.home" tjid>
+            <h1 class="logo m-0 pull-left col-xs-2"></h1>
+          </a>
+          <h3 class="text-24"><span class="text-e4e4">｜</span>{{ DC.userInfo.shop_name }}</h3>
+
+        </div>
+      </div>
+      <nav class="nav-title order-title">
+        <ul class="container orderList-nav">
+          <!--li ng-init="togglenav.item = 0" ng-click = 'togglenav.item = $index' ng-repeat="nav in orderNav"><a ng-class="{'active' : togglenav.item == $index}" ui-sref="{{nav.href}}">{{nav.name}}</a></li-->
+          <li ><a tjid ng-class="{'active' :$state.current.data.order == 'usecenter'}" ui-sref="page.userCenter">个人中心</a></li>
+          <li ><a tjid ng-class="{'active' :$state.current.data.order == 'order'}" ui-sref="page.orderList">我的订单</a></li>
+          <li><a tjid ng-class="{'active' :$state.current.data.order == 'mybill'}" ui-sref="page.billList">我的账单</a></li>
+
+          <li ><a tjid ng-class="{'active' :$state.current.data.order == 'coupon'}" ui-sref="page.coupon">优惠劵</a></li>
+          <li ><a tjid ng-class="{'active' :$state.current.data.order == 'single'}" ui-sref="page.single" ng-if="DC.userInfo.account_type == 1">子账号管理</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="container" ng-show="$state.current.data.showHeader == 3">
+      <div class=" p-tb-30 row common-top" >
+        <div class="tel p-l-20 pull-right col-xs-2 text-right">
+          <div class="text-left">
+            <i class="icon pull-left phone"></i>
+            <span>全国统一服务热线</span></br>
+            <span>400-8199-491</span>
+          </div>
+        </div>
+        <div>
+          <a ui-sref="page.home" tjid>
+            <h1 class="logo m-0 pull-left col-xs-2"></h1>
+          </a>
+
+          <h3 class="text-24"  ng-show="$state.current.name == 'page.confirm'"><span class="text-e4e4 separator">｜</span>确认订单信息</h3>
+          <h3 class="text-24"  ng-show="$state.current.name == 'page.pay'"><span class="text-e4e4 separator">｜</span> 优质安全,足斤足两</h3>
+          <h3 class="text-24" ng-show="$state.current.name == 'page.cart'"><span class="text-e4e4 separator">｜</span> 购物车</h3>
+        </div>
+      </div>
+    </div>
+    <!--帮助中心-->
+    <div class="container-fuild help-block" ng-show="$state.current.data.showHeader == 6">
+      <div class="container">
+       <div class=" p-tb-30 row common-top" >
+       <div>
+          <a ui-sref="page.home" tjid>
+            <h1 class="logo m-0 pull-left col-xs-2"></h1>
+          </a>
+
+          <h3 class="text-24" ng-show="$state.current.name == 'page.help'"><span class="text-e4e4 separator">｜</span> 帮助中心</h3>
+        </div>
+      </div>
+      
+      </div>
+   </div>
+
+
+
+    <div class="container-fuild" ng-show="$state.current.data.showHeader == 1">
+      <div class=" p-tb-30 row container common-top" >
+        <div class="tel p-l-20 pull-right col-xs-2 text-right">
+          <div class="text-left">
+            <i class="icon pull-left phone"></i>
+            <span>全国统一服务热线</span></br>
+            <span>400-8199-491</span>
+          </div>
+        </div>
+
+        <div class="search-box pull-right col-xs-6">
+          <form name="searchForm" novalidata>
+            <div class="input-group">
+              <input type="text" class="form-control" active-class="keyCode" placeholder="请输入关键字" required ng-model="DC.search_name" keyCode="{{searchForm}}">
+              <span class="input-group-addon" ng-click="DC.search(searchForm)" tjid>搜  索</span>
+              </input>
+            </div>
+            <form>
+            </div>
+            <a ui-sref="page.home" tjid>
+              <h1 class="logo m-0 pull-left col-xs-4 m-r-25" >大厨网</h1>
+              <h3 class="text-18 text-green pull-left">优质安全 &nbsp; 足斤足两</h3>
+            </a>
+
+          </div>
+          <nav class="nav-title home-nav">
+            <ul class="container ">
+              <li tjid>全部商品分类
+              <div class="lev-nav">
+                <nav class="head-nav clearfix">
+                  <ul class="nav nav-list">
+                    <li drop-down index="$index" ng-repeat="v in DC.navList.top | limitTo : 8">
+                    <i></i>
+                    <h3 ng-click="productList(v.origin_id)" tjid>{{v.name}}</h3>
+                    <div class="sm-title">
+                      <a ng-repeat="m in v.itemChild[0] | limitTo :3" ng-click="productList(m.id)" tjid>{{m.name}}</a>
+                    </div>
+                    <div class="nav-hover">
+                      <div class="seconed-list">
+                        <h4 class="seconed-list-title" ng-click="productList(v.origin_id )" tjid>{{v.name}}</h4>
+                        <div class="seconed-list-bd">
+                          <a ng-repeat="m in v.itemChild[0]" ng-click="productList(m.id)" tjid>{{m.name}}</a>
+                        </div>
+                      </div>
+                    </div>
+                    </li>
+                  </ul>
+                </nav>
+
+              </div>
+              </li>
+              <li><a ui-sref="page.home" tjid>首页</a></li>
+              <li class="pull-right">
+              <i class="icon"></i>
+              <a ui-sref="page.cart" class="pr cart-btn" tjid>购物车<span class="" ng-if="DC.cartlist.ids.length">{{DC.cartlist.ids.length}}</span></a></li>
+            </ul>
+          </nav>
+        </div>
+
+      </header>
+
+     <header class="head"  ng-show="$state.current.data.showHeader == 2">
+        <div class="container p-tb-50 row common-top">
+         <div class="detail-footer pull-right col-xs-10">
+            <ul class="row login-icon">
+              <li class="col-xs-3"  ng-repeat="item in DC.detail_config" ><i class="icon pull-left {{item.classname}}"></i>{{item.name}} </li>
+            </ul>
+          </div>
+          <a ui-sref="page.home" tjid>
+            <h1 class="logo m-0 pull-right col-xs-3">大厨网</h1>
+          </a>
+        </div>
+      </header>
+    </div>
+    <script type="text/ng-template" id="myModalContent.html">
+      <div class="dialog-block">
+<div class="modal-header">
+<span class="glyphicon glyphicon-remove pull-right rm-modal" ng-click="items.close();cancel()" ng-if="items.colseBtn" tjid></span>
+<h6 class="modal-title text-14">{{items.headerText}}</h6>
+</div>
+<div class="modal-body">
+<h2 class="text-center text-18">{{items.bodyText}}</h2>
+</div>
+<div class="modal-footer">
+<button class="btn btn-green" ng-click="items.ok();cancel();" ng-if="items.actionText" tjid>
+  {{items.actionText}}
+</button>
+<button class="btn btn-green" ng-click="items.toMac();cancel();" ng-if="items.linkText" tjid>
+  {{items.linkText}}
+</button>
+<button class="btn btn-gray" ng-click="items.close();cancel()" ng-if="!items.linkText" tjid>{{items.closeText}}</button>
+</div>
+</div>
+    </script>

@@ -1,0 +1,5 @@
+-- wms需要增加字段 计量单位
+ALTER TABLE t_sku ADD COLUMN min_safe_storage CHAR(30) NOT NULL DEFAULT '' COMMENT '最小安全库存';
+ALTER TABLE t_sku ADD COLUMN max_safe_storage CHAR(30)  NOT NULL DEFAULT '' COMMENT '最大安全库存';
+ALTER TABLE t_sku ADD COLUMN unit_id INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '计量单位id';
+ALTER TABLE t_sku ADD COLUMN unit_name CHAR(30)  NOT NULL DEFAULT '' COMMENT '计量单位名称';

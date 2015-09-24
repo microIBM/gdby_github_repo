@@ -1,0 +1,28 @@
+<div class="container" ng-show="!showLoading">
+  <div class="container text-center text-20 " ng-show="!vm.singles.length">
+    <img ng-src="assets/images/no_bg.png" class="m-t-120 m-b-60">
+    <p class="">暂无子母单账号</p>
+    <a ui-sref="page.home " class="m-b-120 go-btn">回首页</a>
+  </div>
+   <table class="table table-bordered text-center single-main m-t-15" ng-if="vm.singles.length">
+     <thead class="">
+       <th class="col-xs-1">序号</th>
+       <th class="col-xs-2">姓名</th>
+       <th class="col-xs-2">电话</th>
+       <th class="col-xs-3">店铺名称</th>
+       <th class="col-xs-4">地址</th>
+     </thead>
+     <tbody>
+       <tr ng-repeat="single in vm.singles track by $index">
+         <td>{{$index + 1}}</td>
+         <td>{{single.name}}</td>
+         <td>{{single.mobile}}</td>
+         <td>{{single.shop_name}}</td>
+         <td>{{single.address}}</td>
+       </tr>
+     </tbody >
+   </table>
+    <nav class="text-center p-tb-50">
+      <dachu-pagination conf="vm.paginationConf"></dachu-pagination>
+    </nav>
+</div>

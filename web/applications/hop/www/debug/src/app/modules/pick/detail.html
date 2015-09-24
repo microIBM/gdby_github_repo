@@ -1,0 +1,72 @@
+<div class="container-fluid">
+  <script type="text/ng-template" id="set_status.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+        <h2 class="text-center">{{items.bodyText}}</h2>
+        <div class="form-group" ng-if="items.order.status == 6 || items.order.status == 5">
+        请填写备注信息
+        <textarea cols="20" rows="6" class="form-control" ng-model="items.sign_msg"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="items.ok(items.sign_msg);cancel();" ng-if="items.actionText">
+          {{items.actionText}}
+        </button>
+        <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+  <div class="width_change" id="row block-title">
+    <div class=" col-xs-offset-2">
+    <div class="bs-callout bs-callout-danger">
+      <h4>任务编号：{{info.id}}</h4>
+      <h5>波次编号：{{info.wave_id}}</h5>
+      <h5>所属系统：{{info.site_src}}</h5>
+      <h5>配送线路：{{info.line_name}}</h5>
+      <h5>任务状态：{{info.status_name}}</h5>
+    </div>
+     <table class="table table-bordered table-striped">
+        <colgroup>
+          <col class="col-xs-2">
+          <col class="col-xs-3">
+          <col class="col-xs-3">
+          <col class="col-xs-1">
+          <col class="col-xs-3">
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="text-center"><h5>sku号</h5></td>
+            <td class="text-center"><h5>名称</h5></td>
+            <td class="text-center"><h5>规格</h5></td>
+            <td class="text-center"><h5>总数量</h5></td>
+            <td class="text-center"><h5>单位</h5></td>
+          </tr>
+          <tr ng-repeat="item in skuList">
+            <td class="text-center">
+              <h5>{{item.sku_number}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.name}}</h5>
+            </td>
+            <td class="text-center">
+              <h5 ng-repeat="spec in item.spec">{{spec.name}}: {{spec.val}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.quantity}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.unit_name}}</h5>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="col-xs-12 btn-group form-group">
+        <button class="btn col-xs-12 btn-lg btn-primary" 
+          ng-click="finishTask()" ng-if="info.status == 1"> 
+          分拣完成
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

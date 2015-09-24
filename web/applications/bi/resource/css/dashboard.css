@@ -1,0 +1,265 @@
+html, body {
+    background-color: #ccc;
+    height: 100%;
+    font-size: 18px;
+}
+
+.container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.diy-blk {
+    display: block;
+    width: 100%;
+}
+
+.diy-inline{
+    display: inline-block;
+}
+
+.f-left {
+    float: left;
+}
+
+.pt-5 {
+    padding-top: 5px;
+}
+
+.pt-10 {
+    padding-top: 10px;
+}
+
+.pb-5 {
+    padding-bottom: 5px;
+}
+
+.pb-10 {
+    padding-bottom: 10px;
+}
+
+.ml-0 {
+    margin-left: 0px!important;
+}
+
+.mt-5 {
+    margin-top: 5px;
+}
+
+.mt-2 {
+    margin-top: 1px;
+}
+
+.mt-1 {
+    margin-top: 2px;
+}
+
+.mt-15 {
+    margin-top: 15px!important;
+}
+
+.font-white {
+    color: #fff;
+}
+
+.font-gray {
+    color: #A1A1A1;
+}
+
+.font-16 {
+    font-size: 16px;
+}
+
+.font-20 {
+    font-size: 20px;
+}
+
+.font-26 {
+    font-size: 26px;
+}
+
+.font-30 {
+    font-size: 30px;
+}
+
+.backbtn {
+  position: absolute;
+  left: 10px;
+  color: #333;
+  text-decoration: none;
+  line-height: normal;
+}
+
+.backbtn:hover {
+  color: #9F9EA5;
+  text-decoration: none;
+  line-height: normal;
+}
+
+.nav-list .glyphicon {
+    line-height: normal!important;
+}
+
+.navbar {
+    margin-bottom: 1px;
+    border: 0px;
+    background-color: #FFFFFF;
+    min-height: 41px;
+    height: 0px;
+    padding: 8px 10px 5px 10px;
+}
+
+@media (min-width: 768px) {
+    .navbar-toggle {
+        display: inline-block!important;
+    }
+}
+
+#x-navbar-collapse {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    top: 42px;
+    bottom: 0px;
+    border: 0px;
+    padding: 20px;
+    background-color: #FFFFFF;
+    overflow: hidden;
+}
+
+.navbar-toggle {
+    position: absolute;
+    right: 10px;
+    padding: 5px 5px;
+    margin: 0px;
+}
+
+.panel-heading, .panel-body {
+    padding: 5px;
+}
+
+input[type="radio"]:checked {
+    background:green !important;
+}
+
+.x-simple-bar {
+    height: 260px;
+    padding-top: 15px;
+    background-color: #FAFAF8;
+}
+
+.x-simple-bar ul li {
+    display: inline-block;
+    width: 12.5%;
+    text-align: center;
+}
+
+.x-simple-bar ul li div.bar {
+    position: relative;
+    height: 200px;
+    width: 20px;
+    margin: 0 auto;
+    background-color: #E7E9E4;
+    border-radius: 10px;
+    opacity: 1;
+    overflow: hidden;
+}
+
+.x-simple-bar ul li .bar .inner-bar {
+    position: absolute;
+    height: 0%;
+    width: 20px;
+    bottom: 0px;
+    background-color: #DA5040;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.triangle{
+    margin: 0 auto;
+    width: 0px;
+    height: 0px;
+    border: 10px solid;
+    border-color: transparent transparent #ccc transparent;
+}
+
+.nav-list {
+    padding: 0px;
+}
+
+.nav-list ul {
+    margin: 0px;
+}
+
+.nav-list ul>li{
+    height: 70px;
+    background-color: #FFFFFF;
+    margin-top: 1px;
+    padding: 10px;
+}
+
+.li-click {
+    background-color: #9F9EA5!important;
+}
+
+.nav-list .current-data{
+    height: 100px;
+    background-color: #FFFFFF;
+    margin-top: 0px;
+    padding: 10px;
+}
+
+.arrow-click {
+    color: #9F9EA5!important;
+}
+
+/*
+* for dashboard_cus.php
+*/
+
+.cus_details_block {
+    height: 100px!important;
+}
+
+.info-details {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.vertical-line {
+    height: 60px;
+    width: 2px;
+    margin-left: 46px;
+    background-color: #ccc;
+}
+
+.cus-circle {
+    border: 2px solid #ccc;
+    width: 74px;
+    height: 74px;
+    border-radius: 37px;
+}
+
+.cus-circle div {
+    margin-top: 10px;
+}
+
+.cus-arrow-1 {
+  position: relative;
+  top: -42px;
+  left: -5px;
+}
+
+.cus-arrow-2 {
+  position: relative;
+  top: -42px;
+  left: 6px;
+}
+
+/*
+* for dashboard_cus_price.php
+*/
+
+.cus-pric-details-block {
+    height: 100px!important;
+}

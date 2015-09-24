@@ -1,0 +1,28 @@
+<div class="warp-page">
+    <div class="margin-top-10">
+	     <div class="input-group">
+			   <input type="text" ng-model="vm.searchKey" class="form-control" placeholder="请输入店铺名">
+			   <span class="input-group-addon" ng-click="search()" id="basic-addon2">搜索店铺</span>
+		 </div>
+	 </div>
+     <accordion close-others="false">
+		<accordion-group is-disabled="true" is-open="true">
+		<accordion-heading>
+           店铺列表：
+		</accordion-heading>
+			<div class="cdelist" infinite-scroll="pagination.nextPage();" infinite-scroll-disabled="pagination.isDone || pagination.isProcessing" infinite-scroll-distance="1" class="row">
+				<ul class="list-group">
+					
+					<li ng-repeat="item in vm.searchList" ng-click="selectItem(item)">{{item.shop_name}}</li>
+				</ul>
+			</div>
+			<div ng-show="pagination.isProcessing">
+		       <div class="loading_spinner">
+			        <div class="loading_bounce1"></div>
+			        <div class="loading_bounce2"></div>
+			        <div class="loading_bounce3"></div>
+		       </div>
+		    </div>
+		</accordion-group>
+	</accordion>
+</div>

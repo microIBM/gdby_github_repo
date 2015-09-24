@@ -1,0 +1,24 @@
+<footer class="footer" ng-controller="footerController" ng-if="!showLoading">
+  <div class="container footer-guide clearfix">
+    <dl ng-repeat="tab in helpList">
+      <dt>
+      <em>{{tab.h1}}</em>
+      </dt>
+      <dd>
+        <ul>
+          <li ng-repeat="h2 in tab.h2"><a ng-click="footNav(h2.href,tab.h1,h2.title)" ui-sref="page.help({help:h2.href})" tjid>{{h2.title}}</a></li>
+        </ul>
+      </dd>
+    </dl>
+  </div>
+  <div class="links">
+    <a ui-sref="page.help({help:16})">关于我们</a>
+    |
+    <a ui-sref="page.help({help:17})">业务合作</a>
+    |
+    <a ui-sref="page.help({help:18})">联系我们</a>
+    |
+    <a ui-sref="page.help({help:19})">服务条款</a>
+  </div>
+  <div class="container m-t-20"> © 2015 北京大厨网络科技有限公司 | 京ICP备15010835号</div>
+</footer>

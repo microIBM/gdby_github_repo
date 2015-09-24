@@ -1,0 +1,219 @@
+<div class="container-fluid">
+  <script type="text/ng-template" id="line.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+        <h2 class="text-left">{{items.bodyText}}</h2>
+            <div class="form-group">
+              <select ng-model="line_change" class="form-control" name="line_change"
+                ng-options="m.name for m in items.line_list"> 
+                <option value="">
+                请选择线路
+                </option>
+              </select>
+            </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="items.ok(line_change);cancel();" ng-if="items.actionText">
+          {{items.actionText}}
+        </button>
+        <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+  <script type="text/ng-template" id="diablle.html">
+        <div class="modal-header">
+            <h3 class="modal-title">操作提示</h3>
+        </div>
+         <div class="modal-body" ng-show="items.code == -1">
+            <h3>{{items.bodyText}}</h3>
+            <textarea cols="75" rows="5" ng-model='items.textMsg'></textarea>
+        </div>
+        <div class="modal-body" ng-show="items.code == 1">
+            <h3>{{items.bodyText}}</h3>
+           <table class="table table-bordered table-striped table-hover">
+                <colgroup><col class="col-xs-1"><col class="col-xs-1"><col class="col-xs-1"></colgroup>
+                <tr><td class="text-center" colspan="3">（禁用或启用）日志列表</td></tr>
+                <tr>
+                   <td class="text-center">类型</td>
+                   <td class="text-center">备注</td>
+                   <td class="text-center">操作时间</td>
+                </tr>
+                <tr ng-repeat="item in items.list">
+                  <td class="text-center">{{item.log_info}}</td>
+                  <td class="text-center">{{item.remark}}</td>
+                  <td class="text-center">{{item.created_time}}</td>
+                </tr>
+           </table>
+        </div>
+        <div class="modal-footer">
+           <button ng-disabled="!items.textMsg && items.code==-1" class="btn btn-primary" ng-click="items.ok(this)" ng-if="items.actionText">{{items.actionText}}</button>
+           <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+        </div>
+   </script>
+  <div class="width_change" id="row block-title">
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>客户列表</h5>
+      </div>
+      <div class="bs-callout">
+        <a ng-click="filterByStatus('all');" ng-class="{'btn-info': status == 'all'}" class="btn">
+          全部 <span class="badge">{{total[4]}}</span>
+        </a>
+        <a ng-click="filterByStatus('normal');" ng-class="{'btn-info': status == 'normal'}" class="btn">
+          正常 <span class="badge">{{total[2]}}</span>
+        </a>
+        <a ng-click="filterByStatus('-1');" ng-class="{'btn-info': status == '-1'}" class="btn">
+          已禁用 <span class="badge">{{total[3]}}</span>
+        </a>
+        <div class="block mt-10 ml-default">
+          <form class="form-inline" role="form">
+            <div class="form-group">
+              <select ng-model="line" class="form-control" name="line"
+                ng-options="m.name for m in line_list"> 
+                <option value="">
+                请选择线路
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">客户类型</div>
+                <select ng-model="customerType" class="form-control" name="searchKey"
+                  ng-options="m.name for m in customerTypes"> 
+                   <option value="">
+                     请选择客户类型
+                   </option>
+                </select>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">搜索类型</div>
+                <select ng-model="searchKey" class="form-control" name="searchKey"
+                    ng-options="m.name for m in keyList"> 
+                </select>
+              </div>
+            </div>
+            
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">关键词</div>
+                <input type="text" ng-model="searchValue" class="form-control" placeholder="请输入搜索关键词" />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">起始时间</div>
+                <input type="text" is-open="opened"  datepicker-popup="yyyy-MM-dd" ng-click="open($event)" datepicker-options="dateOptions"  class="form-control" ng-model="startTime"  id="startTime" placeholder="点击获取时间">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">截止时间</div>
+                <input type="text" ng-model="endTime" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-options="endDateOptions"  ng-click="endOpen($event)" is-open="endOpened" id="endTime" placeholder="点击获取时间">
+              </div>
+            </div>
+            <div class="mt-10">
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-warning" ng-click="reset()">重置</button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-success" ng-click="batchUpdateLine();">批量修改线路</button>
+            </div>
+            <div class="form-group" ng-show="false">
+              <a class="btn btn-primary btn-sm" href="/customer/create">添加客户</a>
+            </div>
+          </div>
+          </div>
+        </form>
+
+        <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+            <colgroup>
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+              <col class="col-xs-2">
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+            </colgroup>
+            <thead>
+              <tr>
+                <td class="text-center"><h5><input type="checkbox" ng-click="checkAll();" ng-model="check_all"/></h5></td>
+                <td class="text-center"><h5>编号</h5></td>
+                <td class="text-center"><h5>客户类型</h5></td>
+                <td class="text-center"><h5>客户姓名</h5></td>
+                <td class="text-center"><h5>手机号</h5></td>
+                <td class="text-center"><h5>线路</h5></td>
+                <td class="text-center"><h5>已完成订单数</h5></td>
+                <td class="text-center"><h5>注册时间</h5></td>
+                <td class="text-center"><h5>店铺名称</h5></td>
+                <td class="text-center"><h5>操作</h5></td>
+              </tr>
+            </thead>
+            <tbody ng-if="list.length===0">
+              <tr>
+                <td colspan="8" class="text-center"><h5>暂无数据</h5></td>
+              </tr>
+            </tbody>
+            <tbody ng-if="list.length>0">
+              <tr ng-repeat="item in list">
+                <td class="text-center">
+                  <h5><input type="checkbox" ng-model="item.checked"/></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.id}}</h5>
+                </td>
+                 <td class="text-center">
+                  <h5>{{item.customer_type_name}} 
+                  <a  ng-show="item.is_active==0" class="btn btn-danger btn-sm btn_mb5" 
+                      ng-click="resetPassword($index)">待审核</a></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5><a ng-href="/user/dynamic/{{item.id}}">{{item.mobile}}</a></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.line_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.order_count}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.created_time}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.shop_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>
+                    <a class="btn btn-primary btn_mb5 btn-sm"
+                      href="/customer/edit/{{item.id}}">编辑客户</a>
+                    <a class="btn btn-danger btn-sm btn_mb5" ng-click="setStatus($index, -1)"
+                      ng-if="item.status != -1">禁用账号</a>
+                    <a class="btn btn-success btn-sm btn_mb5" ng-click="setStatus($index, 1)"
+                      ng-if="item.status == -1">启用账号</a>
+                    <a class="btn btn-info btn-sm btn_mb5"
+                      ng-click="resetPassword($index)">重置密码</a>
+                  </h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

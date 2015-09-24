@@ -1,0 +1,1 @@
+ALTER TABLE t_customer ADD COLUMN `am_id` int(11) NOT NULL DEFAULT 0 COMMENT '客户经理ID';

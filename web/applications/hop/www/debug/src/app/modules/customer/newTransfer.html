@@ -1,0 +1,365 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger"><h4>客户移交</h4></div>
+      <div class="bs-callout">
+        <div class="bs-callout" style="border:none;background:#f3f3f3;">
+          <h3>接收模块：请选择接收人</h3>
+        </div>
+        <a ng-click="filterByStatus('1');" style="border:1px solid #ddd;padding:12px 58px;" ng-class="{'btn-info': show_status == '1'}" class="btn">
+          <h5>公海</h5>
+          <span class="badge"></span>
+        </a>
+        <a style="margin-left:30px;"></a>
+        <a ng-click="filterByStatus('0');" style="border:1px solid #ddd;padding:12px 58px;"  ng-class="{'btn-info': show_status == '0'}" class="btn">
+          <h5>私海</h5>
+          <span class="badge"></span>
+        </a>
+
+        <!-- 公海 -->
+        <div class="block mt-10 ml-default" style="margin-top:20px;" ng-show="show_status == '1'">
+          <form class="form-inline" role="form" name="basic_form_g">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">城市</div>
+                <select ng-model="modelParamG.city" ng-disabled="disabledG" class="form-control" required name="city"
+                  ng-options="m.name for m in cityModelG">
+                  <option value="">请选择城市</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="gong.search();">确定</button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-warning" ng-click="gong.reset()">重置</button>
+            </div>
+            <div class="mt-10"></div>
+          </form>
+        </div>
+
+        <!-- 私海 -->
+        <div class="block mt-10 ml-default" style="margin-top:20px;" ng-show="show_status == '0'">
+          <form class="form-inline" role="form" name="basic_form_s">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">城市</div>
+              <select ng-model="modelParamS.city" required ng-disabled="disabledS"  class="form-control" name="city"
+                  ng-options="m.name for m in cityModelS">
+                <option value="">请选择城市</option>
+              </select>
+            </div>
+          </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">销售姓名</div>
+            <input type="text" ng-model="modelS.inputModelS" ng-disabled="disabledS" required placeholder="请选择销售姓名" ng-click="keyFunS($event)" ng-blur="blurFunS($event)">
+            <span style="position:absolute;margin-left:-150px;margin-top:30px;" is-open="modelS.statusModel" class="dropdown" dropdown on-toggle="toggled2(open)">
+              <ul class="dropdown-menu">
+                <li ng-repeat="item in saleNameModelS" ng-click="clickItemS(item.name,item.id,saleNameModelS[$index])">
+                  <a href>{{item.name}}</a>
+                </li>
+              </ul>
+            </span>
+          </div>
+        </div>
+      <div class="form-group">
+        <button class="btn-block btn btn-info" ng-click="si.search();">确定</button>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-block btn-warning" ng-click="si.reset()">重置</button>
+      </div>
+      <div class="mt-10"></div>
+    </form>
+  </div>
+</div>
+
+<div class="bs-callout" ng-show="show_list" style="margin-top:50px;">
+  <div class="bs-callout" style="border:none;background:#f3f3f3;">
+    <h3>移交模块：请选择移交客户</h3>
+  </div>
+  <div class="block mt-10 ml-default">
+    <form class="form-inline" role="form" name="basic_form_l">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">城市</div>
+          <select ng-model="sale" class="form-control" disabled="disabled">
+            <option value="">{{ modelParamL.city.name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">线路</div>
+          <select ng-model="modelParamL.line" class="form-control" name="customerType"
+                    ng-options="m.name for m in lineModelL">
+            <option value="">全部</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">客户类型</div>
+          <select ng-model="modelParamL.customerType" class="form-control" required name="customerType"
+                    ng-options="m.msg for m in customer_types">
+            <option value="">请选择客户类型</option>
+          </select>
+        </div>
+      </div>
+       <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">下单记录</div>
+          <select ng-model="modelParamL.orderRecord" class="form-control" name="customerType"
+                    ng-options="m.msg for m in order_records">
+            <option value="">全部</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">销售姓名</div>
+          <input type="text" ng-model="modelL.inputModelL"  placeholder="请选择销售姓名" ng-click="keyFunL($event)" >
+          <span style="position:absolute;margin-left:-150px;margin-top:30px;" is-open="modelL.statusModel" class="dropdown" dropdown on-toggle="toggled(open)">
+            <ul class="dropdown-menu">
+              <li ng-repeat="item in saleNameModelL" ng-click="clickItemL(item.name,item.id,saleNameModelL[$index])">
+                <a href>{{item.name}}</a>
+              </li>
+            </ul>
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-addon">关键词</div>
+          <input type="text" ng-model="modelParamL.searchValue" class="form-control" placeholder="请输入店铺名或手机号" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button class="btn-block btn btn-info" ng-click="com.search();">筛选</button>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-block btn-warning" ng-click="com.reset()">重置</button>
+      </div>
+      <div class="mt-10"></div>
+    </form>
+    <div style="border:none;width:100%;height:70px;">
+      <div style="width:35%;height:70px;float:left;">
+        <div>
+          <span  style="font-size:1.0em;" class="btn">潜在客户：</span>
+          <span  style="font-size:1.0em;" class="">
+            已选中客户
+            <span class="badge" ng-style="tipBackground2">{{modelParamL.selTotalCount_potient}}</span>
+          </span>
+          /
+          <span  style="font-size:1.0em;" class="">
+            接收人客容余量
+            <span class="badge">
+              {{modelParamL._type_=="g"?"无限": modelS.selClickModel.leftover_potential_customer}}
+            </span> 
+          </span>
+        </div>
+        <div>
+          <span  style="font-size:1.0em;" class="btn">注册客户：</span>
+          <span  style="font-size:1.0em;" class="">
+            已选中客户
+            <span class="badge" ng-style="tipBackground1">{{modelParamL.selTotalCount_regist}}</span>
+          </span>
+          /
+          <span  style="font-size:1.0em;" class="">
+            接收人客容余量
+            <span class="badge">
+              {{modelParamL._type_=="g"?"无限": modelS.selClickModel.leftover_customer}}
+            </span>
+          </span>
+        </div>
+      </div>
+      <div  style="width:65%;padding-top:15px;height:70px;">
+        <button class="btn btn-success" ng-click="com.getCacheCheckList()">查看已选中客户</button>
+        <button class="btn btn-info" ng-click="com.startTransform()">确认移交</button>
+      </div>
+    </div>
+    <div  ng-if="!isClickShowCheck">
+      <div class="table-responsive" style="margin-top:10px;">
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+            <tr>
+              <td class="text-center" style="width:5%;">
+                <h5>
+                  <input type="checkbox" ng-click="com.checkAll(check_all);" ng-model="check_all"/>
+                </h5>
+              </td>
+              <td class="text-center">
+                <h5>店铺名称</h5>
+              </td>
+              <td class="text-center">
+                <h5>客户姓名</h5>
+              </td>
+              <td class="text-center">
+                <h5>手机号</h5>
+              </td>
+              <td class="text-center">
+                <h5>现属销售</h5>
+              </td>
+              <td class="text-center">
+                <h5>线路</h5>
+              </td>
+              <td class="text-center">
+                <h5>客户类型</h5>
+              </td>
+              <td class="text-center">
+                <h5>店铺规模</h5>
+              </td>
+              <td class="text-center">
+                <h5>餐饮类别</h5>
+              </td>
+              <td class="text-center" style="width:10%;">
+                <h5>地址</h5>
+              </td>
+              <td class="text-center" style="width:10%;">
+              <h5>下单记录</h5>
+            </td>
+           
+          </tr>
+        </thead>
+        <tbody ng-if="listSearch.length===0">
+          <tr>
+            <td colspan="11" class="text-center">
+              <h5>暂无数据</h5>
+            </td>
+          </tr>
+        </tbody>
+        <tbody ng-if="listSearch.length>
+          0">
+          <tr ng-repeat="item in listSearch">
+            <td class="text-center">
+              <h5>
+                <input type="checkbox" ng-model="item.checked" ng-click="com.checkOne(item.checked,item);"/>
+              </h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.shop_name}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.name}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.mobile}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.sale.role}}:{{item.sale.name}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.line_name}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.customer_type_name}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.dimension_name}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.shop_type_name}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.address}}</h5>
+            </td>
+             <td class="text-center">
+            <h5>{{item.order_record }}</h5>
+          </td>
+         
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div ng-if="listSearch.length>
+    0">
+    <nav>
+      <dachu-pagination conf="paginationConf"></dachu-pagination>
+    </nav>
+  </div>
+  <div ng-if="listSearch.length==0">暂无数据</div>
+</div>
+<div ng-if="isClickShowCheck">
+  <form class="form-inline text-right" role="form">
+    <div class="form-group">
+      <button class="btn-block btn btn-info" ng-click="com.removeCheckAll();">全部清空</button>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-block btn-danger" ng-click="com.getBack()">继续选客户</button>
+    </div>
+  </form>
+  <div class="table-responsive" style="margin-top:10px;">
+    <table class="table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+        <td class="text-center">
+          <h5>店铺名称</h5>
+        </td>
+      <td class="text-center">
+        <h5>手机号</h5>
+      </td>
+      <td class="text-center">
+        <h5>现属销售</h5>
+      </td>
+      <td class="text-center">
+        <h5>线路</h5>
+      </td>
+      <td class="text-center">
+        <h5>餐饮类别</h5>
+      </td>
+      <td class="text-center">
+        <h5>地址</h5>
+      </td>
+      <td class="text-center">
+        <h5>下单记录</h5>
+      </td>
+      <td class="text-center">
+        <h5>操作</h5>
+      </td>
+    </tr>
+  </thead>
+  <tbody ng-if="listSelectSearch.length===0">
+    <tr>
+      <td colspan="8" class="text-center">
+        <h5>暂无数据</h5>
+      </td>
+    </tr>
+  </tbody>
+  <tbody ng-if="listSelectSearch.length>
+    0">
+    <tr ng-repeat="item in listSelectSearch">
+      <td class="text-center">
+        <h5>{{item.shop_name}}</h5>
+      </td>
+      <td class="text-center">
+        <h5>{{item.mobile}}</h5>
+      </td>
+      <td class="text-center">
+        <h5>{{item.sale.role}}:{{item.sale.name}}</h5>
+      </td>
+      <td class="text-center">
+        <h5>{{item.line_name}}</h5>
+      </td>
+      <td class="text-center">
+        <h5>{{item.shop_type_name}}</h5>
+      </td>
+      <td class="text-center">
+        <h5>{{item.address}}</h5>
+      </td>
+      <td class="text-center">
+        <h5>{{item.order_record }}</h5>
+      </td>
+    </td>
+    <td class="text-center">
+      <button class="btn btn-info" ng-click="com.removeCheckOne(item);">删除</button>
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>

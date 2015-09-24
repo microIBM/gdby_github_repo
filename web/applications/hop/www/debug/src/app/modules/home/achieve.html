@@ -1,0 +1,53 @@
+<div class="container-fluid" ng-controller="HomeAchieveCtrl">
+  <div ng-include="'components/navbar/navbar.html'"></div>
+  <div id="row block-title">
+    <div ng-include="'components/navbar/navsidebar.html'"></div>
+    <div class=" col-xs-offset-2 col-xs-10">
+    <div class="row block block-col text-center" ng-if="data==''">
+      <h5>暂无记录</h5>
+    </div>
+    <div ng-if="data">
+      <table class="table table-bordered table-striped">
+        <colgroup>
+          <col class="col-xs-3">
+          <col class="col-xs-3">
+          <col class="col-xs-3">
+          <col class="col-xs-3">
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="text-center"><h5>今日新增供应商</h5></td>
+            <td class="text-center"><h5>{{data.today_new_seller}}</h5></td>
+            <td class="text-center"><h5>总供应商</h5></td>
+            <td class="text-center"><h5>{{data.total_seller}}</h5></td>
+          </tr>
+          <tr>
+            <td class="text-center"><h5>今日新增采购商</h5></td>
+            <td class="text-center"><h5>{{data.today_new_buyer}}</h5></td>
+            <td class="text-center"><h5>总采购商</h5></td>
+            <td class="text-center"><h5>{{data.total_buyer}}</h5></td>
+          </tr>
+          <tr>
+            <td class="text-center"><h5>今日订单数</h5></td>
+            <td class="text-center"><h5>{{data.today_new_order}}</h5></td>
+            <td class="text-center"><h5>总订单数</h5></td>
+            <td class="text-center"><h5>{{data.total_order}}</h5></td>
+          </tr>
+          <tr>
+            <td class="text-center"><h5>今日订单金额</h5></td>
+            <td class="text-center"><h5>{{data.today_deal_amount}}&nbsp;元</h5></td>
+            <td class="text-center"><h5>总订单金额</h5></td>
+            <td class="text-center"><h5>{{data.total_deal_amount}}&nbsp;元</h5></td>
+          </tr>
+          <tr>
+            <td class="text-center"><h5>今日新商品数</h5></td>
+            <td class="text-center"><h5>{{data.today_new_product}}</h5></td>
+            <td class="text-center"><h5>总商品数</h5></td>
+            <td class="text-center"><h5>{{data.total_product}}</h5></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </div>
+</div>

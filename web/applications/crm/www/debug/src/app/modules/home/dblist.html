@@ -1,0 +1,66 @@
+<div class="mt-nav warp-page">
+  <div class="head-bottom">
+    <div class="flex-nav">
+      <ul class="flex-center-50">
+        <li ng-class="{active : showType == tab.status}" ng-repeat="tab in tabs">
+        <a ng-click="setStatus('{{tab.status}}');">{{tab.name}} </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="list-group mt-nav" ng-show="showLists">
+    <a class="list-group-item" ng-repeat="people in mygroup" ng-click="viewStatistics({{people.uid}})">
+      <h5>{{people.name}}</h5>
+    </a>
+  </div>
+
+  <div class="" ng-show="showType == 0 && isLoading ==false">
+     <accordion close-others="false">
+      <accordion-group ng-repeat="table in statistics" is-open="openstatus.list[$index]">
+        <accordion-heading>
+        {{table.heading}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': openstatus.list[$index],'glyphicon-chevron-right': !openstatus.list[$index]}"></i>
+        </accordion-heading>
+        <table class="table my-table">
+          <tr ng-repeat="item in table.data">
+            <td>{{item.key}}</td>
+            <td>{{item.val}}</td>
+          </tr>
+        </table>
+      </accordion-group>
+    </accordion>
+  </div>
+  <div class="mt-nav" ng-show="showTotal">
+      <!--
+      <div class="head-bottom">
+        <div class="flex-nav">
+          <ul class="flex-center-20">
+            <li ng-class="{active : timeShowType == tab.status}" ng-repeat="tab in timeTabs">
+            <a ng-click="setTimeStatus({{tab.status}});">{{tab.name}} </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      -->
+      <table class="table table-white table-striped" ng-show="false">
+        <tr>
+          <th>统计项</th>
+          <th class="text-right">实时数据</th>
+        </tr>
+        <tr ng-repeat="item in today">
+          <td>{{item.name}}</td>
+          <td class="text-right">{{item.data}}</td>
+        </tr>
+        <tr ng-repeat="item in all">
+          <td class="">{{item.name}}</td>
+          <td class="text-right">{{item.data}}</td>
+        </tr>
+      </table>
+    </div>
+    <div ng-show="isLoading" class="mt-10">
+      <div class="loading_spinner">
+        <div class="loading_bounce1"></div>
+        <div class="loading_bounce2"></div>
+        <div class="loading_bounce3"></div>
+      </div>
+    </div>
+</div>

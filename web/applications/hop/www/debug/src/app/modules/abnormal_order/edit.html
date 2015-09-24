@@ -1,0 +1,145 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-sm-offset-2 col-sm-10 col-xs-12">
+      <div class="bs-callout bs-callout-danger">
+        <h5>异常单编辑</h5>
+      </div>
+      <div class="form-group" ng-show="basic_form.$invalid && basic_form.$dirty && show_error">
+        <div class="col-sm-12">
+          <div class="alert alert-danger">
+            <ul>
+              <li ng-show="basic_form.otype.$error.required">请选择异常单类型！</li>
+              <li ng-show="basic_form.product.$error.required">请选择异常单内容！</li>
+              <li ng-show="basic_form.reason.$error.required">请输入异常原因！</li>
+              <li ng-show="basic_form.solution.$error.required">请输入处理方案！</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="block mt-10 ml-default">
+        <form class="form-horizontal showcase-form" role="form" name="basic_form" id="basic_form">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">运营组受理人：</label>
+            <div class="col-sm-10">
+              <input type="text" name="cur_name" ng-model="data.creator" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">所属系统：</label>
+            <div class="col-sm-10">
+              <input type="text" name="site_name" ng-model="order.site_name" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">地区：</label>
+            <div class="col-sm-10">
+              <input type="text" name="city_name" ng-model="order.city_name" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">线路：</label>
+            <div class="col-sm-10">
+              <input type="text" name="line" ng-model="order.line" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">订单号：</label>
+            <div class="col-sm-10">
+              <input type="text" name="order_number" ng-model="order.order_number" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">店铺名称：</label>
+            <div class="col-sm-10">
+              <input type="text" name="shop_name" ng-model="order.shop_name" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">客户姓名：</label>
+            <div class="col-sm-10">
+              <input type="text" name="realname" ng-model="order.realname" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">客户电话：</label>
+            <div class="col-sm-10">
+              <input type="text" name="mobile" ng-model="order.mobile" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">客户地址：</label>
+            <div class="col-sm-10">
+              <input type="text" name="address" ng-model="order.address" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">送货日期：</label>
+            <div class="col-sm-10">
+              <input type="text" name="deliver_date" ng-model="order.deliver_date" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">异常单类型：</label>
+            <div class="col-sm-10">
+              <select name="otype" ng-model="data.otype" class="form-control"
+                ng-options="m.name for m in otypes" required>
+                <option value="">
+                请选择异常单类型
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">异常单内容：</label>
+            <div class="col-sm-10">
+              <div ng-repeat="item in contents">
+                <select name="product" ng-model="item.product" class=""
+                  ng-options="m.name for m in order.detail"  ng-change="changeProduct($index);" required>
+                  <option value="">
+                  请选择异常单内容
+                  </option>
+                </select>
+                <button type="button" class="btn btn-success" ng-click="addContent();" ng-if="$index == 0">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 增加
+                </button>
+                <button type="button" class="btn btn-danger" ng-click="removeContent($index);" ng-if="$index > 0">
+                  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> 删除
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">异常原因：</label>
+            <div class="col-sm-10">
+              <input type="text" name="reason" ng-model="data.reason" class="form-control" placeholder="请输入异常原因" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">处理方案：</label>
+            <div class="col-sm-10">
+              <input type="text" name="solution" ng-model="data.solution" class="form-control" placeholder="请输入处理方案" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">物流部处理意见：</label>
+            <div class="col-sm-10">
+              <input type="text" name="suggest" ng-model="data.suggest" class="form-control" placeholder="请输入物流部处理意见">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">处理状态：</label>
+            <div class="col-sm-10">
+              <select name="status" ng-model="data.status" class="form-control"
+                ng-options="m.msg for m in statusList">
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-info btn-lg col-sm-3 col-sm-offset-1" ng-click="edit();"> 提交</button>
+            <button class="btn btn-warning btn-lg col-sm-3 col-sm-offset-1" ng-click="reset()">重置</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<div class="mt-nav">
+  <div ng-show="isLoading">
+    <div class="loading_spinner">
+      <div class="loading_bounce1"></div>
+      <div class="loading_bounce2"></div>
+      <div class="loading_bounce3"></div>
+    </div>
+  </div>
+  <div class="user_state">
+    <table class="table table-striped" ng-show="!isLoading">
+      <tbody>
+        <tr>
+          <td>本账期</td>
+          <td>{{billing_info.start_time}}&nbsp;&nbsp;&nbsp;{{billing_info.end_time}}</td>
+        </tr>
+        <tr>
+          <td>当前状态</td>
+          <td><span class="label {{func.getStatusClass(billing_info.status_code, billing_info.expire_status)}}">{{func.getStatus(billing_info.status, billing_info.expire_status)}}</span></td>
+        </tr>
+        <tr>
+          <td>账期</td>
+          <td>{{billing_info.billing_cycle}}</td>
+        </tr>
+        <tr>
+          <td>对账日期</td>
+          <td>{{func.getLaterDate(billing_info.end_time)}}</td>
+        </tr>
+        <tr>
+          <td>结款日期</td>
+          <td>{{func.getLaterDate(billing_info.end_time,2)}}</td>
+        </tr>
+        <tr>
+          <td>应付款总计</td>
+          <td>{{billing_info.total_price}}元</td>
+        </tr>
+        <tr>
+          <td>收款凭证</td>
+          <td ng-if="!billing_info.payment_evidence">未上传</td>
+          <td ng-if="billing_info.payment_evidence"><a style="color:blue;" ng-click="func.showGraph()">点击查看</a></td>
+        </tr>
+        <tr>
+          <td>结款明细</td>
+          <td><a style="color:blue;" ng-click="func.showDetails()">点击查看</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="panel panel-default" ng-show="!isLoading">
+      <div class="panel-body row">
+        <div class="col-xs-9">
+          <p>客户姓名：{{customer_info.shop_name}}</p>
+          <p>电话号码：{{customer_info.mobile}}</p>
+        </div>
+        <div class="col-xs-3">
+          <a href="tel:{{customer_info.mobile}}">
+            <span style="font-size:45px; color:#008000;" class="glyphicon glyphicon-earphone"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

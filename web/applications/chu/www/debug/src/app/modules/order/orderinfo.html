@@ -1,0 +1,86 @@
+<div class="m-t-41" active_class="autoCart">
+  <div class="orderinfo" ng-if="DC.orderinfo">
+    <div class="mas_order clearfix">
+        <span>{{DC.maOrder.order_number}}</span>
+        <span class="pull-right" ng-if="DC.maOrder.status == '2'">待审核</span>
+        <span class="pull-right" ng-if="DC.maOrder.status == '6' || DC.maOrder.status == '7' || DC.maOrder.status == '1'">已收货</span>
+        <span class="pull-right" ng-if="DC.maOrder.status == '3' || DC.maOrder.status == '11' || DC.maOrder.status == '13' || DC.maOrder.status == '14' || DC.maOrder.status == '5' || DC.maOrder.status == '8' || DC.maOrder.status == '4'">待收货</span>
+        <span class="pull-right" ng-if="DC.maOrder.status == '0'">已取消</span>
+  </div>
+    <div class="suborder_info" ng-repeat="suborder in DC.orderinfo">
+      <header>
+        子订单{{$index+1}}：{{suborder.order_number}}
+      </header>
+      <section class="product_list">
+        <table class="table">
+          <thead class="">
+            <th class="col-xs-6">产品</th>
+            <th class="col-xs-3">订单数</th>
+            <th class="col-xs-3">实收数</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="product in suborder.product">
+              <td>
+                <p><span class="green">{{product.name}}</span></p>
+                <p>价格：{{product.price}}</p>
+                <p>包装规格：{{product.spec}}</p>
+              </td>
+              <td>
+                {{product.quantity}}
+              </td>
+              <td>
+                {{product.actual_quantity}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <footer>
+        <p>
+        <span>优惠：{{suborder.minus_amount}}元</span>
+        <span>运费：{{suborder.deliver_fee}}元</span>
+        <span>押金：{{suborder.deposit}}元</span>
+        </p>
+        <p>
+        <span>订单金额：{{suborder.final_price}}元</span>
+        <span>实收金额：{{suborder.deal_price}}元</span>
+        </p>
+        <button class="btn cancelBtn hidden" type="button">查看物流</button>
+      </footer>
+    </div>
+    <footer class="ma_footer pay_time">
+      <div class="footer_block">
+        <p class="text-justify row">
+        <span class="col-xs-4">优惠{{DC.maOrder.minus_amount}}元</span>
+        <span class="col-xs-4">运费{{DC.maOrder.deliver_fee}}元</span>
+        <span class="col-xs-4">押金{{DC.maOrder.deposit}}元</span>
+        </p>
+        <p>
+          <span class="pull-right">
+            实收金额：<span class="orange">{{DC.maOrder.deal_price}}元</span>
+          </span>
+          <span>
+            订单金额：{{DC.maOrder.final_price}}元
+          </span>
+        </p>
+      </div>
+      <div>
+        支付方式：{{DC.maOrder.pay_type_cn}}
+      </div>
+      <div>
+        <p>下单时间：{{DC.maOrder.created_time}}</p>
+        <p>配送时间：{{DC.maOrder.deliver_time}}</p>
+      </div>
+      <div>
+        <p>收货地址：{{DC.maOrder.deliver_addr}}</p>
+      </div>
+      <section ng-if="DC.maOrder.customer_side_status == '1'" class="clearfix text-right cancel_btn">
+        <button tjid class="btn weixin_btn pull-left" ng-if="DC.maOrder.status == '2' && DC.maOrder.pay_type == 1 && DC.maOrder.pay_status == 0" ng-click="pay(DC.maOrder.order_number);">微信支付</button>
+        <button type="button pull-right" ng-click="cancel(DC.maOrder.id, DC.maOrder.minus_amount);" class="btn cancelBtn">取消订单</button>
+      </section>
+      <div class="cancel_btn" ng-if="DC.maOrder.status == '0'  || DC.maOrder.status == '6'  || DC.maOrder.status == '7'|| DC.maOrder.status == '1' || DC.OrderStatus == '21'">
+      <button tjid class="btn weixin_btn pull-right" ng-click="toggleItems(DC.maOrder, order.quantity)">再次购买</button>
+    </div>
+    </footer>
+  </div>
+</div>

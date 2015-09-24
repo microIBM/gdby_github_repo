@@ -1,0 +1,106 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-sm-offset-2 col-sm-10 col-xs-12">
+      <div class="bs-callout bs-callout-danger">
+        <h5>客户详情</h5>
+      </div>
+      <!-- 基本信息 -->
+      <tabs>
+            <pane title="基本信息">
+               <div class="table-responsive" style="margin-top:10px;">
+                  <table class="table table-bordered table-striped table-hover">
+                    <tbody>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>店铺名称</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.shop_name}}</h5></td>
+                          <td class="text-center" width="10%"><h5>所属系统</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.site_name}}</h5></td>
+                          <td class="text-center" rowspan="3">
+                          <!-- <a ng-click="openLightboxModal(0)" href="javascript:;"><img style="width:120px;height:120px;" src="{{info.image[1].url}}" alt=""></a> -->
+                          <image-box  url='{{ info.image[0].url }}'>
+                              <image-modal show="0" url='{{ info.image[0].url}},{{info.image[1].url }}'></image-modal>
+                          </image-box>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>客户名称</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.name}}</h5></td>
+                          <td class="text-center" width="10%"><h5>店铺规模</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.dimension_name}}</h5></td>
+                      </tr>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>客户电话</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.mobile}}</h5></td>
+                          <td class="text-center" width="10%"><h5>所属城市</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.city_name}}</h5></td>
+                      </tr>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>注册时间</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.created_time}}</h5></td>
+                          <td class="text-center" width="10%"><h5>详细地址</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.address}}</h5></td>
+                          <td class="text-center" rowspan="3">
+                           <image-box url='{{info.image[1].url}}'>
+                                <image-modal show="1"  url='{{ info.image[0].url}},{{info.image[1].url }}'></image-modal>
+                           </image-box>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>餐饮类别</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.shop_type_name}}</h5></td>
+                          <td class="text-center" width="10%"><h5>配送路线</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.line_name}}</h5></td>
+                      </tr>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>所属销售</h5></td>
+                          <td class="text-center" width="30%"><h5><p ng-if='info.sale.name'>BD:{{info.sale.name}}</p><p ng-if='info.sale.mobile'>电话:{{info.sale.mobile}}</p></h5></td>
+                          <td class="text-center" width="10%"><h5>备注信息</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.remark}}</h5></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </pane>
+      </tabs>
+
+      <div>
+        <h3>配置折扣表</h3>
+        <h4>一级分类：</h4>
+      </div>
+      <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+              <tbody>
+                  <tr>
+                      <td class="text-center" width="10%"><h5>分类名称</h5></td>
+                      <td class="text-center" width="30%"><h5>折扣率</h5></td>
+                      <td class="text-center" width="10%"><h5>分类名称</h5></td>
+                      <td class="text-center" width="30%"><h5>折扣率</h5></td>
+                  </tr>
+                  <tr ng-repeat="cate in groupCategories">
+                      <td  class="text-center" width="10%"><h5>{{cate.group[0].name}}</h5></td>
+                      <td  class="text-center" width="30%">
+                          <div class="input-group">
+                              <input type="number" class="form-control" ng-model="cate.group[0].rebate"/>
+                              <div class="input-group-addon">%</div>
+                          </div>
+                      </td>
+                      <td  class="text-center" width="10%" ng-if="cate.group[1]"><h5>{{cate.group[1].name}}</h5></td>
+                      <td  class="text-center" width="30%" ng-if="cate.group[1]">
+                          <div class="input-group">
+                              <input type="number" class="form-control" ng-model="cate.group[1].rebate"/>
+                              <div class="input-group-addon">%</div>
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+
+      <div class="col-xs-12 btn-group form-group text-center">
+        <button class="btn col-xs-2 btn-lg btn-warning"  ng-click="func.reset();" type="reset">重置</button>
+        <button class="btn col-xs-2 btn-lg btn-success" ng-click="func.saveRebate();">保存</button>
+        <button class="btn col-xs-2 btn-lg btn-default" ng-click="func.back();">返回</button>
+      </div>
+    </div>
+  </div>
+</div>

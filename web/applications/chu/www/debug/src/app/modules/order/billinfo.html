@@ -1,0 +1,27 @@
+<div class="m-t-41" active_class="autoCart">
+  <div class="billinfo">
+    <ul class="bill_type">
+      <li ng-repeat="type in DC.billType" ng-click="chooseType(type.value)"><a ng-class="{active : showType == type.value}"><span class="{{type.icon}} glyphicon scale5"></span>
+        <span class="bill_title">{{type.name}}</span>
+      </a></li>
+    </ul>
+    <dl class="billtype_list" ng-repeat="bill in DC.billdata">
+      <dt>{{bill.shop_name || bill.date}}</dt>
+      <dd ng-click="orderInfo(order.order_id)" ng-repeat="order in bill.orders || bill.list">
+        订单编号
+        <p>
+        <span class="pull-right">{{order.final_price}}</span>
+        <span>{{order.order_number}}</span>
+        </p>
+      </dd>
+   </dl>
+  </div>
+  <div class="billinfo_block">
+    应付金额总计：<span class="orange">{{DC.billData.final_total_price}}</span>元
+    <span>{{DC.billdata.final_total_price}}</span>
+    <button ng-if="DC.billData.payment_status == '2'" ng-click="agreePay(DC.billinfo.id)" class="btn btn-order pull-right" type="button">一键对账</button>
+    <button ng-file-select accept="image/*" ng-model="$parent.files" ng-if="DC.billData.payment_status == '3' && !bill.imgUploads" class="btn pull-right upload-vouder" type="button">{{uploadText}}</button>
+    <button type="button" class="btn pull-right upload-vouder" ng-if="bill.imgUploads && DC.billData.payment_status != '2'" ng-click="lightBox()">查看付款凭证</button>
+    <button type="button" class="btn pull-right upload-vouder" ng-click="lightBox(DC.billData.payment_evidence)" ng-if="DC.billData.payment_status == '4' || DC.billData.payment_status == '5'">查看付款凭证</button>
+  </div>
+</div>

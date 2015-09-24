@@ -1,0 +1,163 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>波次浏览</h5>
+      </div>
+      <div class="bs-callout">
+        <div class="block mt-10 ml-default">
+          <!--时间筛选-->
+          <form class="form-inline" role="form">
+            <div class="form-group">
+             <!-- <select ng-model="site" class="form-control" ng-options="m.name for m in sites" required>
+                <option value="">
+                选择创建波次所属系统
+                </option>
+              </select> -->
+              <select ng-model="city" class="form-control" ng-options="m.name for m in cities" required>
+                <option value="">
+                选择所属城市
+                </option>
+              </select>
+              <div class="input-group">
+                <div class="input-group-addon">订单类别</div>
+                  <select class="form-control" ng-model="orderType" ng-options="m.msg for m in orderTypeList">
+                    <option value="">请选择订单类别</option>
+                  </select>
+                </div>
+              </div>  
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">配送日期</div>
+                <input type="text" is-open="opened"  max-date="maxDate" datepicker-popup="yyyy-MM-dd" ng-click="open($event)" datepicker-options="dateOptions"  class="form-control" ng-model="startTime"  id="startTime" placeholder="点击获取配送日期" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <select ng-model="deliverT" class="form-control" name="role"
+                ng-options="m.name for m in deliverTime" required> 
+                <option value="">
+                选择配送时间
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="createWave();">
+                创建波次 
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="bs-callout">
+        <div class="block mt-10 ml-default">
+          <!--时间筛选-->
+          <form class="form-inline" role="form">
+            <div class="form-group">
+              <select ng-model="listCity" class="form-control" ng-options="m.name for m in cities">
+                <option value="">
+                选择所属城市
+                </option>
+              </select>
+              <select ng-model="init.wave" class="form-control" 
+                ng-options="m.name for m in waveType"> 
+                <option value="">
+                请选择波次类型
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <input type="text" ng-model="init.searchValue" class="form-control" placeholder="波次号" />
+              </div>
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="init.released"> 已开始分拣
+                </input>
+              </label>
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+            </div>
+             <div class="form-group">
+              <button class="btn btn-block btn-warning" ng-click="reset()">重置</button>
+            </div>
+            <div class="form-group" ng-if="!init.release">
+              <button class="btn btn-block btn-danger" ng-click="rollWave()">
+                删除波次
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div style="margin-top:10px;" class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+          <colgroup>
+            <col class="col-xs-1" ng-if="!init.release">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-2">
+            <col class="col-xs-3">
+          </colgroup>
+          <thead>
+            <tr>
+              <td class="text-center" ng-if="!init.release">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox"  ng-change="selectAll()" ng-model="isAll"/>
+                  </label>
+                </div>
+              </td>
+              <td class="text-center"><h5>波次号</h5></td>
+              <td class="text-center"><h5>所属城市</h5></td>
+              <td class="text-center"><h5>订单类型</h5></td>
+              <td class="text-center"><h5>波次类型</h5></td>
+              <td class="text-center"><h5>总单数</h5></td>
+              <td class="text-center"><h5>总行数</h5></td>
+              <td class="text-center"><h5>波次状态</h5></td>
+              <td class="text-center"><h5>开始时间</h5></td>
+              <td class="text-center"><h5>结束时间</h5></td>
+              <td class="text-center"><h5>操作</h5></td>
+            </tr>
+          </thead>
+          <tbody ng-if="list.length>0">
+            <tr ng-repeat="item in list">
+              <td class="text-center" ng-if="!init.release">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" ng-model="item.isChecked">
+                    </input>
+                  </label>
+                </div>
+              </td>
+              <td class="text-center"><h5>{{item.id}}</h5></td>
+              <td class="text-center"><h5>{{item.city_name}}</h5></td>
+              <td class="text-center"><h5>{{item.order_type_name}}</h5></td>
+              <td class="text-center"><h5>{{item.wave_type}}</h5></td>
+              <td class="text-center"><h5>{{item.order_count}}</h5></td>
+              <td class="text-center"><h5>{{item.line_count}}</h5></td>
+              <td class="text-center"><h5>{{item.task_created}}</h5></td>
+              <td class="text-center"><h5>{{item.created_time}}</h5></td>
+              <td class="text-center"><h5>{{item.updated_time}}</h5></td>
+              <td class="text-center">
+                <button ng-click="setReleased(item)" 
+                  ng-if="item.pick_task_created == 0" class="btn btn-info">
+                  开始分拣
+                </button>
+                <a ui-sref="home.waveDetail({wave_id:item.id})" class="btn btn-default"> 详情 </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+    </div>
+  </div>
+</div>

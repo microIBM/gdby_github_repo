@@ -1,0 +1,59 @@
+<div ng-show="isLoading === false" class="cdetail_wp clearfix orderinfo_wp">
+  <dl class="orderinfo_dl">
+    <dt>所属销售</dt>
+    <dd>{{data.sale_name}}</dd>
+  </dl>
+  <dl class="orderinfo_dl">
+    <dt>订单编号</dt>
+    <dd>{{data.order_number}}</dd>
+  </dl>
+  <dl class="orderinfo_dl">
+    <dt>订单状态</dt>
+    <dd class="label {{data.status_class}}"><span>{{data.status}}</span></dd>
+  </dl>
+  <dl class="orderinfo_dl">
+    <dt>实收金额</dt>
+    <dd>{{data.deal_price | currency : '&yen;' : 2}}</dd>
+  </dl>
+  <dl class="orderinfo_dl">
+    <dt>订单金额</dt>
+    <dd>{{data.total_price | currency : '&yen;' : 2}}</dd>
+  </dl>
+  <dl class="orderinfo_dl">
+    <dt>下单时间</dt>
+    <dd>{{data.created_time | date: 'yyyy-MM-dd HH:mm:ss'}}</dd>
+  </dl>
+  <dl class="orderinfo_dl">
+    <dt>送货时间</dt>
+    <dd>{{data.deliver_date | date: 'yyyy-MM-dd'}} {{data.deliver_time}}</dd>
+  </dl>
+  <dl class="orderinfo_dl">
+    <dt>送货司机</dt>
+    <dd>{{data.driver_name}}</dd>
+  </dl>
+  <dl class="orderinfo_dl">
+    <dt>送货司机电话</dt>
+    <dd ng-if="data.driver_mobile === '暂无'">{{data.driver_mobile}}</dd>
+    <dd ng-if="data.driver_mobile !== '暂无'"><a class="color-black" href="tel:{{data.driver_mobile}}">{{data.driver_mobile}}<span class="glyphicon glyphicon-earphone pdl-10 color-green"></span></a></dd>
+  </dl>
+  <dl class="orderinfo_dl orderconf">
+    <dt>订单内容</dt>
+    <dd ng-repeat = "m in data.content">
+      <div>
+        <div>{{m.name}}*{{m.quantity}} = {{m.sum_price | currency : '&yen;' : 2}}</div>
+        <div ng-repeat = "v in m.spec">
+          {{v.name}}:{{v.val}}
+        </div>
+      </div>
+    </dd>
+  </dl>
+  <a ng-click="func.userback()" class="btn mb-10 btn-block btn-success">返回</a>
+</div>
+<div ng-show="isLoading" class="cdetail_load">
+  <div class="loading_spinner">
+    <div class="loading_bounce1"></div>
+    <div class="loading_bounce2"></div>
+    <div class="loading_bounce3"></div>
+  </div>
+</div>
+

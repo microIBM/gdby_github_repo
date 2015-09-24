@@ -1,0 +1,121 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-sm-offset-2 col-sm-10 col-xs-12">
+      <div class="bs-callout bs-callout-danger">
+        <h5>咨询单编辑</h5>
+      </div>
+      <div class="form-group" ng-show="basic_form.$invalid && basic_form.$dirty && show_error || order.validaContact=='1'">
+        <div class="col-sm-12">
+          <div class="alert alert-danger" ng-show='basic_form.$invalid && basic_form.$dirty && show_error || (order.mobile=="" && order.qq=="" && order.wechat=="")'>
+            <ul >
+              <li ng-show="basic_form.source_type.$error.required">请选择咨询来源！</li>
+              <li ng-show="basic_form.c_type.$error.required">请选择咨询类型！</li>
+              <li ng-show="basic_form.status_type.$error.required">请选择处理状态！</li>
+              <li ng-show="basic_form.name.$error.required">请输入姓名！</li>
+              <li ng-show='order.mobile=="" && order.qq=="" && order.wechat=="" && order.validaContact=="1"'>请输入联系方式,(手机、qq、微信)中至少一个！</li>
+              <li ng-show="basic_form.content.$error.required">请输入咨询内容！</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="block mt-10 ml-default">
+        <form class="form-horizontal showcase-form" role="form" name="basic_form" id="basic_form">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">运营组受理人：</label>
+            <div class="col-sm-10">
+              <input type="text" name="cur_name" ng-model="order.creator" class="form-control" placeholder="" readonly>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">咨询来源：</label>
+            <div class="col-sm-10">
+              <select name="sourceType" ng-model="sourceType" class="form-control"
+                ng-options="m.msg for m in sources" required>
+                <!-- <option value="">{{ func.filterModel(sources,order.source) }}</option>
+              -->
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label">咨询类型：</label>
+          <div class="col-sm-10">
+            <select name="cType" ng-model="cType" class="form-control"
+                  ng-options="m.msg for m in ctypes" required>
+              <!--  <option value="">{{func.filterModel(ctypes,order.ctype)}}</option>
+            -->
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">姓名：</label>
+        <div class="col-sm-10">
+          <input type="text" name="name" ng-model="order.name" class="form-control" placeholder=""></div>
+      </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">联系方式：</label>
+      <div class="col-sm-10">
+        <input type="text" name="mobile" ng-model="order.mobile" class="form-control" placeholder="请输入手机"></div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label"></label>
+      <div class="col-sm-10">
+        <input type="text" name="qq" ng-model="order.qq" class="form-control" placeholder="请输入QQ"></div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label"></label>
+      <div class="col-sm-10">
+        <input type="text" name="wechat" ng-model="order.wechat" class="form-control" placeholder="请输入微信"></div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">了解渠道：</label>
+      <div class="col-sm-10">
+        <select name="channelType" ng-model="channelType" class="form-control"
+                  ng-options="m.msg for m in channnels">
+          <option value="">请选择渠道</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">企业名：</label>
+      <div class="col-sm-10">
+        <input type="text" name="company_name" ng-model="order.company_name" class="form-control" placeholder="请输入企业名" ></div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">企业地区：</label>
+      <div class="col-sm-10">
+        <input type="text" name="company_area" ng-model="order.company_area" class="form-control" placeholder="请输入企业地区"></div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">企业地址：</label>
+      <div class="col-sm-10">
+        <input type="text" name="company_address" ng-model="order.company_address" class="form-control" placeholder="请输入企业地址"></div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">咨询内容：</label>
+      <div class="col-sm-10">
+        <input type="text" name="content" maxlength="100" ng-model="order.content" class="form-control" placeholder="请输入咨询内容" required></div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">处理结果：</label>
+      <div class="col-sm-10">
+        <input type="text" name="solution" ng-model="order.solution" class="form-control" placeholder="请输入处理结果" ></div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">处理状态：</label>
+      <div class="col-sm-10">
+        <select name="statusType" ng-model="statusType" class="form-control"
+                  ng-options="m.msg for m in statues" required>
+          <!--  <option value="">{{func.filterModel(statues,order.status)}}</option>
+        -->
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-info btn-lg col-sm-3 col-sm-offset-1" ng-click="func.edit()">提交</button>
+    <button class="btn btn-warning btn-lg col-sm-3 col-sm-offset-1" ng-click="func.cancel()">重置</button>
+  </div>
+</form>
+</div>
+</div>
+</div>
+</div>

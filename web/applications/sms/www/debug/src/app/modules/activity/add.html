@@ -1,0 +1,143 @@
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+      <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+      <h2 class="text-center">{{items.bodyText}}</h2>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="ok()" ng-if="items.actionText">
+      {{items.actionText}}
+      </button>
+      <button class="btn btn-warning" ng-click="cancel()">{{items.closeText}}</button>
+    </div>
+</script>
+<div class="col-xs-offset-2">
+  <div class="bs-callout bs-callout-danger">
+    <h5>{{title}}</h5>
+  </div>
+  <div class="row block ml-default bs-callout">
+    <table class="table table-striped">
+      <tr>
+        <td class="active col-xs-2">
+          <b><em class="text-danger">*</em> 所属城市 </b>
+        </td>
+        <td class="success col-xs-12">
+          <select ng-model="location"  class="col-xs-4 input-md form-control"
+            ng-options="m.name for m in locationInfo" ng-change="getMaps()" required>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="active col-xs-2">
+          <b><em class="text-danger">*</em> 活动分组 </b>
+        </td>
+        <td class="success col-xs-6">
+          <select ng-model="orderGroup" class="col-xs-4 input-md form-control"
+            ng-options="m.name for m in groups" required ng-change="changeGroup()">
+          </select>
+          <input type="text" ng-model="newGroupName" ng-show="showNewGroup" class="form-control" name="name_group" id="name_group" placeholder="请输入分组名称，例如：蔬菜肉类7.15">
+      </tr>
+      <tr>
+        <td class="active col-xs-2">
+          <b><em class="text-danger">*</em> 活动标题 </b>
+        </td>
+        <td class="success col-xs-12">
+          <input type="text" ng-model="name" class="form-control"/>
+        </td>
+      </tr>
+      <tr>
+        <td class="active col-xs-2">
+          <b><em class="text-danger">*</em> 活动类型 </b>
+        </td>
+        <td class="success col-xs-12">
+          <select ng-model="ruleType"  class="form-control"
+            ng-options="m.name for m in type" required>
+            <option value="">请选择活动类型</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="active col-xs-2">
+          <b><em class="text-danger">*</em> 活动规则 </b>
+        </td>
+        <td class="success col-xs-12">
+          <input type="text" ng-model="rule"  class="form-control" name="name_value" id="name_value" required  placeholder="请输入规则例如，119-10（代表满119减20）">
+        </td>
+      </tr>
+      <tr>
+        <td class="active col-xs-2">
+          <b><em class="text-danger">*</em> 活动开始时间 </b>
+        </td>
+        <td class="success col-xs-12">
+          <input type="text" is-open="opened" datepicker-popup="yyyy-MM-dd" ng-click="open($event)" datepicker-options="dateOptions"  class="form-control" ng-model="startTime"  id="startTime" placeholder="点击获取时间">
+        </td>
+      </tr>
+      <tr>
+        <td class="active col-xs-2">
+          <b><em class="text-danger">*</em> 活动结束时间 </b>
+        </td>
+        <td class="success col-xs-12">
+          <input type="text" ng-model="endTime" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-options="endDateOptions"  ng-click="endOpen($event)" is-open="endOpened" id="endTime" placeholder="点击获取时间">
+
+        </td>
+      </tr>
+      <tr>
+        <td class="active col-xs-2">
+          <b><em class="text-danger">*</em> 最晚配送时间 </b>
+        </td>
+        <td class="success col-xs-12">
+          <input type="text" ng-model="latestDeliverTime" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-options="latestOptions"  ng-click="latestOpen($event)" min-date="startTime"  is-open="latestOpened" id="latestTime" placeholder="点击获取时间">
+        </td>
+      </tr>
+      <tr>
+        <td class="active col-xs-2">
+          <b><em class="text-danger">*</em> 是否只限首单 </b>
+        </td>
+        <td class="success col-xs-12">
+          <select ng-model="isFirst"  class="form-control"
+            ng-options="m.name for m in firstOptions" required>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="active col-xs-2">
+          <b><em class="text-danger">*</em> 是否只限新客 </b>
+        </td>
+        <td class="success col-xs-12">
+          <select ng-model="isNewCustomer"  class="form-control"
+            ng-options="m.name for m in newCustomerOptions" required>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="active col-xs-2">
+          <b> 参加活动的分类名称 </b>
+        </td>
+        <td class="success col-xs-12">
+          <input type="text" class="col-xs-4 input-md form-control" ng-model="categoryNames" placeholder="请输入参加活动的分类名称，多个分类用“|”分隔"/>
+        </td>
+      </tr>
+      <tr>
+        <td class="active col-xs-2">
+          <b> 下单时至少需同时包含几个分类 </b>
+        </td>
+        <td class="success col-xs-12">
+          <input type="text" class="col-xs-4 input-md form-control" ng-model="categoryLimitNum" placeholder="请输入数字，0或不填为不限制" />
+        </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>
+          <div class="col-xs-6">
+            <button type="submit" class="btn btn-block btn-success btn-md" ng-click="add()">保存</button>
+          </div>
+          <div class="col-xs-6">
+            <button type="reset" reback class="btn btn-block btn-default btn-md">返回</button>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="block-title"></div>

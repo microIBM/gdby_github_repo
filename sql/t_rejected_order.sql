@@ -1,0 +1,41 @@
+-- -------------------------------------
+-- Table structure for t_rejected_order
+-- -------------------------------------
+DROP TABLE IF EXISTS `t_rejected_order`;
+CREATE TABLE `t_rejected_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '标识',
+  `city_id` int(11) NOT NULL DEFAULT '0' COMMENT '城市',
+  `line_id` int(11) NOT NULL DEFAULT '0' COMMENT '线路',
+  `order_number` char(32) NOT NULL COMMENT '订单编号',
+  `suborder_number` char(32) NOT NULL COMMENT '子订单编号',
+  `shop_name` varchar(255) NOT NULL COMMENT '商店名称',
+  `name` varchar(50) NOT NULL COMMENT '客户名称',
+  `mobile` char(11) NOT NULL COMMENT '客户手机号',
+  `address` varchar(255) NOT NULL COMMENT '客户地址',
+  `deliver_date` int(11) NOT NULL DEFAULT '0' COMMENT '送货日期',
+  `deliver_time` int(11) NOT NULL DEFAULT '0' COMMENT '送货时间',
+  `bd_id` int(11) NOT NULL DEFAULT '0' COMMENT 'BD id',
+  `total_price` int(11) NOT NULL DEFAULT '0' COMMENT '总价',
+  `minus_amount` int(11) NOT NULL DEFAULT '0' COMMENT '优惠',
+  `deposit` int(11) NOT NULL DEFAULT '0' COMMENT '押金',
+  `deliver_fee` int(11) NOT NULL DEFAULT '0' COMMENT '邮费',
+  `refuse_price` int(11) NOT NULL DEFAULT '0' COMMENT '拒收',
+  `deal_price` int(11) NOT NULL DEFAULT '0' COMMENT '应付金额',
+  `pay_method` tinyint(4) NOT NULL DEFAULT '0' COMMENT '从订单中获取的支付方式',
+  `reason` tinyint(4) NOT NULL DEFAULT '0' COMMENT '退货原因',
+  `deposit_bank` varchar(255) NOT NULL COMMENT '开户行',
+  `account_holder` varchar(50) NOT NULL COMMENT '持卡人姓名',
+  `bank_number` varchar(45) NOT NULL COMMENT '银行卡号',
+  `deal_method` tinyint(4) NOT NULL DEFAULT '0' COMMENT '1退货入库 2 就地报损',
+  `withdraw_storage_number` varchar(45) NOT NULL COMMENT '客退入库单号',
+  `rejected_sum_price` int(11) NOT NULL DEFAULT '0' COMMENT '退款总额',
+  `refund_evidence` varchar(255) NOT NULL COMMENT '退款凭证',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT ' 0已关闭， 1待物流处理， 2待财务处理，3待客服确认 4.已处理，  -1无效',
+  `created_time` int(11) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `updated_time` int(11) NOT NULL DEFAULT '0' COMMENT '更新时间',
+  `suggestion` text NOT NULL COMMENT '客服意见',
+  `operator_id` int(11) NOT NULL DEFAULT '0' COMMENT '运营id',
+  `operator_name` varchar(50) NOT NULL COMMENT '运营人员名称',
+  `refund_method` int(11) NOT NULL DEFAULT '0' COMMENT '退款方式',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8

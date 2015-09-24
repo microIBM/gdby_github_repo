@@ -1,0 +1,16 @@
+<!-- 登陆界面 -->
+<div class="row" >
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title main-title">PDA扫码</h3>
+            <a href="" class="btn btn-info pull-right">退出</a>
+        </div>
+        <div class="panel-body">
+            <blockquote>
+                <p>请选择扫码类型</p>
+            </blockquote>
+            <a ng-href="/picking" type="button" class="btn btn-success btn-lg form-control">分拣</a>
+            <a ng-href="/dispatch" type="button" class="btn btn-success btn-lg form-control">配送</a>
+        </div>
+    </div>
+</div>

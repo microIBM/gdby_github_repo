@@ -1,0 +1,95 @@
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>{{title}}</h5>
+      </div>
+      <div class="bs-callout">
+          <div class="mt-10">
+            <div class="form-group">
+              <a class="btn-block btn btn-info" ui-sref="home.propertyAdd"> 添加规格 </a>
+           </div>
+          </div>
+          </div>
+
+        <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+            <colgroup>
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+              <col class="col-xs-2">
+              <col class="col-xs-2">
+              <col class="col-xs-2">
+              <col class="col-xs-2">
+              <col class="col-xs-3">
+            </colgroup>
+            <thead>
+              <tr>
+                <td class="text-center"><h5>编号</h5></td>
+                <td class="text-center"><h5>分类名称</h5></td>
+                <td class="text-center"><h5>规格名称</h5></td>
+                <!--td class="text-center"><h5>规格类型</h5></td-->
+                <td class="text-center"><h5>必填</h5></td>
+                <td class="text-center"><h5>状态</h5></td>
+                <td class="text-center"><h5>上一次更新时间</h5></td>
+                <td class="text-center"><h5>操作</h5></td>
+              </tr>
+            </thead>
+            <tbody ng-if="list.length===0">
+              <tr>
+                <td colspan="8" class="text-center"><h5>暂无数据</h5></td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr ng-repeat="item in list">
+                <td class="text-center">
+                  <h5>{{item.id}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.cate_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.name}}</h5>
+                </td>
+                <!--td class="text-center">
+                  <h5>
+                    {{item.input_type}}
+                  </h5>
+                </td-->
+                <td class="text-center">
+                  <h5>
+                    <span ng-if="item.is_required == 1"> 必填 </span>
+                    <span ng-if="item.is_required == 0"> 选填 </span>
+                  </h5>
+                </td>
+                <td class="text-center">
+                  <h5>
+                    <span ng-if="item.status == 1"> 有效 </span>
+                    <span ng-if="item.status == 0"> 无效 </span>
+                  </h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.updated_time}}</h5>
+                </td>
+               <td class="text-center">
+                  <h5>
+                    <!--a class="btn btn-primary btn_mb5 btn-sm"
+                      ui-sref="home.propertyEdit({id:item.id})">编辑规格</a>
+                   <a class="btn btn-danger btn-sm btn_mb5" ng-click="setStatus($index, 0)"
+                      >规格详细</a-->
+                    <a ng-if="item.status == 1"class="btn btn-danger btn-sm btn_mb5" ng-click="setStatus($index, 0)"
+                      >禁用规格</a>
+                    <a ng-if="item.status == 0" class="btn btn-success btn-sm btn_mb5" ng-click="setStatus($index, 1)"
+                      >启用规格</a>
+                 </h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+         </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="dialog-block">
+  <div class="modal-header">
+    <span tjid class="glyphicon glyphicon-remove pull-right rm-modal" ng-click="items.close();cancel()" ng-if="items.colseBtn"></span>
+    <h6 class="modal-title text-14">{{items.headerText}}</h6>
+  </div>
+  <div class="modal-body">
+    <h2 class="text-center text-18">{{items.bodyText}}</h2>
+  </div>
+  <div class="modal-footer">
+    <button tjid class="btn btn-green" ng-click="items.ok();cancel();" ng-if="items.actionText">
+      {{items.actionText}}
+    </button>
+    <button tjid class="btn btn-green" ng-click="items.toMac();cancel();" ng-if="items.linkText">
+      {{items.linkText}}
+    </button>
+    <button tjid class="btn btn-gray" ng-click="items.close();cancel()" ng-if="!items.linkText">{{items.closeText}}</button>
+  </div>
+</div>

@@ -1,0 +1,168 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>异常单列表</h5>
+      </div>
+      <div class="bs-callout">
+        <a ng-click="filterByStatus('-1');" ng-class="{'btn-info': status == '-1'}" class="btn">
+          全部 <span class="badge">{{totals[-1]}}</span>
+        </a>
+        <a ng-click="filterByStatus('1');" ng-class="{'btn-info': status == '1'}" class="btn">
+          处理中 <span class="badge">{{totals[1]}}</span>
+        </a>
+        <a ng-click="filterByStatus('2');" ng-class="{'btn-info': status == '2'}" class="btn">
+          已处理 <span class="badge">{{totals[2]}}</span>
+        </a>
+        <div class="block mt-10 ml-default">
+          <form class="form-inline" role="form">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">关键词</div>
+                <input type="text" ng-model="searchValue" class="form-control" placeholder="请输入搜索关键词" />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">异常单类型</div>
+                <select class="form-control" ng-model="otype" ng-options="m.name for m in otypeList">
+                  <option value="">全部</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">所属系统</div>
+                <select class="form-control" ng-change="switchCity()" ng-model="site" ng-options="m.name for m in siteList">
+                  <option value="">请选择系统</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">城市</div>
+                <select class="form-control"  ng-change="switchCity()"  ng-model="city" ng-options="m.name for m in cityList">
+                  <option value="">请选择城市</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">线路</div>
+                <select class="form-control" ng-model="line" ng-options="m.name for m in lineList">
+                  <option value="">请选择线路</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">起始时间</div>
+                <input type="text" is-open="opened"  datepicker-popup="yyyy-MM-dd" ng-click="open($event)" datepicker-options="dateOptions"  class="form-control" ng-model="startTime"  id="startTime" placeholder="点击获取时间">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">截止时间</div>
+                <input type="text" ng-model="endTime" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-options="endDateOptions"  ng-click="endOpen($event)" is-open="endOpened" id="endTime" placeholder="点击获取时间">
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-warning" ng-click="reset()">重置</button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-primary" ng-click="export()">导出异常单</button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-danger" ng-click="exportAll()">导出全部异常单</button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-success" ng-click="create()">新异常单</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+              <tr>
+                <td class="text-center" width="5%"><h5><input type="checkbox" ng-click="checkAll();" ng-model="check_all"/></h5></td>
+                <td class="text-center" width="5%"><h5>异常单序号</h5></td>
+                <td class="text-center" width="10%"><h5>填写时间</h5></td>
+                <td class="text-center" width="5%"><h5>处理状态</h5></td>
+                <td class="text-center" width="10%"><h5>异常单类型</h5></td>
+                <td class="text-center" width="5%"><h5>所属系统</h5></td>
+                <td class="text-center" width="5%"><h5>地区</h5></td>
+                <td class="text-center" width="5%"><h5>线路</h5></td>
+                <td class="text-center" width="10%"><h5>订单号</h5></td>
+                <td class="text-center" width="10%"><h5>店铺名称</h5></td>
+                <td class="text-center" width="5%"><h5>客户姓名</h5></td>
+                <td class="text-center" width="5%"><h5>客户电话</h5></td>
+                <td class="text-center" width="15%"><h5>异常单内容</h5></td>
+                <td class="text-center" width="5%"><h5>操作</h5></td>
+              </tr>
+            </thead>
+            <tbody ng-if="list.length===0">
+              <tr>
+                <td colspan="14" class="text-center"><h5>暂无数据</h5></td>
+              </tr>
+            </tbody>
+            <tbody ng-if="list.length>0">
+              <tr ng-repeat="item in list">
+                <td class="text-center">
+                  <h5><input type="checkbox" ng-model="item.checked"/></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.id}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.created_time}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5><span class="label label-warning" ng-if="item.status == 1">处理中</span></h5>
+                  <h5><span class="label label-success" ng-if="item.status == 2">已处理</span></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.otype_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.site_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.city_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.line_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.order_number}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.shop_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.mobile}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5 ng-repeat="product in item.contents">{{product.name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5><a class="btn btn-primary btn_mb5 btn-sm" ng-href="abnormal_order/edit/{{item.id}}">编辑</a></h5>
+                  <h5><a class="btn btn-danger btn-sm" ng-click="delete($index)">删除</a></h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

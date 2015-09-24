@@ -1,0 +1,66 @@
+<div class="container" ng-if="DC.detail">
+  <h2 class="cate-title" ng-if="0" >
+    <span ng-repeat="item in DC.detail.cate_spec" ng-if="$index == 0"> {{item}} </span>
+    <span ng-repeat="item in DC.detail.cate_spec" ng-if="$index > 0"> | {{item}} </span>
+  </h2>
+  <ol class="breadcrumb m-0">
+    <li>您的当前位置：</li>
+    <li><a tjid ui-sref="page.home">首页</a></li>
+    <li ng-repeat="cate in DC.detail.cate_spec">
+    <a tjid ui-sref="page.list({cateId : {{cate.id}}})"> {{cate.name}} </a>
+    </li>
+  </ol>
+  <div class="row">
+    <div class="col-xs-4 detail-img-box">
+      <div class="col-xs-12 p-0  raw-img pr">
+        <img ng-if="!DC.detail.pictures.raw_image.length" ng-src="assets/images/no_image.jpg" alt="">
+        <img ng-if="DC.detail.pictures.raw_image.length" ng-repeat="item in DC.detail.pictures.raw_image | limitTo:5 " ng-src="{{item.pic_url}}" alt="" ng-show="$index == DC.activeIndex">
+        <div class="no-storage" ng-if="DC.detail.storage == 0">补货中</div>
+      </div>
+      <div class="col-xs-12 p-0 thum-img">
+        <img class="col-xs-2 p-0" ng-if="!DC.detail.pictures.raw_image.length" ng-src="assets/images/no_image.jpg" alt="">
+        <img class="col-xs-2 p-0" ng-if="DC.detail.pictures.raw_image.length" ng-repeat="item in DC.detail.pictures.raw_image | limitTo : 5" ng-src="{{item.pic_url}}" alt=""  ng-class="{active : $index == DC.activeIndex}" ng-mouseenter="DC.activeIndex = $index">
+      </div>
+    </div>
+
+    <div class="col-xs-8 detail-img-info">
+      <h3 class="text-20 m-b-15" >{{DC.detail.title}}</h3>
+      <p>{{DC.detail.adv_words}}</p>
+      <p ng-repeat="spec in DC.detail.spec" ng-show="spec.val">{{spec.name}}：<span>{{spec.val}}</span>
+      </p>
+      <p ng-if="!DC.isLogin">价格：<span class="text-20 text-green m-r-10">{{DC.detail.price}}/<span class="text-14">{{DC.detail.unit}}</span></span> 登录后查看您的专享优惠价 <a class="detail-login" ui-sref="page.login">登录</a></p>
+
+
+      <p ng-if="DC.detail.storage >0 && DC.detail.storage < 30">库存： 剩余{{DC.detail.storage}}{{DC.detail.unit}}</p>
+      <p ng-if="DC.isLogin">专享价：<span class="text-20 text-green m-r-10">{{DC.detail.price}} 元/<span class="text-14">{{DC.detail.unit}}</span></span> </p>
+      <p ng-if="DC.detail.net_weight_price !=0">单价：<span class=" m-r-10">{{DC.detail.net_weight_price}}</span> </p>
+      <div class="ov">
+        <div class="col-xs-2 line-34 p-0" ng-show="DC.cartlist.ids.indexOf(DC.detail.id )>= 0">已加入{{DC.detail.quantity}}{{DC.detail.unit_name}}
+        </div>
+        <div class="input-group col-xs-2 detail-sum" ng-show="DC.cartlist.ids.indexOf(DC.detail.id) < 0">
+          <span class="input-group-addon order-btn-minus p-lr-3">
+            <em tjid class="glyphicon glyphicon-minus " ng-click="minus(DC.detail)"></em>
+          </span>
+          <input tjid type="text" min="1" class="form-control text-center" ng-model="DC.detail.quantity" ng-if="DC.detail" ng-focus="clearNum(DC.detail)" ng-blur="setNum(DC.detail, true)" ng-change="setNum(DC.detail)">
+          <span class="input-group-addon order-btn-plus p-lr-3">
+            <em tjid class="glyphicon glyphicon-plus "   ng-click="plus(DC.detail)"></em>
+          </span>
+        </div>
+        <span class="line-34 col-xs-10" ng-if="DC.detail.buy_limit && DC.detail.buy_limit != 0 ">&nbsp; (限购{{DC.detail.buy_limit}}{{DC.detail.unit_name}})</span>
+      </div>
+      <div class="cart-btn-box"  ng-if="DC.detail">
+        <button tjid class="btn btn-defualt  cart_btn" ng-disabled="true" ng-if="DC.detail.storage == 0" ><span class="text">&nbsp;补货中&nbsp;</span></button>
+        <button class="btn btn-plus "  ng-if="DC.detail.storage > 0 || DC.detail.storage == -1 " id="{{DC.detail.id}}" ng-click="toggleItems(DC.detail, DC.detail.quantity)" set-class ="{{DC.detail}}"> <span class="text">加入购物车</span></button>
+        <button tjid class="btn"   data-follow="{{DC.detail.follow_status}}" ng-click="DC.follow(DC.detail)">关注</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="detail-footer" ng-if="DC.detail">
+  <div class="container">
+    <ul class="row">
+      <li class="col-xs-3" ng-repeat="item in DC.detail_config" ><i class="icon {{item.classname}}"></i><span class="icon-text">{{item.name}}</span></li>
+    </ul>
+  </div>
+</div>

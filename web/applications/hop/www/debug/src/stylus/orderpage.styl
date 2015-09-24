@@ -1,0 +1,44 @@
+@charset 'UTF-8'
+
+    .printpage
+        width 100%
+        margin auto
+        font-size 12px
+        page-break-before avoid
+        page-break-inside avoid
+        page-break-after always
+        .table-bordered > thead > tr > td
+             border-bottom-width 1px
+        .table-bordered
+             border-collapse collapse
+                            
+        
+    .orderinfo
+        page-break-before avoid
+        page-break-inside avoid
+        min-height 500px
+
+    .mapimg
+        min-height 500px
+        page-break-before avoid
+        page-break-inside avoid
+
+
+
+    @page
+        size A4 landscape 
+        page-break-before avoid
+        page-break-inside avoid
+        margin-bottom 10pt
+        font-size 9pt
+        -webkit-text-size-adjust none
+        left-middle 5pt
+        right-middle 5pt
+
+@page:left
+    margin-left 5pt
+    margin-right 5pt
+
+@page:right
+    margin-left 5pt
+    margin-right 5pt

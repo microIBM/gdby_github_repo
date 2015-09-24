@@ -1,0 +1,53 @@
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+      <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+      <h2 class="text-center">{{items.bodyText}}</h2>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="ok()" ng-if="items.actionText">
+      {{items.actionText}}
+      </button>
+      <button class="btn btn-warning" ng-click="cancel()">{{items.closeText}}</button>
+    </div>
+</script>
+<div class="col-xs-offset-2">
+  <div class="bs-callout bs-callout-danger">
+    <h5>{{title}}</h5>
+  </div>
+ <div  class="row block ml-default bs-callout">
+    <table class="table table-striped">
+      <tr>
+        <td class="active col-xs-2">
+            <b><em class="text-danger">*</em> 广告名称 </b>
+        </td>
+        <td class="success col-xs-12">
+          <input class="form-control" type="text" ng-model="pos.title" required/>
+        </td>
+      </tr>
+      <tr>
+        <td class="active col-xs-2">
+            <b><em class="text-danger">*</em> 广告位状态 </b>
+        </td>
+        <td class="success col-xs-12">
+           <select ng-model="pos_status"  class="col-xs-4 input-md form-control"
+            ng-options="m.name for m in options.status" required> 
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>
+          <div class="col-xs-6">
+           <button type="submit" class="btn btn-block btn-success btn-md" ng-click="add()">保存</button>
+         </div>
+          <div class="col-xs-6">
+           <!--button type="reset" class="btn btn-block btn-default btn-md" ng-click="reset()">重置</button-->
+         </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="block-title"></div>

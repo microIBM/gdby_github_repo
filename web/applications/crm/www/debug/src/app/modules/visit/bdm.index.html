@@ -1,0 +1,19 @@
+<div class="warp-page container-fluid">
+	<div class="head-bottom ng-scope">
+		<div class="flex-nav">
+			<ul class="flex-center-33">
+				<li ng-repeat="item in tabList" ng-class="{'active':item.active}">
+					<a  ng-click="tabSwitch(item)">{{item.name}}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="cdetail_load  margin-top-10">
+		<ul class="list-group">
+			<li ng-click="statePath(item)" class="list-group-item" ng-repeat="item in list">
+				    <span class="badge" style="background:#009688;">{{item.count}}</span>
+				   {{item.bd_name}}
+			</li>
+		</ul>
+	</div>
+</div>

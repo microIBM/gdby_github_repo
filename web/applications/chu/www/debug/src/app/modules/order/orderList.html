@@ -1,0 +1,90 @@
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+<h3 class="modal-title">{{items.headerText}}</h3>
+</div>
+<div class="modal-body">
+<h2 class="text-center">{{items.bodyText}}</h2>
+</div>
+<div class="modal-footer">
+<button tjid class="btn btn-primary" ng-click="items.ok();cancel();" ng-if="items.actionText">
+{{items.actionText}}
+</button>
+<button tjid class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+</div>
+</script>
+<div class="m-t-41" active_class="autoCart">
+  <div class="head-bottom">
+    <div class="flex-nav">
+      <ul class="flex-center">
+        <li ng-class="{active : showType == tab.status}" ng-repeat="tab in tabs">
+        <a tjid ng-click="setStatus({{tab.status}});">{{tab.name}} </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div ng-show="isProcessing">
+    <div class="loading_spinner spinner-hv-center">
+      <div class="loading_bounce1"></div>
+      <div class="loading_bounce2"></div>
+      <div class="loading_bounce3"></div>
+    </div>
+  </div>
+  <div class="clearfix">
+    <div class="row block-col block m-0" ng-if="orderlist.length == 0 && isProcessing == false" active_class="autoCart"  >
+      <div class="col-xs-12 text-center pt-10 pb-10" >
+        <img  ng-src="assets/images/no_bg.png" class="zoom5 mt-100">
+        <h4 class="text-gray">暂时没有符合条件的订单</h4>
+      </div>
+    </div>
+    <ul class="orderList" ng-if="orderlist.length > 0" active_class="autoCart" scroll-class="vm.reload_list()"   can-load="vm.canLoad" max-length="data.total">
+      <li ng-repeat="order in orderlist track by $index" class="">
+      <header class="orderlist_hd clearfix" ng-click="orderinfo(order.id , order)">
+        <span>订单号: {{order.order_number}}</span>
+        <span class="pull-right" ng-if="order.status == '2'">待审核</span>
+        <span class="pull-right" ng-if="order.status == '6' || order.status == '7' || order.status == '1'">已收货</span>
+        <span class="pull-right" ng-if="order.status == '3' || order.status == '11' || order.status == '13' || order.status == '14' || order.status == '5' || order.status == '8' || order.status == '4'">待收货</span>
+        <span class="pull-right" ng-if="order.status == '0'">已取消</span>
+      </header>
+     <section class="orderlist_bd" ng-click="orderinfo(order.id,order)">
+        <div class="suborder-total">
+          共<span>{{order.num}}</span>件商品，<span>{{order.suborders.length}}</span>个子订单
+        </div>
+       <ul class="orderlist_zi" ng-if="order.suborders.length > 0">
+          <li ng-repeat="o in order.suborders">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="col-xs-6">产品</th>
+                <th class="col-xs-3">订单数</th>
+                <th class="col-xs-3">实收数</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="detail in o.details">
+                <td class="color-4cb050">{{detail.name}}</td>
+                <td>{{detail.quantity}}</td>
+                <td><span ng-if="order.status == '1'">{{detail.actual_quantity}}</span></td>
+              </tr>
+            </tbody>
+          </table>
+          </li>
+        </ul>
+      </section>
+      <footer>
+        <p class="text-right">
+          <span class="m-r-20">订单金额: <span class="">{{order.final_price}}元</span></span>
+          <span class="m-r-20" ng-if="order.status == '0'">实收金额: <span class="oOrange">{{order.deal_price}}元</span></span>
+        </p>
+        <div class="pay_time clearfix">
+          <div class="pay_btn clearfix">
+            <button tjid class="btn btn-default cancelBtn pull-right" ng-if="(showType == 1 && order.pay_status != 1) || order.status == '2'" ng-click="cancel({{order.id}}, order.minus_amount);">取消订单</button>
+            <button tjid class="btn weixin_btn" ng-if="showType == 1 && order.pay_type == 1 && order.pay_status == 0" ng-click="pay(order.order_number);">微信支付</button>
+            <button tjid class="btn weixin_btn pull-right" ng-if="DC.chooseStatus == '21' ||order.status == '0'  || order.status == '6'  || order.status == '7'|| order.status == '1'" ng-click="toggleItems(order, order.quantity)">再次购买</button>
+         </div>
+        </div>
+      </div>
+    </footer>
+    </li>
+  </ul>
+</div>
+</div>

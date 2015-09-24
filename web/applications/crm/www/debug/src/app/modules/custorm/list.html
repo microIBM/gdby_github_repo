@@ -1,0 +1,171 @@
+<div class="warp-page container-fluid"> <div class="head-bottom" ng-if="showTabs">
+    <div class="flex-nav">
+      <ul class="sea-flex">
+        <li>
+        <select class="form-control input-sm" name="seas" ng-change="seachange(defaultsea)" ng-model="defaultsea" ng-options="m.name for m in oSea" required>
+        </select> 
+        </li>
+        <li>
+        <select class="form-control input-sm" ng-model="$parent.order_field" ng-options="item.name for item in order_fields" ng-change="$parent.show_order_field()">
+        </select> 
+        </li>
+        <li class="chose_btn">
+        <a ng-click="filterfunc()">筛选<span class="glyphicon glyphicon-filter"></span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div ng-class="{'mt-nav': showTabs}" class="row search_block">
+    <div ng-class="{'col-xs-12': !role_id && !role_id13,'col-xs-9' : role_id&& !role_id13}" style="padding:10px;">
+      <form class=" text-left">
+        <div class="input-group">
+          <input type="text" class="form-control" ng-model="key" placeholder="店铺名称/手机号码">
+          <a class="input-group-addon" ng-click="search()">搜索</a>
+        </div>
+      </form>
+    </div>
+    <div ng-show="role_id && !role_id13" class="col-xs-3" style="padding:18px 0 0 0">
+      <a style="font-size:16px; color:#333;" ng-click="filterfunc()">筛选<span class="glyphicon glyphicon-filter"></span></a>
+    </div>
+    <p style="text-align : center; background-color : rgba(234, 232, 215, 0.90)">筛选结果：{{siftNumber}} / {{totalNumber}}</p>
+  </div>
+  <div ng-if="showType != 0 && showType !=4 && showType != 5" infinite-scroll="pagination.nextPage()" infinite-scroll-disabled="pagination.isDone || pagination.isProcessing" infinite-scroll-distance="0">
+    <div class="row block new_user_block" ng-repeat="item in list">
+      <div class="col-xs-12 block-col">
+        <div>
+          <span class="pull-right glyphicon glyphicon-chevron-right shopinfo_icon" ng-click="func.shopInfo(item)"></span>
+          <span class="label label-success pull-right ml-10" ng-if="item.customer_type != 1">KA客户</span>
+          <span class="label label-danger pull-right" ng-if="item.ka_status">{{item.ka_status}}</span>
+          店铺名称：{{item.shop_name}}
+        </div>
+      </div>
+      <div class="col-xs-12 block-col">
+        <p>姓名：{{item.name}}</p>
+      </div>
+      <div class="col-xs-12 block-col">
+        <p>配送线路：{{item.line_name}}</p>
+      </div>
+      <div class="col-xs-12 block-col">
+        <div class="row">
+          <div class="col-xs-9 dress_indent">地址：{{item.address}}</div>
+          <div class="col-xs-3 icon-button">
+            <a ng-click="viewMap(item)" class="color-red"><span class="glyphicon glyphicon-map-marker"></span>路线</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 block-col">
+        <div class="row">
+          <div class="col-xs-9">电话：{{item.mobile}}</div>
+          <div class="col-xs-3 icon-button">
+            <a href="tel:{{item.mobile}}" class="color-green" ng-click="analysisPhone()"><span class="glyphicon glyphicon-earphone"></span>电话</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 block-col" ng-if="item.lack && item.lack!=''">
+        <h5 class="color-red">*系统提示：请编辑补全客户信息</h5>
+      </div>
+      <div class="col-xs-12 block-col hidden">
+        <a class="btn btn-info btn-sm" ng-diasbled="resetClk" ng-click="resetPass({{item.id}})">重置密码</a>
+        <a class="btn btn-success btn-sm" ng-click="editCustomer(item.id)" ng-disabled="loadingGeo">编辑</a>
+      </div>
+    </div>
+    <div ng-show="pagination.isProcessing">
+      <div class="loading_spinner">
+        <div class="loading_bounce1"></div>
+        <div class="loading_bounce2"></div>
+        <div class="loading_bounce3"></div>
+      </div>
+    </div>
+    <div class="row block pt-10 pb-10" ng-if="pagination.isDone">
+      <h4 class="text-center">{{pagination.more}}</h4>
+    </div>
+  </div>
+  <div ng-if="showType==4" infinite-scroll="pagination.nextPage()" infinite-scroll-disabled="pagination.isDone || pagination.isProcessing" infinite-scroll-distance="0">
+    <div class="row block new_user_block" ng-repeat="item in list">
+      <div class="col-xs-12 block-col">
+        <span class="label label-success pull-right" ng-if="item.customer_type != 1">KA客户</span>
+        <span class="label label-danger pull-right" ng-if="item.ka_status">{{item.ka_status}}</span>
+        店铺名称：{{item.shop_name}}
+      </div> 
+      <div class="col-xs-12 block-col">
+        <p>配送线路：{{item.line_name}}</p>
+      </div>
+      <div class="col-xs-12 block-col dress_indent">
+        <p><span>地址：</span>{{item.address}}</p>
+      </div>
+      <div class="col-xs-12 block-col">
+        <a ng-show="!role_id" class="btn btn-primary pull-right btn-sm" ng-click="func.potential_change_private(item)" ng-disabled="change_button">加入私海</a>
+      </div>
+    </div>
+    <div ng-show="pagination.isProcessing">
+      <div class="loading_spinner">
+        <div class="loading_bounce1"></div>
+        <div class="loading_bounce2"></div>
+        <div class="loading_bounce3"></div>
+      </div>
+    </div>
+    <div class="row block pt-10 pb-10" ng-if="pagination.isDone">
+      <h4 class="text-center">{{pagination.more}}</h4>
+    </div>
+  </div>
+  <div ng-if="showType==0" infinite-scroll="pagination.nextPage()" infinite-scroll-disabled="pagination.isDone || pagination.isProcessing" infinite-scroll-distance="0">
+    <div class="row block new_user_block" ng-repeat="item in list">
+      <div class="col-xs-12 block-col">
+        <span class="label label-danger pull-right" ng-if="item.ka_status">{{item.ka_status}}</span>
+        <span class="label label-success pull-right" ng-if="item.customer_type != 1">KA客户</span>
+        店铺名称：{{item.shop_name}}
+      </div>
+      <div class="col-xs-12 block-col">
+        <p>配送线路：{{item.line_name}}</p>
+      </div>
+      <div class="col-xs-12 block-col dress_indent">
+        <p>地址：{{item.address}}</p>
+      </div>
+      <div class="col-xs-12 block-col">
+        <a ng-show="!role_id" class="btn btn-info btn-sm" ng-click="openUser({{item.id}})">开通</a>
+        <a class="btn btn-success btn-sm" ng-click="editUser({{item.id}})">编辑</a>
+        <a ng-show="!role_id" class="btn btn-danger btn-sm" ng-click="deleteUser({{item.id}})">删除</a>
+        <a ng-show="!role_id" class="btn btn-primary pull-right btn-sm" ng-click="func.potential_change_shared(item)" ng-disabled="change_button">置入公海</a>
+      </div>
+    </div>
+    <div ng-show="pagination.isProcessing">
+      <div class="loading_spinner">
+        <div class="loading_bounce1"></div>
+        <div class="loading_bounce2"></div>
+        <div class="loading_bounce3"></div>
+      </div>
+    </div>
+    <div class="row block pt-10 pb-10" ng-if="pagination.isDone">
+      <h4 class="text-center">{{pagination.more}}</h4>
+    </div>
+  </div>
+  <div ng-if="showType==5" infinite-scroll="pagination.nextPage()" infinite-scroll-disabled="pagination.isDone || pagination.isProcessing" infinite-scroll-distance="0">
+    <div class="row block new_user_block" ng-repeat="item in list">
+      <div class="col-xs-12 block-col">
+        <span class="pull-right glyphicon glyphicon-chevron-right shopinfo_icon" ng-click="func.shopInfosea(item)"></span>
+        <span class="label label-danger pull-right" ng-if="item.ka_status">{{item.ka_status}}</span>
+        <span class="label label-success pull-right" ng-if="item.customer_type != 1">KA客户</span>
+        店铺名称：{{item.shop_name}}
+      </div>
+      <div class="col-xs-12 block-col">
+        <p>配送线路：{{item.line_name}}</p>
+      </div>
+      <div class="col-xs-12 block-col dress_indent">
+        <p>地址：{{item.address}}</p>
+      </div>
+      <div class="col-xs-12 block-col">
+        <a ng-show="!role_id" class="btn btn-primary pull-right btn-sm" ng-click="func.new_register_change_private(item)" ng-disabled="change_button">加入私海</a>
+      </div>
+    </div>
+    <div ng-show="pagination.isProcessing">
+      <div class="loading_spinner">
+        <div class="loading_bounce1"></div>
+        <div class="loading_bounce2"></div>
+        <div class="loading_bounce3"></div>
+      </div>
+    </div>
+    <div class="row block pt-10 pb-10" ng-if="pagination.isDone">
+      <h4 class="text-center">{{pagination.more}}</h4>
+    </div>
+  </div>
+</div>

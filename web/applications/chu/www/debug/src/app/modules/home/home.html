@@ -1,0 +1,103 @@
+
+<header class="head">
+  <div class="container-fluid">
+    <div class="row head-top">
+      <div class="col-xs-3 backup text-left">
+        <a tjid reback ng-show="$state.current.data.showBack"><span class="glyphicon glyphicon-menu-left pull-left back_btn"></span><span class="pull-left">返回</span></a>
+        <span ng-show="!$state.current.data.showBack">
+          <a tjid ng-if="!isLogined" ui-sref="page.citySelect"> {{localInfo.name}}
+            <span class="glyphicon glyphicon-chevron-down"></span>
+          </a>
+          <a tjid ng-if="isLogined">{{localInfo.name}}
+            <span class="glyphicon glyphicon-map-marker"></span>
+          </a>
+        </span>
+      </div>
+
+      <div class="col-xs-9 backup text-center">
+
+        <form novalidate name="searchForm" class="pr">
+        <div class="form-group m-0 search_box w100">
+          <input tjid type='text' class="form-control m-0 hei-30 text-center" name="searchForm.name" ng-model="DC.search_name" required placeholder="搜索食材" ng-focus="DC.search(searchForm)">
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+<div class="warp-page container-fluid" active_class="autoCart">
+
+<!--广告位1-->
+<div class="row mb-10" ng-show="showAdv" >
+  <carousel interval="DC.myinterval" class="pr-0 pl-0 col-xs-12">
+  <slide ng-repeat="slide in slides">
+  <div class="thumbnail mb-0 p-0 b-rd-0 b-0">
+    <!--广告幻灯--->
+    <a tjid ui-sref="{{slide.sref}}" class="diy_block">
+      <img ng-src="{{slide.url}}" alt="{{slide.caption}}" class="img-thumbnail  b-0 p-0 b-rd-0">
+    </a>
+  </div>
+  </slide>
+  <carousel>
+</div>
+<!--/广告位1-->
+<section class="i_list">
+  <div ng-if="DC.recommends" ng-repeat="item in DC.recommends">
+  <div class="row block mb-0 br-l-2 br-b-1">
+    <div class="col-xs-12 p-lr-10">
+      <a tjid  class="text-333">
+        <h4 class="pull-left green">
+          {{item.title}}</h4>
+      </a>
+    </div>
+  </div>
+  <div class="row hot_list br-b-1 mb-10">
+    <div class="col-xs-6 p-0 img-w">
+      <a tjid ui-sref="page.search({searchVal : item.products[0].title})" class="text-333">
+        <h4 class="pl-10 text-ov text-left">{{item.products[0].title}}
+        </h4>
+        <h4 class="red pl-10 mt-0 text-14">￥{{item.products[0].price}}</span>/{{item.products[0].unit}}</h4>
+        <div class="text-center">
+          <img ng-if="item.products[0].big_imgs[0].pic_url" ng-src="{{item.products[0].big_imgs.length  && item.products[0].big_imgs[0].pic_url}}">
+            <img ng-if="!item.products[0].big_imgs[0].pic_url" ng-src="/assets/images/df_pic.png">
+        </div>
+      </a>
+    </div>
+    <div class="col-xs-6 p-0 text-center img-w recommend">
+      <div class="col-xs-6 p-0 text-left" ng-repeat="items in item.products" ng-class="{ b_b_0 : $index == item.products.length - 2 || $index == item.products.length - 1 }" ng-if="$index != 0">
+      <a tjid ui-sref="page.search({searchVal : items.title})" class="text-333">
+          <h4 class="text-ov">{{items.title}}
+          </h4>
+          <h4 class="red  mt-0 text-14 text-ov">
+            <span class="red ">￥{{items.price}}</span>/{{items.unit}}
+          </h4>
+          <div>
+            <img ng-if="items.big_imgs.length && items.big_imgs[0].pic_url" ng-src="{{items.big_imgs.length && items.big_imgs[0].pic_url}}">
+            <img ng-if="!items.big_imgs[0].pic_url" ng-src="/assets/images/df_pic.png">
+          </div>
+      </a>
+        </div>
+    </div>
+  </div>
+
+</div>
+  <div class="row hot_list br-b-1 hei-68">
+    <div class="col-xs-6 br-rb-1" ng-repeat="cate in category" ng-class="{ b_b_0 : $index == category.length-2 && category.length%2 != 1 || $index == category.length - 1 }">
+
+      <a tjid ui-sref="page.category({cateId:{{cate.cate_child.length && cate.cate_child[0].id}}})" class="text-333">
+      <div class="col-xs-8 pull-left pl-0 pr-5">
+        <h4 class="green text-16 text-ov">{{cate.cate_parent}}</h4>
+        <p class="text-ov">
+        <span ng-repeat="item in cate.cate_child" ng-show="$index <= 3">{{item.name}}/</span>
+        </p>
+      </div>
+      <div class="col-xs-4 pull-right p-0 mt-10 text-center">
+        <img  ng-src="assets/images/category/{{cate.cate_parent}}.png">
+      </div>
+    </a>
+    </div>
+
+  </div>
+</section>
+</div>

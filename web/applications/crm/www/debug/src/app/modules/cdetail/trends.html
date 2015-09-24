@@ -1,0 +1,45 @@
+<div class="cdetail_wp">
+  <div class="row user_state">
+    <div>
+      <div class="mt10">
+        <select class="form-control mb-10" ng-show="shopLists.length>1" ng-model="currentShop" ng-options="m.shop_name for m in shopLists" ng-change="func.changeShop()"></select>
+        <input type="text" is-open="opened"  datepicker-popup="yyyy-MM-dd" ng-click="open($event)" datepicker-options="dateOptions"  class="form-control" ng-model="startTime" id="startTime" placeholder="起始时间" current-text="今天" clear-text="清除" close-text="关闭">
+      </div>
+      <div class="mt-10">
+        <input type="text" is-open="endOpened" datepicker-popup="yyyy-MM-dd" ng-click="endOpen($event)" datepicker-options="endDateOptions"  class="form-control" ng-model="endTime" id="endTime" placeholder="结束时间" current-text="今天" clear-text="清除" close-text="关闭">
+      </div>
+      <div class="btn-group mt-10 btn-group-justified">
+        <a class="btn btn-success" ng-click="func.sift()">查询</a>
+        <a class="btn btn-info" ng-click="func.clear()">重置</a>
+      </div>
+    </div>
+  </div>
+  <div class="row user_state userstate_title">
+    <div class="col-xs-3" style="padding:0 5px;">下单时间</div>
+    <div class="col-xs-6">订单编号</div>
+    <div class="col-xs-3">状态</div>
+  </div>
+  <div ng-show = "isloading === false">
+    <div class="row user_state" ng-repeat = "m in orderlist">
+      <a class="orderinfo" ng-click="func.orderinfo(m)">
+        <div class="col-xs-3">{{m.created_time | date:'yyyy/MM/dd'}}</div>
+        <div class="col-xs-6">{{m.order_number}}</div>
+        <div class="col-xs-3 {{func.getStatusClass(m.status)}}"><span>{{m.status}}</span></div>
+      </a>
+    </div>
+    <div ng-show="pagination.isProcessing">
+      <div class="loading_spinner">
+        <div class="loading_bounce1"></div>
+        <div class="loading_bounce2"></div>
+        <div class="loading_bounce3"></div>
+      </div>
+    </div>
+    <div class="row block pt-10 pb-10" ng-show="!pagination.isDone">
+      <h4 class="text-center" ng-click="pagination.nextPage()">点击加载更多...</h4>
+    </div>
+    <div class="row block pt-10 pb-10" ng-show="pagination.isDone">
+      <h4 class="text-center">{{pagination.more}}</h4>
+    </div>
+  <div>
+</div>
+

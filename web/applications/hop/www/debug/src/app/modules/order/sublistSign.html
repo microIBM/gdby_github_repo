@@ -1,0 +1,103 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>待签收子订单列表</h5>
+      </div>
+      <div class="bs-callout">
+        <div class="block mt-10 ml-default">
+          <!--时间筛选-->
+          <form class="form-inline" role="form">
+            <div class="form-group">
+
+              <div class="input-group">
+                <div class="input-group-addon">关键词</div>
+                <input type="text" ng-model="searchValue" class="form-control" placeholder="请输入搜索关键词" />
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-warning" ng-click="reset()">重置</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+            <colgroup>
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+            </colgroup>
+            <thead>
+              <tr>
+                <td class="text-center"><h5>内部编号</h5></td>
+                <td class="text-center"><h5>订单编号</h5></td>
+                <td class="text-center"><h5>客户姓名</h5></td>
+                <td class="text-center"><h5>客户电话</h5></td>
+                <td class="text-center"><h5>店铺名称</h5></td>
+                <td class="text-center"><h5>送货地址</h5></td>
+                <td class="text-center"><h5>送货时间</h5></td>
+                <td class="text-center"><h5>订单金额</h5></td>
+                <td class="text-center"><h5>订单状态</h5></td>
+                <td class="text-center"><h5>订单内容</h5></td>
+              </tr>
+            </thead>
+            <tbody ng-if="list.length===0">
+              <tr>
+                <td colspan="9" class="text-center"><h5>暂无数据</h5></td>
+              </tr>
+            </tbody>
+            <tbody ng-if="list.length>0">
+              <tr ng-repeat="item in list">
+                <td class="text-center">
+                  <h5>{{item.id}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.order_number}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.realname}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.mobile}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.shop_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.deliver_addr}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.deliver_date}}</h5>
+                  <h5>{{item.deliver_time}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.total_price}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5 class="label label-success">{{item.status_cn}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5><a ng-href="order/subDetail/{{item.order_number}}">查看</a></h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

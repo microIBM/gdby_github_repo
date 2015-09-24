@@ -1,0 +1,37 @@
+<div class="container" ng-show="!showLoading">
+  <div class="orderList-hd">
+    <div class="row m-0">
+      <div class="orderList-hd-type ">
+        <ul class="ordertype-ul">
+          <li class="pull-left "  ng-click="vm.getCouponType(nav.status)" ng-class="{active : $index == 0}" ng-repeat="nav in vm.couponNav track by $index" active-class="couponNav">
+          <a>{{nav.name}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container text-center text-20 " ng-show="!vm.coupons.length">
+    <img ng-src="assets/images/no_bg.png" class="m-t-120 m-b-60">
+    <p class="">您暂无优惠劵</p>
+    <a ui-sref="page.home " class="m-b-120 go-btn">回首页</a>
+  </div>
+  <div class="coupon-main">
+    <div class="active-coupon col-xs-3" ng-class="{'no-coupon' : coupon.status != 1}" ng-repeat="coupon in vm.coupons track by $index">
+      <h3>
+        {{coupon.detail.rule_type_cn}}
+        <span><strong ng-if="coupon.detail.require_amount != 0">满{{coupon.detail.require_amount}}减</strong><strong>{{coupon.detail.minus_amount}}</strong></span>
+      </h3>
+      <div>
+      <span class="pull-right line-46">{{coupon.status_cn}}</span>
+      <p class="coupon-type">{{coupon.detail.description}}</p> </br>
+      </div>
+      <p>有效期{{coupon.detail.valid_time}}至{{coupon.detail.invalid_time}}</p>
+    </div>
+  </div>
+  <div class="container">
+    <nav class="text-center p-tb-50">
+      <dachu-pagination conf="vm.paginationConf"></dachu-pagination>
+    </nav>
+  </div>
+
+</div>

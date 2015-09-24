@@ -1,0 +1,98 @@
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+<h3 class="modal-title">{{items.headerText}}</h3>
+</div>
+<div class="modal-body">
+<h2 class="text-center">{{items.bodyText}}</h2>
+</div>
+<div class="modal-footer">
+<button class="btn btn-primary" ng-click="items.ok();cancel();" ng-if="items.actionText">
+  {{items.actionText}}
+</button>
+<button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+</div>
+</script>
+<div class="m-t-41" active_class="autoList">
+  <div class="head-bottom">
+    <div class="flex-nav">
+      <ul class="flex-center">
+        <li ng-class="{active : showType == tab.status}" ng-repeat="tab in tabs">
+        <a ng-click="setStatus({{tab.status}});">{{tab.name}} </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div ng-show="isProcessing">
+    <div class="loading_spinner spinner-hv-center">
+      <div class="loading_bounce1"></div>
+      <div class="loading_bounce2"></div>
+      <div class="loading_bounce3"></div>
+    </div>
+  </div>
+  <div class="clearfix">
+    <div class="row block-col block m-0" ng-show="orderlist.length == 0 && isProcessing == false"  active_class="autoList">
+      <div class="col-xs-12 text-center pt-10 pb-10" >
+        <img  ng-src="assets/images/no_bg.png" class="zoom5 mt-100">
+
+        <h4 class="text-gray">暂时没有符合条件的订单</h4>
+      </div>
+    </div>
+    <ul class="orderList" ng-show="orderlist.length > 0">
+      <li ng-repeat="order in orderlist" class="m-0">
+      <header class="orderlist_hd oGreen clearfix">
+        <span class="f_right">订单号: {{order.order_number}}</span>
+        <span>状态：{{order.status_cn}}</span>
+      </header>
+      <section class="orderlist_bd">
+        <ul class="orderlist_zi" ng-show="order.suborders.length > 0">
+          <li ng-repeat="o in order.suborders">
+          <header class="clearfix m-0">
+            <span class="f_right">订单号: {{o.order_number}}</span>
+            <span>子订单{{$index + 1}}:{{o.status.cn}}</span>
+          </header>
+          <section ng-repeat="detail in o.details">
+            <h4 class="clearfix text-14">
+              <span class="f_right oGreens">&yen;{{detail.price}}</span>
+              <span class="oGreen">{{detail.name}}</span>
+            </h4>
+            <div class="clearfix orderinfo">
+              <span class="f_right">X{{detail.quantity}}</span>
+              <p class="m-r-5" ng-repeat="spec in detail.spec">{{spec.name}}：{{spec.val}}</p>
+            </div>
+          </section>
+          <footer class="clearfix">
+            <p class="f_right">
+            <span>优惠:{{o.minus_amount}}元</span>
+            <span class="m-l-10">运费:{{o.deliver_fee}}元</span>
+            <span class="m-l-10">实收: <span class="oOrange">&yen; {{o.final_price}}</span></span>
+            </p>
+          </footer>
+          </li>
+        </ul>
+      </section>
+      <footer>
+        <div class="pay_type clearfix">
+          <div class="f_left">支付方式：<span class="oOrange">{{order.pay_type_cn}}</span></div>
+          <div class="pay_money f_right">
+            <p ng-if="order.minus_amount >= 0">优惠：&yen;{{order.minus_amount}}</p>
+            <p ng-if="order.service_fee > 0">服务费：&yen;{{order.service_fee}}</p>
+            <p ng-if="order.deliver_fee >= 0">运费：&yen;{{order.deliver_fee}}</p>
+            实收&nbsp;&nbsp;<span class="origin">&yen;{{order.final_price}}</span>
+          </div>
+        </div>
+        <div class="pay_time clearfix">
+          <div class="f_left">
+            <p>下单时间：{{order.created_time}}</p>
+            <p>配送时间：{{order.deliver_date}} {{order.deliver_time}}</p>
+          </div>
+          <div class="pay_btn clearfix">
+            <button class="btn btn-default cancelBtn" ng-if="showType == 2 && order.pay_status != 1" ng-click="cancel({{order.id}}, order.minus_amount);">取消订单</button>
+            <button class="btn weixin_btn" ng-if="showType == 2 && order.pay_type == 1 && order.pay_status == 0" ng-click="pay(order.order_number);">微信支付</button>
+          </div>
+        </div>
+      </div>
+    </footer>
+    </li>
+  </ul>
+</div>
+</div>

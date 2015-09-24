@@ -1,0 +1,45 @@
+<header class="head" ng-controller="headerCtrl">
+  <div class="container-fluid">
+    <div class="row head-top">
+      <div class="col-xs-4 backup text-left">
+        <a reback ng-show="$state.current.data.showBack"><span class="glyphicon glyphicon-menu-left"></span>&nbsp;返回</a>
+        <div class="pull-left" ng-show="$state.current.data.showMap" ng-click="showMap()">
+          <img src="assets/images/icon.png" height="30" width="30"></img>
+          <span>云图</span>
+        </div>
+        <em ng-show="!$state.current.data.showBack">&nbsp;</em>
+      </div>
+      <div class="col-xs-4 listname" ng-bind="$state.current.data.pageTitle"></div>
+      <div class="col-xs-4">
+        <div class="pull-right" ng-show="$state.current.data.showMapRight" ng-click="showMap()">
+          <img src="assets/images/icon.png" height="30" width="30"></img>
+          <span>云图</span>
+        </div>
+        <div class="pull-right" ng-show="$state.current.data.showAddCustomer" ng-click="addCustomer()">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          <span>添加客户</span>
+        </div>
+        <div class="pull-right"  ng-show="$state.current.data.showAddVisit && roleID!=13" ng-click="addVisit()">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          <span>添加拜访</span>
+        <div>
+          <!-- <em ng-show="!$state.current.data.showMap">&nbsp;</em>-->
+      </div>
+    </div>
+  </div>
+</header>
+
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+      <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+      <p class="text-center">{{items.bodyText}}</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="items.ok();cancel();" ng-if="items.actionText">
+        {{items.actionText}}
+      </button>
+      <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+    </div>
+</script>

@@ -1,0 +1,132 @@
+<div class="col-xs-offset-2">
+  <div class="bs-callout bs-callout-danger">
+    <h5>{{title}}</h5>
+  </div>
+  <div class="bs-callout">
+    <!--<div class="mt-10">
+          <div class="form-group row">
+            <div class="col-xs-4">
+              <a class="btn-block btn btn-info" ui-sref="home.productAdd"> 发布商品 </a>
+            </div>
+            div class="col-xs-4">
+              <a class="btn btn-default btn-lg btn-block" href="{{site_url}}/temp_export/get_products"> 导出商品列表 </a>
+            </div           </div>
+        </div>
+        -->
+
+    <div class="block mt-10 ml-default">
+
+      <!--时间筛选-->
+      <form class="form-inline" role="form">
+        <div class="form-group">
+
+          <div class="input-group">
+            <select ng-init="location = locations[0]" ng-model= "location"  class="form-control" ng-options="location.name for location in locations">
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">关键词</div>
+            <input type="text" ng-model="key" class="form-control" placeholder="输入SKU货号或仓库ID" />
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-block btn-warning" ng-click="reset();">重置 </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="table-responsive" style="margin-top:10px;">
+    <table class="table table-bordered table-striped table-hover">
+      <colgroup>
+        <col class="col-xs-1">
+        <col class="col-xs-1">
+        <col class="col-xs-1">
+        <col class="col-xs-1">
+        <col class="col-xs-1">
+        <col class="col-xs-2">
+        <col class="col-xs-1">
+        <col class="col-xs-2">
+        <col class="col-xs-2">
+      </colgroup>
+      <thead>
+        <tr>
+          <td><h5><em class="text-danger">货号</em></h5></td>
+
+          <td class="text-center"><h5>货品名称</h5></td>
+          <td class="text-center"><h5>仓库id</h5></td>
+          <td class="text-center"><h5>仓库</h5></td>
+          <td class="text-center"><h5>在库库存</h5></td>
+          <td class="text-center"><h5>订单库存</h5></td>
+          <td class="text-center"><h5>可售库存</h5></td>
+          <td class="text-center"><h5>虚拟库存</h5></td>
+          <!--<td class="text-center"><h5>可超卖量</h5></td> -->
+          <td class="text-center"><h5>操作</h5></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in products | filter:filter.sku_number">
+          <td>
+            <h5><em class="text-danger">{{item.sku_number}}</em></h5>
+          </td>
+
+          <td class="text-center">
+            <h5>{{item.sku_name}}</h5>
+          </td>
+          <td class="text-center">
+            <h5>{{item.warehouse_id}}</h5>
+          </td>
+          <td class="text-center">
+            <h5>{{item.warehouse_name}}</h5>
+          </td>
+          <td class="text-center">
+            <h5>
+              {{item.in_stock}}
+            </h5>
+          </td>
+          <td class="text-center">
+            <h5 >{{item.stock_locked}}</h5>
+          </td>
+          <td class="text-center">
+            <h5>{{item.sellable}}</h5>
+          </td>
+          <td class="text-center">
+            <input type="text" ng-if="item.editing"  ng-model="item.virtual_stock" class="form-control">
+            <h5 ng-if="!item.editing">{{item.virtual_stock}}</h5>
+          </td>
+
+          <!--
+          <td class="text-center">
+            <input type="text"  ng-if="item.editing" ng-model="item.exceed_limit" class="form-control">
+            <h5 ng-if="!item.editing">{{item.exceed_limit}}</h5>
+          </td>
+          -->
+          <td class="text-center">
+            <h5>
+              <a class="btn btn-primary btn_mb5 btn-sm" ng-show="!item.editing" ng-click="edit_storage(item)">
+                <span class="glyphicon glyphicon-floppy-open m-r-5"></span>编辑
+              </a>
+              <a class="btn btn-warning btn_mb5 btn-sm" ng-show="item.editing" ng-click="cancel_storage(item)">
+                <span class="glyphicon glyphicon-ban-circle m-r-5"></span>取消
+              </a>
+              <a class="btn btn-success btn_mb5 btn-sm" ng-show="item.editing" ng-click="save_storage(item)">
+                <span class="glyphicon glyphicon-floppy-save m-r-5"></span>保存
+              </a>
+            </h5>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <nav>
+    <dachu-pagination conf="paginationConf"></dachu-pagination>
+  </nav>
+</div>
+  </div>
+</div>
+</div>

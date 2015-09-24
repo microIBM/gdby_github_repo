@@ -1,0 +1,109 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>待审核订单列表</h5>
+      </div>
+      <div class="bs-callout">
+        <div class="block mt-10 ml-default">
+          <!--时间筛选-->
+          <form class="form-inline" role="form">
+            <div class="form-group">
+
+              <div class="input-group">
+                <div class="input-group-addon">关键词</div>
+                <input type="text" ng-model="searchValue" class="form-control" placeholder="请输入搜索关键词" />
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-warning" ng-click="reset()">重置</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+              <tr>
+                <td class="text-center" width="5%"><h5>内部编号</h5></td>
+                <td class="text-center" width="5%"><h5>子订单</h5></td>
+                <td class="text-center" width="12%"><h5>订单编号</h5></td>
+                <td class="text-center" width="8%"><h5>客户姓名</h5></td>
+                <td class="text-center" width="10%"><h5>客户电话</h5></td>
+                <td class="text-center" width="10%"><h5>店铺名称</h5></td>
+                <td class="text-center" width="15%"><h5>送货地址</h5></td>
+                <td class="text-center" width="10%"><h5>送货时间</h5></td>
+                <td class="text-center" width="5%"><h5>订单金额</h5></td>
+                <td class="text-center" width="5%"><h5>应付金额</h5></td>
+                <td class="text-center" width="5%"><h5>订单状态</h5></td>
+                <td class="text-center" width="10%"><h5>支付状态</h5></td>
+                <td class="text-center" width="5%"><h5>订单内容</h5></td>
+              </tr>
+            </thead>
+            <tbody ng-if="list.length===0">
+              <tr>
+                <td colspan="13" class="text-center"><h5>暂无数据</h5></td>
+              </tr>
+            </tbody>
+            <tbody ng-if="list.length>0">
+              <tr ng-repeat="item in list">
+                <td class="text-center">
+                  <h5>{{item.id}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5 ng-repeat="suborder in item.suborders"><a ng-href="order/subDetail/{{suborder.order_number}}">{{suborder.id}}</a></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.order_number}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.realname}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5><a ng-href="/user/dynamic/{{item.user_id}}">{{item.mobile}}</a></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.shop_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.deliver_addr}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.deliver_date}}</h5>
+                  <h5>{{item.deliver_time}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.total_price}}</h5>
+                  <h5><span class="label label-danger" ng-if="item.minus_amount > 0">优惠{{item.minus_amount}}元</span></h5>
+                  <h5><span class="label label-warning" ng-if="item.deliver_fee > 0">运费{{item.deliver_fee}}元</span></h5>
+                  <h5><span class="label label-warning" ng-if="item.pay_reduce > 0">支付减免{{item.pay_reduce}}元</span></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.final_price}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5 class="label label-success">{{item.status_cn}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.pay_type_cn}}</h5>
+                  <h5 ng-if="item.pay_type == 1 && item.pay_status == 0" class="label label-warning">未支付</h5>
+                  <h5 ng-if="item.pay_type == 1 && item.pay_status == 1" class="label label-success">支付成功</h5>
+                  <h5 ng-if="item.pay_type == 1 && item.pay_status == -1" class="label label-danger">支付失败</h5>
+                </td>
+                <td class="text-center">
+                  <h5><a ng-href="order/detail/{{item.order_number}}">查看</a></h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,314 @@
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+  <h3 class="modal-title">{{items.headerText}}</h3>
+</div>
+<div class="modal-body">
+  <h2 class="text-center">{{items.bodyText}}</h2>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()" ng-if="items.actionText">
+  {{items.actionText}}
+  </button>
+  <button class="btn btn-warning" ng-click="cancel()">{{items.closeText}}</button>
+</div>
+</script>
+<div class="col-xs-offset-2">
+  <div class="bs-callout bs-callout-danger">
+    <h5>{{title}}</h5>
+  </div>
+  <!--展示数据-->
+  <div ng-if="!product.id" class="row block mt-10 ml-default bs-callout">
+    <form class="form-inline">
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon" id="sizing-addon1"> 货号 </span>
+          <input  type="text" ng-model="init.skuNumber"  class="form-control" aria-describedby="sizing-addon1">
+          </input>
+        </div>
+        <button ng-click="getSkuInfo(1)" class="btn  btn-primary"> 检索 </button>
+        <button ng-click="getSkuInfo(0)" class="btn btn-danger"> 重置 </button>
+      </div>
+    </form>
+  </div>
+
+  <form class="form-horizontal" novalidate  role="form" id="addForm" name="addForm">
+    <div ng-if="info" class="row block ml-default bs-callout form-horizontal">
+      <table class="table white_bg">
+        <tr>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b><em class="text-danger">*</em> 采集类型</b>
+            </div>
+
+            <div class="col-xs-7 success">
+              <select ng-model="default_collect_type" class="form-control"  ng-change="select_collect_type(default_collect_type)" ng-options="item.name for item in collect_type_options">
+              </select>
+            </div>
+          </td>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+              <b><em class="text-danger">*</em> 商品货号 </b>
+            </div>
+
+            <div class="col-xs-7 success">
+              <input class="form-control" type="text" ng-model="product.skuNumber" required readonly/>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b><em class="text-danger">*</em> sku内部名称 </b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+              <span>{{info.name}}</span>
+            </div>
+          </td>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b><em class="text-danger">*</em> 商品名称 </b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+              <input class="form-control" type="text" ng-model="product.title" required/>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b>描述和卖点</b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+              <input class="form-control" type="text" ng-model="product.advWords"/>
+            </div>
+          </td>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b><em class="text-danger">*</em> sku所属分类 </b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+              <span class=""> {{info.cate_name}}  </span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b><em class="text-danger">*</em> 售卖城市 </b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+              <select ng-model="init.location"  class="col-xs-4 input-md form-control"
+                ng-options="location.name for location in locations" ng-change="selectCity()" required>
+              </select>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b><em class="text-danger">*</em> 客户类型可见</b>
+            </div>
+
+            <div class="col-xs-7 success">
+              <select ng-model="init.customerVisiable" class="form-control"  ng-options="item.name for item in customerVisiableOptions">
+              </select>
+            </div>
+          </td>
+
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b><em class="text-danger">*</em> 线路可见性 </b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+              <select ng-model="init.visiable"  class="col-xs-4 input-md form-control"
+                ng-options="visiable.name for visiable in visiables" required>
+              </select>
+            </div>
+          </td>
+        </tr>
+
+        <tr ng-show="init.visiable.id == 2">
+          <td class=" col-xs-12" colspan=2>
+            <div class="col-xs-2">
+
+              <b><em class="text-danger">*</em> 所属线路 </b>
+            </div>
+
+            <div class="col-xs-10 success">
+
+              <div class="checkbox col-xs-3" ng-repeat="line in lines">
+                <label>
+                  <input type="checkbox" ng-model="line.checked"> {{line.name}}
+                </label>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b><em class="text-danger">*</em> 预定价</b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+              <div class="input-group">
+
+                <input class="form-control inline" type="text" ng-model="product.price" required/>
+
+                <span class="input-group-addon" id="sizing-addon1"> 元 </span>
+              </div>
+            </div>
+          </td>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b><em class="text-danger">*</em> 市场价</b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+              <div class="input-group">
+
+                <input class="form-control" type="text" ng-model="product.marketPrice" required/>
+
+                <span class="input-group-addon" id="sizing-addon1"> 元 </span>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b><em class="text-danger">*</em> 售卖单位 </b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+              <select ng-model="init.unit"  class="col-xs-4 input-md form-control"
+                ng-options="m.name for m in info.units" required>
+              </select>
+            </div>
+          </td>
+
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b>显示‘约’</b>
+            </div>
+
+            <div class="col-xs-7 success">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-checked="init.isRound" ng-model="init.isRound" />
+                </label>
+              </div>
+            </div>
+          </td>
+
+         </tr>
+        <tr>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b>每人限购</b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+              <div class=" input-group">
+                <input class="form-control" type="text" ng-model="product.buyLimit"/>
+
+                <span class="input-group-addon" id="sizing-addon1">{{init.unit.name}} </span>
+              </div>
+            </div>
+          </td>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b>限购总数(-1代表无限购)</b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+              <div class="input-group">
+
+                <input class="form-control" type="text" ng-model="product.storage"/>
+
+                <span class="input-group-addon" id="sizing-addon1">{{init.unit.name}} </span>
+              </div>
+
+
+            </div>
+          </td>
+
+        </tr>
+        <tr ng-if="info.spec.length">
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b>基础属性</b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+
+              <h5 ng-repeat="item in info.spec" class="text-default">{{item.name}}: {{item.val}}</h5>
+            </div>
+          </td>
+          <td class=" col-xs-6">
+            <div class="col-xs-5">
+
+              <b><em class="text-danger">*</em> 商品上架状态 </b>
+            </div>
+
+            <div class="col-xs-7 success">
+
+              <select ng-model="init.productStatus"  class="col-xs-4 input-md form-control"
+                ng-options="m.name for m in info.product_status" required>
+              </select>
+
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>
+            <div class="col-xs-6">
+              <button type="submit" class="btn btn-block btn-success btn-md" ng-click="add()">保存</button>
+            </div>
+            <div class="col-xs-6">
+              <button type="reset" class="btn btn-block btn-default btn-md" ng-click="reset()">重置</button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="block-title"></div>

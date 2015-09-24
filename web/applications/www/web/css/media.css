@@ -1,0 +1,187 @@
+
+/*--媒体查询开始--*/
+@media (max-width: 767px){
+  .aboutus_p{
+    margin:0 20px;
+    width:auto;
+    float: none;
+  }
+  .aboutus .erwei{
+    margin:auto;
+    width:auto;
+    float: none;
+  }
+  .jobslist{
+    margin:0;
+  }
+  .prolist li{
+    width:auto;
+    display: block;
+    margin:35px auto;
+  }
+  .callusp{
+    display: block;
+    margin:auto;
+    text-align: center;
+  }
+  .nav ul{
+    display: none;
+  }
+  .nav li{
+    margin:0;
+  }
+  .nav_joinus .icon_hot{
+    display: none;
+  }
+  .ban_vege .strawberry{
+    left:10%;
+    height:179px;
+  }
+  .ban_vege .lemon-small{
+    height: 100px;
+    left:0;
+  }
+  .nav ul.mobile{
+    display: block;
+    padding:15px 0;
+    left: 0;
+    position: absolute;
+    top: 100px;
+    z-index: 31;
+    text-align: center;
+    background: rgba(84,146,53,.8);
+    width: 100%;
+  }
+  .nav .mobile li{
+    border-bottom: 1px solid #6BAE49;
+    line-height: 3;
+    float: none;
+    width:100%;
+    border: none;
+    font-size: 14px;
+  }
+  .nav .mobile li:hover a{
+    color:#fff;
+    border:none;
+    border-bottom: 2px solid #fff;
+  }
+  .nav .mobile li a{ 
+    color:#fff;
+    width:70px;
+    font-size: 16px;
+    margin:auto;
+  }
+  #toggle-btn{
+    display: block;
+  }
+  .vegebg{
+    display: none;
+  }
+  .sidebar{
+    display: none;
+  }
+  .jobinfo .claim li{
+    display: block;
+  }
+  .jobinfo .name {
+      margin: 50px -20px 0 -20px;
+  }
+  .index_banner {
+    height: 378px;
+  }
+  .index_banner .fadeintotop{
+    right:-20%;
+  }
+  .ban_vege .lemon{
+    left:13%;
+    height:172px;
+  }
+  .index_banner .fadeintotop img{
+    -webkit-transform: scale(0.8);
+    right:-10%;
+    transform:scale(0.8);
+  }
+  .index_banner img{
+    transform: scale(0.6);
+    -webkit-transform: scale(0.6);
+  }
+  .ban_text1{
+    left:50%;
+    margin-left:-18%;
+  }
+  .ban_vege .pineapple {
+  width: 347px;
+  top: -219px;
+  z-index: 10;
+  left: 4%;
+  height: 280px;
+  }
+  .jobinfo .claim li{
+    width:100%;
+  }
+  .aboutus_text img{
+    transform:scale(0.8);
+    -webkit-transform:scale(0.8);
+  }
+  .aboutus_banner{
+    height:380px;
+  }
+  .dachu_icon{
+    display: block;
+  }
+  .dachu_icon li{
+    -webkit-box-flex: 0;
+    -ms-flex: 0;
+    -webkit-flex: 0;
+    flex: none;
+    display: block;
+    margin:auto;
+  }
+  .getjob{
+    float: none;
+  }
+  .getjob a{
+    display: block;
+    width:auto;
+    margin:10px auto;
+  }
+}
+@media (max-width: 480px){
+  .loading div{
+    -webkit-transform:scale(0.5);
+    transform:scale(0.5);
+  }
+  .loading .load_car{
+    -webkit-transform:scale(1);
+    transform:scale(1);
+  }
+    .index_banner img{
+      transform: scale(0.6);
+      -webkit-transform: scale(0.6);
+    }
+  .fadeintotop{
+    top:0;
+  }
+  .ban_text{
+    top: 10%;
+  }
+  .ban_text1{
+    top: 25%;
+    left:28%;
+  }
+  .ban_vege .pineapple{
+    left:-10%;
+    top: -20px;
+  }
+  .ban_vege .grape{
+    top: -117px;
+    left: -47px;
+  }
+  .index_banner {
+    height: 340px;
+  }
+  .aboutus_text img{
+    transform:scale(0.5);
+    -webkit-transform:scale(0.5);
+  }
+}

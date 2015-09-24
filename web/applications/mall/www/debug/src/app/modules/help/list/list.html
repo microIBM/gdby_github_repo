@@ -1,0 +1,14 @@
+<div class="help-list">
+  <div class="top">常见问题分类</div>
+  <accordion close-others="oneAtATime" ng-repeat="list in helpList">
+    <accordion-group is-open="list.status">
+      <accordion-heading>
+      <span class="m-l-30"> {{list.h1}}</span>
+        <i class="pull-right glyphicon" ng-class="{'glyphicon-menu-down': list.status, 'glyphicon-menu-right': !list.status}"></i>
+      </accordion-heading>
+      <ul class="qa-class-list">
+        <li tjid ng-repeat="h2 in list.h2"><a ng-class="{'active': h2.class}" ng-click="helpNavs(list.h1,h2.href,h2.title)" >{{h2.title}}</a></li>
+      </ul>
+    </accordion-group>
+  </accordion>
+</div>

@@ -1,0 +1,15 @@
+<header class="head" ng-controller="headerController">
+  <div class="container-fluid">
+    <div class="row head-top">
+      <div class="col-xs-4 backup text-left">
+        <em ng-show="!$state.current.data.showBack">
+          <a ng-if="isLogined">{{localInfo.name}}</a>
+        </em>
+      </div>
+      <div class="col-xs-4 listname" ng-bind="$state.current.data.pageTitle"></div>
+      <div class="col-xs-4 call"><a href="tel:400-8199-491" class="pull-right">客服</a>
+      <span class="glyphicon glyphicon-earphone pull-right tel_btn"></span>
+</div>
+    </div>
+  </div>
+</header>

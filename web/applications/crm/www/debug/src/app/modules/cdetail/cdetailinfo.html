@@ -1,0 +1,115 @@
+<div ng-show="isLoading" class="cdetail_load">
+  <div class="loading_spinner">
+    <div class="loading_bounce1"></div>
+    <div class="loading_bounce2"></div>
+    <div class="loading_bounce3"></div>
+  </div>
+</div>
+<div class="cdetail_wp" ng-if="isLoading === false">
+  <accordion close-others="one">
+  <accordion-group is-open="newmsg">
+  <accordion-heading>
+  {{userinfo.newmsg}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down' : newmsg, 'glyphicon-chevron-right' : !newmsg}"></i>
+  </accordion-heading>
+  <div>{{customer.sms}}</div>
+  </accordion-group>
+  <accordion-group is-open="analysis_open">
+    <accordion-heading>
+      客户分析<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down' : analysis_open, 'glyphicon-chevron-right' : !analysis_open}"></i>
+    </accordion-heading>
+    <div class="row">
+      <div class="col-xs-4">
+        <select class="form-control" ng-model="statistics.analysis_time" ng-options="item.name for item in statistics.analysis_times" ng-click="btnAnalysis(1)"></select>
+      </div>
+      <div class="col-xs-5">
+        <select class="form-control" ng-model="statistics.analysis_shop" ng-options="item.name for item in statistics.analysis_shops" ng-click="btnAnalysis(2)"></select>
+      </div>
+      <div class="col-xs-3">
+        <button class="btn btn-danger" ng-click="func.buy_analysis(statistics.analysis_time,statistics.analysis_shop)">查询</button>
+      </div>
+    </div>
+    <div ng-show="is_req_loading">
+      <div class="loading_spinner">
+        <div class="loading_bounce1"></div>
+        <div class="loading_bounce2"></div>
+        <div class="loading_bounce3"></div>
+      </div>
+    </div>
+    <div ng-show="is_show_analysis">
+      <canvas class="mt-10 chart chart-doughnut" data="statistics.analysis_data" labels="statistics.analysis_labels" legend="true"></canvas>
+      <div class="analysis_table">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>品类</th>
+              <th>总金额(元)</th>
+              <th>占比</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in statistics.analysis_table">
+              <td>{{item.name}}</td>
+              <td>{{item.value/100}}</td>
+              <td>{{item.rate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="total_data">本时间段统计数据<span ng-click="func.ask_dialog()" class="glyphicon glyphicon-question-sign"></span></p>
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="item in statistics.buy_data">{{item.name}}<span class="pull-right">{{item.value}}</span></li>
+      </ul>
+    </div>
+    <h5 class="text-center" ng-show="is_show_none">查询时间段内客户并未下单</h5>
+  </accordion-group>
+  <accordion-group is-open="historymsg">
+  <accordion-heading>
+  {{userinfo.history}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down' : historymsg, 'glyphicon-chevron-right' : !historymsg}"></i>
+  </accordion-heading>
+  <div class="cdelist">
+    <ul class="list-group">
+      <li>历史订单数<span class="pull-right">{{history.order_num}}</span></li>
+      <li>历史流水金额<span class=" c_fs14 pull-right">{{history.order_amount/100 | currency : '￥' : 2}}</span></li>
+      <li>历史移交记录<span class="pull-right"><span class="glyphicon glyphicon-chevron-right" ng-click="func.history_detail()"></span></span></li>
+    </ul>
+  </div>
+  </accordion-group>
+  <accordion-group is-open="basemsg">
+  <accordion-heading>
+  {{userinfo.baseinfo}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down' : basemsg, 'glyphicon-chevron-right' : !basemsg}"></i>
+  </accordion-heading>
+  <div class="cdelist">
+    <ul class="list-group">
+      <li>注册时间<span class="pull-right">{{baseinfo.created_time*1000 | date:'yyyy-MM-dd'}}</span></li>
+      <li>店铺名称<span class="pull-right">{{baseinfo.shop_name}}</span></li>
+      <li>客户类型<span class="pull-right">{{baseinfo.customer_type}}</span></li>
+      <li>子母账号类型<span class="pull-right">{{baseinfo.account_type}}</span></li>
+      <li ng-if="baseinfo.parent_mobile">关联母账号<span class="pull-right">{{baseinfo.parent_mobile}}</span></li>
+      <li>客户姓名<span class="pull-right">{{baseinfo.name}}</span></li>
+      <li class="mobile-phone">客户手机号<span class="pull-right">{{baseinfo.mobile}}<a class="phone" href="tel:{{baseinfo.mobile}}"><span class="glyphicon glyphicon-earphone ml-10"></span></a></span></li>
+      <li>收货人姓名<span class="pull-right">{{baseinfo.recieve_name}}</span></li>
+      <li class="mobile-phone">收货人手机号<span class="pull-right">{{baseinfo.recieve_mobile}}<a class="phone" href="tel:{{baseinfo.recieve_mobile}}"><span class="glyphicon glyphicon-earphone ml-10"></span></a></span></li>
+      <li>餐饮类别<span class="pull-right">{{baseinfo.shop_type}}</span></li>
+      <li>店铺规模<span class="pull-right">{{baseinfo.dimension_name}}</span></li>
+      <li>预估日均采购量（果蔬/肉）<span class="pull-right">{{baseinfo.greens_meat_estimated}}</span></li>
+      <li>预估日均采购量（米面粮油）<span class="pull-right">{{baseinfo.rice_grain_estimated}}</span></li>
+      <li class="address">详细地址<span class="pull-right"><a ng-click="func.view_map()"><span class="glyphicon glyphicon-map-marker ml-10"></span></a></span><span class="pull-right adress_text">{{baseinfo.address}}</li>
+      <li>配送线路<span class="pull-right">{{baseinfo.line}}</span></li>
+      <li>备注<span class="pull-right">{{baseinfo.remark}}</span></li>
+    </ul>
+  </div>
+  <div class="img_b mb-10 clearfix" ng-if = "imgurl.length > 0">
+    <div class="img_block">
+      <a ng-click = "openmodal(0)">
+       <img width="100%" ng-src="{{imgurl[0].url}}" />
+      </a>
+    </div>
+  </div>
+  <div class="btn-group btn-group-justified">
+    <a class="btn btn-success" ng-click="func.edit_customer()">编辑</a>
+    <a class="btn btn-warning" ng-click="func.reset_password()">重置密码</a>
+    <a class="btn btn-info" ng-click="func.new_register_change_shared()">置入公海</a>
+  </div>
+  </accordion-group>
+  </accordion>
+</div>

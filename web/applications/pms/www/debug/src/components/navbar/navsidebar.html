@@ -1,0 +1,13 @@
+<div class="col-xs-2 sidebar"ng-controller='SidebarCtrl'>
+  <ul class="nav nav-sidebar">
+    <li role="presentation" ng-click="changeUrl(item.val)">
+      <a ng-href="/" ng-class="{'active': currentUrl=='/'}" class="nav-li">首页</a>
+    </li>
+  </ul>
+  <ul class="nav nav-sidebar" ng-repeat="url in urls">
+    <li><h4 class="nav-li">{{url.name}}</h4></li>
+    <li ng-repeat="item in url.val" ng-click="changeUrl(item.val)">
+      <a ui-sref="{{item.val}}" ng-class="{'active': item.val===selectedItem}" class="nav-li-child">{{item.name}}</a>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="row user-wp">
+    <div class="col-sm-6 user-info">
+      <p class="pull-left user-img"><img ng-src="/assets/images/no-user.png" /></p>
+      <p>{{uinfo.name}}</p>
+      <p>大厨网</p>
+      <p class="change-password">{{uinfo.address}} <a tjid class="m-l-15 pull-right" ui-sref="page.password">修改密码></a></p>
+      <p class="user-loginout">{{uinfo.mobile}}<a tjid class="m-l-15 pull-right" ng-click="logout()">退出登录></a></p>
+    </div>
+   <div class="col-sm-6 myorder">
+      <h3>我的订单</h3>
+      <ul class="myorder-type clearfix">
+        <li ng-repeat="t in DC.myorderType"><a ng-click="setStatus({{t.status}})">{{t.value}}</a></li>
+      </ul>
+   </div>
+  </div>
+  <div class="myFollow">
+    <h3>我的关注</h3>
+
+  <div class="container text-center text-20 " ng-if="!DC.mycomment">
+    <img ng-src="assets/images/no_bg.png" class="m-t-120 m-b-60">
+    <p class="">您还没有关注任何商品！</p>
+    <a tjid ui-sref="page.home " class="m-b-120 go-btn">去逛逛</a>
+  </div>
+    <table class="table" ng-if="DC.mycomment">
+      <thead>
+        <tr>
+          <th>序号</th>
+          <th>商品货号</th>
+          <th>商品名称</th>
+          <th>规格</th>
+          <th>价格</th>
+          <th>单价</th>
+          <th>操作</th>
+          <th>购买</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in DC.mycomment">
+          <td>{{$index +1}}</td>
+          <td>{{item.sku_number}}</td>
+          <td>{{item.title}}</td>
+          <td><span>{{item.spec_info.val}}</span></td>
+          <td>{{item.price | money : 2}}/{{item.unit_cn}}</td>
+          <td>
+            <span ng-if="item.net_weight_price !=0">&yen;{{item.net_weight_price | money : 2}}/斤</span>
+            <span ng-if="item.net_weight_price == 0">暂无单价</span>
+          </td>
+          <td><a tjid class="del-follow" ng-click="delFollow(item)">取消关注</a></td>
+          <td class="go-buy">
+            <div class="clearfix p-0 cate-btn myfollow-buy">
+              <div class=" p-0 pull-left">
+                <div class="diy_cartP myfollow-plus input-group input-group-sm mb-0">                
+                  <span class="input-group-addon order-btn-minus p-lr-3">
+                    <em tjid class="glyphicon glyphicon-minus " ng-click="minus(item)"></em>
+                  </span>
+                  <input tjid type="text" min="1" class="form-control text-center" ng-model="item.quantity" ng-focus="clearNum(item)" ng-blur="setNum(item, true)" ng-change="setNum(item)">
+                  <span class="input-group-addon order-btn-plus p-lr-3">
+                    <em tjid class="glyphicon glyphicon-plus "   ng-click="plus(item)"></em>
+                  </span>
+                </div>
+              </div>
+              <div class="m-l-10 p-0 pull-left text-right " >
+                <button class="btn btn-plus p-tb-4 p-lr-4" id="{{item.id}}" ng-click="toggleItems(item, item.quantity)" set-class ="{{item}}"> <span class="text">加入购物车</span></button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

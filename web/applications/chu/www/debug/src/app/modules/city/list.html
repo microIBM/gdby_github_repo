@@ -1,0 +1,17 @@
+<div class="warp-page container-fluid">
+ <div ng-show="show_loading === true">
+    <div class="loading_spinner">
+      <div class="loading_bounce1"></div>
+      <div class="loading_bounce2"></div>
+      <div class="loading_bounce3"></div>
+    </div>
+  </div>
+  <section class="i_list">
+    <div class="row">
+     <div class="col-xs-12 i_class">
+        <a tjid href="#" ng-click="citySelect(city)" ng-repeat="city in cities">{{city.name}}</a>
+      </div>
+    </div>
+  </section>
+
+</div>

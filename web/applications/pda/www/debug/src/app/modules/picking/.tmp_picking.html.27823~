@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="row" >
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <a href="javascript:history.back()" class="btn btn-info pull-left">&lt;</a>
+                <h3 class="panel-title sort-title">分拣扫码</h3>
+                <a href="" class="btn btn-info pull-right">退出</a>
+            </div>
+            <div class="panel-body">
+                <div class="input-group input-group-lg">
+                  <span class="input-group-addon" id="basic-addon1">分拣号</span>
+                  <input type="text" class="form-control" placeholder="请扫描或输入分拣单号">
+                </div>
+                <a type="button" class="btn btn-success btn-lg form-control">确认</a>
+            </div>
+        </div>
+    </div>
+</div>

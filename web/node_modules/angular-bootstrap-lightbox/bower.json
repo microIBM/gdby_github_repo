@@ -1,0 +1,26 @@
+{
+  "name": "angular-bootstrap-lightbox",
+  "version": "0.8.0",
+  "main": [
+    "dist/angular-bootstrap-lightbox.js",
+    "dist/angular-bootstrap-lightbox.css"
+  ],
+  "ignore": [
+    "src",
+    ".*",
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "dependencies": {
+    "angular": "^1.4.4",
+    "angular-bootstrap": "^0.13.3"
+  },
+  "devDependencies": {
+    "angular-loading-bar": "^0.8.0",
+    "angular-touch": "^1.4.4",
+    "ng-videosharing-embed": "^0.3.3"
+  },
+  "resolutions": {
+    "angular": "^1.4.4"
+  }
+}

@@ -1,0 +1,21 @@
+CREATE TABLE `t_promotion` (
+    `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `site_id` int(11) NOT NULL DEFAULT '0' COMMENT '站点编号',
+    `location_id` int(11) NOT NULL DEFAULT '0' COMMENT '参与活动的城市编号',
+    `title` varchar(255) DEFAULT NULL COMMENT '活动标题',
+    `rule_type` int(11) NOT NULL DEFAULT '0' COMMENT '活动类别',
+    `rule_desc` text COMMENT '规格具体描述，不同规则描述不同',
+    `start_time` int(11) NOT NULL DEFAULT '0' COMMENT '活动开始时间',
+    `end_time` int(11) NOT NULL DEFAULT '0' COMMENT '活动结束时间',
+    `category_ids` text COMMENT '参与活动的分类编号',
+    `category_limit_num` text COMMENT '订单内容中至少需包含多少个以上的分类',
+    `latest_deliver_time` int(11) NOT NULL DEFAULT '0' COMMENT '最晚配送时间',
+    `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '状态',
+    `created_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+    `updated_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+    `limit_first` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否限制是首单，1为必须是首单，0为不要求是首单',
+    `order_type` int(11) NOT NULL DEFAULT '0' COMMENT '订单类型限制',
+    PRIMARY KEY (`id`),
+    KEY `status` (`status`),
+    KEY `valid_time` (`start_time`,`end_time`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='活动信息表';

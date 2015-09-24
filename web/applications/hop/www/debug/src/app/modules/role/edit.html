@@ -1,0 +1,56 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-sm-offset-2 col-sm-10 col-xs-12">
+      <div class="bs-callout bs-callout-danger">
+        <h5>修改角色</h5>
+      </div>
+      <div class="form-group" ng-show="basic_form.$invalid && basic_form.$dirty && show_error">
+        <div class="col-sm-12">
+          <div class="alert alert-danger">
+            <ul>
+              <li ng-show="basic_form.name.$error.required">请输入角色名称！</li>
+              <li ng-show="basic_form.dataset.$error.required">请选择数据集权限！</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="block mt-10 ml-default">
+        <form class="form-horizontal showcase-form" role="form" name="basic_form" id="basic_form">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">角色名称：</label>
+            <div class="col-sm-10">
+              <input type="text" name="name" ng-model="data.name" class="form-control" placeholder="请输入角色名称" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">数据集权限：</label>
+            <label class="radio-inline">
+              <input type="radio" name="dataset" ng-model="data.dataset" value="1" required> 个人
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="dataset" ng-model="data.dataset" value="2" required> 部门
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="dataset" ng-model="data.dataset" value="3" required> 全部
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">操作权限：</label>
+            <div class="col-sm-10">
+              <div ng-repeat="item in list">
+                <label>
+                  <input type="checkbox" ng-model="item.checked" ng-change="toggle($index);">
+                  {{item.pre_name}} 
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-info btn-lg col-sm-3 col-sm-offset-1" ng-click="edit();"> 提交</button>
+            <button class="btn btn-warning btn-lg col-sm-3 col-sm-offset-1" ng-click="reset()">重置</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

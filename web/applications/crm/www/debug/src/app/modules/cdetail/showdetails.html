@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h4 class="modal-title">结款明细</h4>
+</div>
+<div class="modal-body">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="w65">店铺名</th>
+        <th class="w35">应付金额</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in shopLists">
+        <td>{{item.shop_name}}</td>
+        <td>{{item.deal_price}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" ng-click="func.close()">关闭</button>
+</div>

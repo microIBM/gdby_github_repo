@@ -1,0 +1,98 @@
+<div class="warp-page p-0 container-fluid">
+  <div class="thumbnail mb-0" ng-if="products">
+    <!--广告幻灯--->
+    <a  class="diy_block">
+      <img ng-src="http://img.dachuwang.com/misc/13874856d43831c24fcc62fcc9305da9.jpg" alt="{{slide.caption}}" class="b-0 img-thumbnail">
+    </a>
+  </div>
+  <div ng-show="show_loading === true">
+    <div class="loading_spinner">
+      <div class="loading_bounce1"></div>
+      <div class="loading_bounce2"></div>
+      <div class="loading_bounce3"></div>
+    </div>
+  </div>
+  <div ng-if="ifnone_products === true" class="row block block-col">
+    <div class="col-xs-12 pt-10 pb-10 text-center" role="alert"><h4>抱歉！此分类下暂无商品</h4></div>
+  </div>
+  <div class="p-lr-15">
+    <div class="row" ng-repeat="product in products">
+      <ul class="seconedlist-ul clearfix">
+        <li>
+        <!--标题-->
+        <div class="col-xs-12">
+          <h4 class="green">{{product.title}}</h4>
+        </div>
+        <!--广告语-->
+        <div class="col-xs-12" ng-if="product.adv_words">
+          <h6 class="text-danger">{{product.adv_words}}</h6>
+        </div>
+
+        <!--图片-->
+
+        <div class="col-xs-4 pb-10 img_show text-center" ng-if="product.pictures[0].pic_url">
+          <img ng-click="lightBox(product.big_imgs)"  class="img-rounded zoom8" ng-src="{{product.pictures[0].pic_url}}"/>
+        </div>
+        <!--规格-->
+
+        <div class="pull-left pb-10 info" ng-class="{'col-xs-8':product.pictures[0].pic_url,'col-xs-12':!product.pictures[0].pic_url}">
+          <h6 ng-repeat="spec in product.spec" ng-show="spec.val">{{spec.name}}：<span>{{spec.val}}</span>
+          </h6>
+          <h6>价格：
+            <span ng-if="product.is_round == 1">约</span>
+            <span class="text-danger">&yen;{{product.price}}</span>
+            <span style="text-decoration:line-through" ng-show="false">&nbsp;&yen;{{product.market_price}}
+            </span>
+            <span ng-if="product.unit">
+              /{{product.unit}}
+            </span>
+
+            <span class="text-danger" ng-if="product.buy_limit != 0 ">&nbsp; (限购{{product.buy_limit}}{{product.unit}})</span>
+          </h6>
+          <h6 class="text-default" ng-if="product.unit != product.close_unit_name && product.close_unit_name">
+            单价：{{product.single_price}}/{{product.close_unit_name}}
+          </h6>
+          <h6 class="text-danger" ng-if="product.close_unit_name != product.unit && product.close_unit_name">
+            按{{product.unit}}售卖, 按{{product.close_unit_name}}结算
+          </h6>
+        </div>
+        <!--按钮添加-->
+
+
+        <div class="col-xs-12 pb-10 row_br" ng-if="product.storage == 0 && 0">
+          <span class="text-warning">已卖完咯，请等待下一次促销</span>
+        </div>
+        <div class="col-xs-12 pd-0 pb-10 row_br" ng-if="product.storage != 0">
+          <div class="col-xs-5 pr-0  pull-left">
+            <div class="text-danger pt-pb-6" ng-show="cartlist.ids.indexOf(product.id) >= 0">已加入{{product.quantity}}{{product.unit}}
+            </div>
+            <div class="diy_cartP input-group input-group-sm" ng-show="cartlist.ids.indexOf(product.id) < 0">
+              <span class="input-group-addon order-btn-minus">
+                <em class="glyphicon glyphicon-minus disa text-primary" ng-click="minus(product)"></em>
+              </span>
+              <input type="number" min="1" class="prval form-control text-center" ng-model="product.quantity" ng-focus="clearNum(product)" ng-blur="setNum(product, true)" ng-change="setNum(product)">
+              <span class="input-group-addon order-btn-plus">
+                <button class="glyphicon glyphicon-plus  text-primary reset_btn"  ng-disabled="is_limit"  ng-click="plus(product)"></button>
+              </span>
+            </div>
+          </div>
+          <div class="col-xs-3 pl-0 pr-0 pt-pb-6" ng-if="product.storage >0">&nbsp; 剩余{{product.storage}}{{product.unit}}</div>
+          <div class="col-xs-4 pl-0 pull-right text-right mb-10" ng-show="product.storage == 0 ">
+            <button class="is_shop white-c btn btn-defualt w100" ng-disabled="true" ><span class="text">&nbsp;已售罄&nbsp;</span></button>
+          </div>
+          <div class="col-xs-4 pl-0 pull-right text-right mb-10" >
+            <button class="is_shop btn btn-warning w100" id="{{product.id}}" ng-click="toggleItems(product, product.quantity)" set-class="{{product}}"><span class="text">加入购物车</span></button>
+          </div>
+        </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+<div class="thumbnail mb-0"ng-if="products">
+  <!--广告幻灯--->
+  <a  class="diy_block">
+    <img ng-src="http://img.dachuwang.com/misc/13874856d43831c24fcc62fcc9305da9.jpg" alt="{{slide.caption}}" class="b-0 img-thumbnail">
+  </a>
+</div>
+
+</div>

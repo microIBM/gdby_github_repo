@@ -1,0 +1,79 @@
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+    <h3 class="modal-title">{{items.headerText}}</h3>
+  </div>
+  <div class="modal-body">
+    <h2 class="text-center" style="font-size:14px;">{{items.bodyText}}</h2>
+  </div>
+  <div class="modal-footer">
+
+    <button tjid class="btn btn-primary" ng-click="cancel();" ng-if="items.tel">
+      <a tjid href="tel:{{items.tel}}"><span class="glyphicon glyphicon-phone-alt m-r-5"></span>{{items.tel}}</a>
+    </button>
+    <button tjid class="btn btn-primary" ng-click="items.ok();cancel();" ng-if="items.actionText">
+      {{items.actionText}}
+    </button>
+    <button tjid class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+  </div>
+</script>
+<div class="login_bg container-fluid">
+  
+  <!-- logo -->
+  <div class="logo">
+    <h3>大厨网</h3>
+  </div>
+  <div class="slogan"><h5>[ 让人们吃得安心 ]</h5></div>
+  <!--login form-->
+  <form class="login-form row block block-col form resetbd" name="loginForm" role="form" novalidate ng-submit="login()">
+    <div class="form_content">
+      <div class="form-group col-xs-12">
+        <span ng-class="{green : isgreen}" class="glyphicon diy_icon diy_icon_ctz diy_icon_ctz_user"></span><input type="tel" required class="input-md form-control" ng-model="user.mobile" ng-pattern="/^1[3|4|5|6|7|8|9]\d{9}$/" ng-minlength="11" ng-maxlength="11" name="mobile" id="tel" placeholder="请输入手机号" ng-focus="focuss()" ng-blur="isgreen = 0">
+      </div>
+      <div class="login_line"><span></span></div>
+      <div class="form-group col-xs-12 password_ctz">
+        <span class="glyphicon diy_icon diy_icon_ctz diy_icon_ctz_lock" ng-class="{greens : isgreens}"></span>
+        <input type="password" required class="input-md form-control" ng-minlength="6" ng-model="user.password" name="password" id="password" placeholder="请输入密码" ng-focus="focus()" ng-blur="isgreens =0">
+      </div>
+      <div class="login_line"><span></span></div>
+      <div class="form-group alert_box" ng-show="isL && loginForm.$valid && error.message">
+        <div class="col-sm-10">
+          <div class="alert alert_error_yellow min_alert" style="margin-bottom: 0px">
+            <ul>
+              <li role="alert">{{error.message}}</li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="form-group alert_box mg" ng-show="loginForm.$invalid && loginForm.$dirty && show_error">
+
+        <div class="col-sm-10">
+          <div class="alert alert_error_yellow min_alert" style="margin-bottom: 0px">
+            <ul>
+              <li ng-show="loginForm.mobile.$error.minlength">请输入正确的手机号</li>
+              <li ng-show="!loginForm.mobile.$error.minlength && loginForm.mobile.$error.pattern">手机号格式不正确</li>
+              <li ng-show="loginForm.mobile.$error.required">手机号必填</li>
+              <li ng-show="loginForm.password.$error.minlength">密码至少6位</li>
+              <li ng-show="loginForm.password.$error.required">密码必填</li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group"> 
+      <div class="form-group col-xs-12">
+        <button tjid type="submit"  class="btn btn-success btn-md btn-block">
+          登录
+        </button>
+      </div>
+    </div>
+    <div class="form-group signup_ctz">
+      若无账号，请
+          <a tjid ng-href="#" ng-click="showTips()" class="br-0">
+            注册
+          </a>
+    </div>
+  </form>
+  <!--login form end-->
+</div>

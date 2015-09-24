@@ -1,0 +1,30 @@
+<div ng-show="wait">
+  <div class="wait"></div>
+  <progressbar class="progress-striped active" value="100" type="info"><i>查询数据中，请稍等</i></progressbar>
+</div>
+<form ng-submit="submit_update()">
+  <div class="container">
+    <div class="row" >
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <a ui-sref="dispatch" class="btn btn-info pull-left">&lt;</a>
+          <h3 class="panel-title sort-title main-h3">确认发运</h3>
+          <a ng-click="logout()" class="btn btn-info pull-right">退出</a>
+        </div>
+        <div class="panel-body">
+          <img src="assets/images/logo.png">
+          <div ng-show ="error.msg != ''" class="{{error.cls}} text-center" id="wrong" role="alert">{{error.msg}}</div>
+          <div class="input-group input-group-lg">
+            <span class="input-group-addon" id="basic-addon1">配送号</span>
+            <span class="form-control">{{code_number}}</span>
+          </div>
+          <div class="input-group input-group-lg">
+            <span class="input-group-addon">订单量</span>
+            <span class="form-control">{{order_count}}</span>
+          </div>
+          <button type="submit" class="btn btn-success btn-lg form-control btn-a">确认</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,141 @@
+
+$oGreen = #549235
+$oGreens = #559235
+$oOrange = #fc9b16
+$bbe5 = 1px solid #e5e5e5
+.oGreen
+    color $oGreen
+.oGreens
+    color $oGreens
+.oOrange
+    color $oOrange
+.orderList
+    padding 0
+    margin 44px 0 0 0
+    li
+        background #fff;
+        padding 1px
+        margin 10px 10px 15px
+        list-style-type none
+        margin-bottom 15px
+    .orderlist_hd
+        background #e8f5e9;
+        padding 10px
+
+.orderlist_bd
+    .suborder-total
+        padding 10px 15px
+        span
+            color #ff9300
+    li
+        section
+            overflow hidden
+        section:nth-child(odd)
+            padding 0 10px
+            margin 0 -10px
+            background #e7e7e7
+.color-4cb050
+    color #4cb050;
+.orderlist_zi
+    padding 0
+    li
+        list-style-type none
+        padding 10px
+        margin 10px
+        background #f8fdf8;
+        table
+            thead
+                th{
+                    border-bottom:none;    
+                }
+                th[class*='col-']
+                    padding 0
+                    text-align right
+                th:first-child
+                    text-align left
+            tbody
+                td:first-child
+                    text-align left
+                    padding:0;
+                td
+                    border-top:none;
+                    padding 10px 0
+                    vertical-align text-top
+                    text-align right
+        footer
+            padding 10px 0
+            border-top $bbe5
+            p
+                margin 0
+.pay_type
+    margin 10px -10px 0
+    padding 10px
+    border-top $bbe5
+.pay_time
+    padding 0 10px 10px
+    position relative
+    .pay_btn
+        button
+            border-radius 2px
+            width 48%
+.weixin_btn
+    color #fff
+    background #559235
+.orderinfo
+    margin-bottom 10px
+    p
+        margin 0
+
+
+
+.billing-list{
+    .bill-dl{
+        background #fff;
+        margin-bottom:15px;
+    }
+    dt{
+        background #e0e0e0;
+        padding-left 15px;
+        line-height:2.5;
+    }
+    dd{
+        border-bottom:1px solid #cacaca;
+        position:relative;
+        z-index:11;
+        padding:10px;
+    }
+    .billinfo{
+        color #999;
+        button{
+            color #fff;
+            position:absolute;
+            z-index:12;
+            right:10px;
+            bottom:10px;
+            margin-top 20px
+            border-radius 2px;
+            padding 3px 12px;
+        }
+        p{
+            margin 5px 0 0
+        }
+    }
+}
+.subaccount-list{
+    margin-bottom:15px;
+    background:#fff;
+    dt{
+        background:#e0e0e0;
+        line-height:2.5;
+        padding:0 10px;
+    }
+    dd {
+        padding:10px;
+        background:#fff;
+        p{
+            margin:0;
+            color:#838383;
+            line-height:1.8;    
+        }    
+    }
+}

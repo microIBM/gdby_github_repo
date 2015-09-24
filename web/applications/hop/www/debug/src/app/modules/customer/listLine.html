@@ -1,0 +1,127 @@
+<div class="container-fluid">
+  <script type="text/ng-template" id="line.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+        <h2 class="text-center">{{items.bodyText}}</h2>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="items.ok();cancel();" ng-if="items.actionText">
+          {{items.actionText}}
+        </button>
+        <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+  <div class="width_change" id="row block-title">
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>客户线路管理</h5>
+      </div>
+      <div class="bs-callout">
+        <a ng-click="filterByStatus('all');" ng-class="{'btn-info': line_status == 'all'}" class="btn">
+          全部 <span class="badge">{{total[4]}}</span>
+        </a>
+        <a ng-click="filterByStatus('toAllot');" ng-class="{'btn-info': line_status == 'toAllot'}" class="btn">
+          待分配线路 <span class="badge">{{total[2]}}</span>
+        </a>
+        <a ng-click="filterByStatus('allot');" ng-class="{'btn-info': line_status == 'allot'}" class="btn">
+          已分配线路 <span class="badge">{{total[2]}}</span>
+        </a>
+        <div class="block mt-10 ml-default">
+          <!--时间筛选-->
+          <form class="form-inline" role="form">
+            <div class="form-group">
+              <select ng-model="line" class="form-control" name="line"
+                ng-options="m.name for m in line_list">
+                <option value="">
+                请选择线路
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">搜索类型</div>
+                <select ng-model="searchKey" class="form-control" name="searchKey"
+                  ng-options="m.name for m in keyList">
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">关键词</div>
+                <input type="text" ng-model="searchValue" class="form-control" placeholder="请输入搜索关键词" />
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info form-control" ng-click="search();"> 筛选 </button>
+              <button class="btn btn-block btn-warning form-control" ng-click="reset()">重置</button>
+            </div>
+            <div class="mt-10">
+            <div class="form-group">
+            </div>
+            <div class="form-group" ng-show="false">
+              <a class="btn btn-primary btn-sm" href="/customer/create">添加客户</a>
+            </div>
+          </div>
+          </div>
+        </form>
+
+        <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+            <colgroup>
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+              <col class="col-xs-3">
+              <col class="col-xs-1">
+            </colgroup>
+            <thead>
+              <tr>
+                <td class="text-center"><h5>编号</h5></td>
+                <td class="text-center"><h5>客户姓名</h5></td>
+                <td class="text-center"><h5>手机号</h5></td>
+                <td class="text-center"><h5>店铺名称</h5></td>
+                <td class="text-center"><h5>线路名称</h5></td>
+                <td class="text-center"><h5>操作</h5></td>
+              </tr>
+            </thead>
+            <tbody ng-if="list.length===0">
+              <tr>
+                <td colspan="8" class="text-center"><h5>暂无数据</h5></td>
+              </tr>
+            </tbody>
+            <tbody ng-if="list.length>0">
+              <tr ng-repeat="item in list">
+                <td class="text-center">
+                  <h5>{{item.id}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.mobile}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.shop_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.line_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>
+                    <a class="btn btn-primary btn_mb5 btn-sm" ui-sref="home.customerEditLine({id: item.id})">编辑客户线路</a>
+                  </h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <div ng-include="'components/navbar/navbar.html'" ng-init="isLogin='false'"></div>
+  <div class="row login_b show-grid">
+      <div class="col-md-12 col-xs-12">
+  <!--login form-->
+  <div class="clogin col-md-4 col-md-offset-4">
+  <h3 class="clogin_h3" ng-controller="TopCtrl">{{title}}</h3>
+  <p ng-show="error" class="{{error.cls}}">{{error.msg}}</p>
+  <form class="row block block-col form-horizontal" name="loginForm" role="form"  novalidate ng-submit="login()">
+   <div class="form-group c_loginb col-xs-12">
+      <div class="col-sm-12">
+        <input type="tel" required class="input-lg form-control" ng-model="user.mobile" ng-pattern="/^1[3|5|6|7|8|9]\d{9}$/" ng-minlength="11" ng-maxlength="11" name="mobile" id="tel" placeholder="请输入手机号">
+        <div class="col-xs-12 block-col  label label-danger" ng-show="(loginForm.submitted || loginForm.mobile.$dirty)  && loginForm.mobile.$invalid">
+          <small ng-show="loginForm.mobile.$error.minlength">请输入正确的手机号</small>
+          <small ng-show="!loginForm.mobile.$error.minlength && loginForm.mobile.$error.pattern">手机号格式不正确</small>
+          <small ng-show="loginForm.mobile.$error.required">手机号必填</small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group c_loginb col-xs-12">
+      <div class="col-sm-12">
+        <input type="password" required class="input-lg form-control" ng-minlength="6" ng-model="user.password" name="password" id="password" placeholder="请输入密码">
+      <div class="col-xs-12  block-col label label-danger" ng-show="loginForm.submitted  && loginForm.password.$invalid">
+        <small ng-show="loginForm.password.$error.minlength">密码至少6位</small>
+        <small ng-show="loginForm.password.$error.required">密码必填</small>
+      </div>
+    </div>
+  </div>
+   <div class="form-group col-xs-12">
+      <div class=" col-sm-12">
+       <button  type="submit" class="btn btn-success btn-block">
+          登录
+        </button>
+
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+  <!--login form end-->
+  </div>
+</div>
+</div>

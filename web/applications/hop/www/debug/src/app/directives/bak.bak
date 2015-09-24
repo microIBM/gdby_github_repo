@@ -1,0 +1,129 @@
+'use strict'
+
+
+angular.module('hop').directive('map', function(req){
+  return {
+    restrict : 'A' ,
+    link : function(scope , ele , attrs){
+          var mapObj,
+              marker,  
+ 
+              markers = []; 
+function mapInit(){ 
+              mapObj = new AMap.Map("mapContainer",{  
+              center:new AMap.LngLat(116.397428,39.90923), //地图中心点  
+              level:11  //地图显示的比例尺级别  
+              //zoomEnable:false
+              }); 
+              // AMap.event.addListener(mapObj,'click',getLnglat); //点击事件 
+          }  
+          mapInit();
+          var toolBar = null;
+          var orderQuantity = [];
+          var orderDetail = [] ;
+  mapObj.plugin(["AMap.ToolBar"],function(){   
+      toolBar = new AMap.ToolBar();
+      mapObj.addControl(toolBar);    
+    });
+      mapObj.plugin(["AMap.MapType"], function() {
+            var type = new AMap.MapType({defaultType:0});//初始状态使用2D地图
+            mapObj.addControl(type);
+          });
+          function createInfoWindow(title,content){
+            var info = document.createElement("div");
+            info.className = "info";
+            //可以通过下面的方式修改自定义窗体的宽高
+            // 定义顶部标题
+            var top = document.createElement("div");
+            var titleD = document.createElement("div");
+            var closeX = document.createElement("img");
+            top.className = "info-top"; 
+            titleD.innerHTML = title; 
+            closeX.src = "http://webapi.amap.com/images/close2.gif";
+            closeX.onclick = closeInfoWindow;
+              
+            top.appendChild(titleD);
+            top.appendChild(closeX);
+            info.appendChild(top);
+            
+            
+            // 定义中部内容
+            var middle = document.createElement("div");
+            middle.className = "info-middle";
+            middle.style.backgroundColor='white';
+            middle.innerHTML = content;
+            info.appendChild(middle);
+            
+            // 定义底部内容
+            var bottom = document.createElement("div");
+            bottom.className = "info-bottom";
+            bottom.style.position = 'relative';
+            bottom.style.top = '0px';
+            bottom.style.margin = '0 auto';
+            var sharp = document.createElement("img");
+            sharp.src = "http://webapi.amap.com/images/sharp.png";
+            bottom.appendChild(sharp);  
+            info.appendChild(bottom);
+            return info;
+        }
+        
+        //关闭信息窗体
+        function closeInfoWindow(){
+            mapObj.clearInfoWindow();
+        }
+       scope.initMarker =  function(){
+          req.getdata('order/lists_assign','get',function(data){
+            var data = data.orderlist;
+            var geo = null;
+            var inx = 0;
+            
+              for (var i = 0; i < data.length; i ++) {
+                geo = JSON.parse(data[i].geo);
+                var markerPosition = new AMap.LngLat(geo.lng*1,geo.lat*1);  
+                var marker = new AMap.Marker({  
+                    map:mapObj,  
+                    title : data[i].shop_name,
+                    position:markerPosition, //基点位置  
+                   // icon:"assets/images/will.png", //marker图标，直接传递地址url  
+content:'<div class="mapIcon"  style="background:url(assets/images/will.png); width:45px; height:38px;text-align: right; padding-right: 5px;">'+(data[i].user_id)+'</div>',
+ 
+                    offset:{x:-8,y:-34} //相对于基点的位置  
+                });  
+                (function(i){
+                       AMap.event.addListener(marker,'click',function(e){
+                             var infoWindow = new AMap.InfoWindow({
+                                isCustom:true,  //使用自定义窗体
+                                content:createInfoWindow('&nbsp;'+data[i].shop_name+'&nbsp;<span style="font-size:11px;">客户:'+data[i].realname+'</span>',"<img src='http://tpc.googlesyndication.com/simgad/5843493769827749134' style='position:relative;float:left;margin:0 5px 5px 0;'>地址："+data[i].deliver_addr+"<br/>电话："+data[i].mobile+"<br/><a href='http://baike.baidu.com/view/6748574.htm'>详细信息</a>"),
+                                offset:new AMap.Pixel(16, -45)//-113, -140
+                             });
+                             infoWindow.open(mapObj,this.getPosition());  
+                             inx++;
+                            var con =  e.target.getContent().toString().replace(/will/,'ing') ;
+                            e.target.setContent(con);
+                            e.target.setClickable(false);
+                           scope.quantitys = 0;
+                           for(var k=0; k<data[i].detail.length; k++){
+                              var num  = data[i].detail[k].quantity *1;
+                              scope.quantity += num;
+                              scope.quantitys += num ; 
+                           } 
+
+ scope.orderList.push({name:data[i].realname,quantity:scope.quantitys ,sum:data[i].detail.length ,  id:data[i].id ,userId:data[i].user_id ,tel:data[i].mobile,address:data[i].deliver_addr,store:data[i].shop_name,model:e.target})  
+                             scope.sum += data[i].detail.length;
+                             scope.$apply();
+                       }); 
+                })(i)
+                markers.push(marker);  
+              }
+            })
+           }
+        scope.initMarker();
+        //清空地图
+        function clearMap(){    
+            mapObj.clearMap();
+            cloudDataLayer.setMap(null);
+        }
+            }
+          }
+});
+

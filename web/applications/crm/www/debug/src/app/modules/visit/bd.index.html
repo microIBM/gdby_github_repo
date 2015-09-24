@@ -1,0 +1,55 @@
+<div class="warp-page container-fluid">
+	<div class="head-bottom ng-scope">
+		<div class="flex-nav">
+			<ul class="flex-center-50">
+				<li ng-repeat="item in tabList" ng-class="{'active':item.active}">
+					<a  ng-click="tabSwitch(item)">{{item.name}}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div ng-if="showItem==1" infinite-scroll="pagination.nextPage();" infinite-scroll-disabled="pagination.isDone || pagination.isProcessing" infinite-scroll-distance="0" class="row margin-top-50">
+		<!-- <accordion ng-repeat="item in list" >
+			<accordion-group is-open="true">
+				<div class="cdelist">
+					<ul class="list-group">
+						<li>店铺名称：<span>{{item.shop_name}}</span></li>
+						<li>拜访日期：<span>{{item.visit_date}}</span></li>
+					</ul>
+				</div>
+				<div ng-show="item.status==1" class="btn-group btn-group-justified">
+					<a  class="btn btn-success" ng-href='/visit/customer/{{item.id}}/{{item.user_id}}/{{item.is_potential}}' ng-click="analysis.visit()">进店拜访</a>
+					<a class="btn btn-warning" ng-href='/visit/modify/{{item.id}}/{{item.visit_date}}' ng-click="analysis.edit()">修改日期</a>
+					<a class="btn btn-info" ng-click="delete(item.id)">删除</a>
+				</div>
+				<div ng-show="item.status!=1" class="btn-group btn-group-justified">
+					<a class="btn btn-success"  ng-href='/visit/customerInfo/{{item.id}}' ng-click="analysis.read()">查看拜访记录</a>
+				</div>
+			</accordion-group>
+		</accordion> -->
+		<ul class="list-group ul-bd-index" ng-repeat="item in list" >
+			<li>店铺名称：<span>{{item.shop_name}}</span></li>
+			<li>拜访日期：<span>{{item.visit_date}}</span></li>
+			<li>
+				<div ng-show="item.status==1" class="btn-group btn-group-justified">
+					<a  class="btn btn-success" ng-href='/visit/customer/{{item.id}}/{{item.user_id}}/{{item.is_potential}}'>进店拜访</a>
+					<a class="btn btn-warning" ng-href='/visit/modify/{{item.id}}/{{item.visit_date}}'>修改日期</a>
+					<a class="btn btn-info" ng-click="delete(item.id)">删除</a>
+				</div>
+				<div ng-show="item.status!=1" class="btn-group btn-group-justified">
+					<a class="btn btn-success"  ng-href='/visit/customerInfo/{{item.id}}'>查看拜访记录</a>
+				</div>
+			</li>
+		</ul>
+		<div ng-show="pagination.isProcessing">
+	       <div class="loading_spinner">
+		        <div class="loading_bounce1"></div>
+		        <div class="loading_bounce2"></div>
+		        <div class="loading_bounce3"></div>
+	       </div>
+	    </div>
+	</div>
+	<div ng-if="showItem==2" class="row margin-top-60">
+		<md-date td-call-back="cellClick()" list-tags="calendarLists" is-normal="0"></md-date>
+	</div>
+</div>

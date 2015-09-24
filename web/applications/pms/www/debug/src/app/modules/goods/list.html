@@ -1,0 +1,151 @@
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>{{title}}</h5>
+      </div>
+      <div class="bs-callout">
+          <div class="mt-10">
+            <div class="form-group row">
+              <div class="col-xs-4">
+                <a class="btn-block btn btn-info" ui-sref="home.goodsAdd"> 发布货物 </a>
+              </div>
+              <!--div class="col-xs-4">
+                <a class="btn btn-default btn-lg btn-block" href="{{site_url}}/temp_export/get_products"> 导出货物列表 </a>
+              </div-->
+           </div>
+          </div>
+          <div class="block mt-10">
+           <a ng-click="filterByStatus('all');"
+            ng-class="{'btn-info': status == 'all'}" class="btn">
+            全部
+            <span class="badge">{{total[4]}}</span>
+          </a>
+          <a ng-click="filterByStatus('1');"
+            ng-class="{'btn-info': status == '1'}" class="btn">
+            已上架
+            <span class="badge">{{total[2]}}</span>
+          </a>
+          <a ng-click="filterByStatus('0');"
+            ng-class="{'btn-info': status == '0'}" class="btn">
+            已下架
+            <span class="badge">{{total[2]}}</span>
+          </a>
+          </div>
+          <div class="block mt-10 ml-default">
+            <!--时间筛选-->
+            <form class="form-inline" role="form">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon">关键词</div>
+                  <input type="text" ng-model="key" class="form-control" placeholder="请输入货物名或货号" />
+                </div>
+              </div>
+              <div class="form-group">
+                <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+              </div>
+              <div class="form-group">
+                <button class="btn btn-block btn-warning" ng-click="reset();">重置 </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+            <colgroup>
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+            </colgroup>
+            <thead>
+              <tr>
+                <td class="text-center"><h5><em class="text-danger">货号</em></h5></td>
+                <td class="text-center"><h5>内部名称</h5></td>
+                <td class="text-center"><h5>货物状态</h5></td>
+                <td class="text-center"><h5>货物规格</h5></td>
+                <td class="text-center"><h5>图片概况</h5></td>
+                <td class="text-center"><h5>保质期</h5></td>
+                <td class="text-center"><h5>近效期</h5></td>
+                <td class="text-center"><h5>录入条码</h5></td>
+                <td class="text-center"><h5>净重</h5></td>
+                <td class="text-center"><h5>安全库存范围</h5></td>
+                <td class="text-center"><h5>上一次更新时间</h5></td>
+                <td class="text-center"><h5>操作</h5></td>
+              </tr>
+            </thead>
+            <tbody ng-if="products.length===0">
+              <tr>
+                <td colspan="6" class="text-center"><h5>暂无数据</h5></td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr ng-repeat="item in products">
+                <td class="text-center">
+                  <h5><em class="text-danger">{{item.sku_number}}</em></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.name}}</h5>
+                </td>
+               <td class="text-center">
+                  <h5>
+                    <span class="label label-success" ng-if="item.status == 1"> 启用 </span>
+                    <span class="label label-danger" ng-if="item.status == 0"> 禁用 </span>
+                  </h5>
+                </td><td class="text-left">
+                  <h5 ng-repeat="desc in item.description">
+                    <em class="text-danger">{{desc.name}}:</em> &nbsp;{{desc.val}}
+                  </h5>
+                </td>
+                <td class="text-center">
+                  <h5>
+                    <span class="label label-success" ng-if="item.pic_ids_count">{{item.has_img_cn}}</span>
+                    <span class="label label-default" ng-if="!item.pic_ids_count">{{item.has_img_cn}}</span>
+                    <span ng-if="item.pic_ids_count">{{item.pic_ids_count}} 张</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.guarantee_period}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.effect_stage}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.code}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.net_weight}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.min_safe_storage}}-{{item.max_safe_storage}}{{item.unit_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.updated_time}}</h5>
+                </td>
+               <td class="text-center">
+                  <h5>
+
+                    <a class="btn btn-info btn-sm btn_mb5" ui-sref="home.GoodsEdit({productId:item.id})">
+                      编辑</a>
+
+                   <a ng-if="item.status == 1" class="btn btn-danger btn-sm btn_mb5" ng-click="setstatus({{item.id}}, 0, $index)">
+                      禁用</a>
+                    <a ng-if="item.status == 0" class="btn btn-success btn-sm btn_mb5" ng-click="setstatus({{item.id}}, 1, $index)">
+                      启用</a>
+                 </h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+         </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

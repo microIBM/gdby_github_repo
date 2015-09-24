@@ -1,0 +1,188 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>子订单列表</h5>
+      </div>
+      <div class="bs-callout">
+        <a ng-click="filterByStatus('-1');" ng-class="{'btn-info': status == '-1'}" class="btn">
+          全部 <span class="badge">{{total[-1]}}</span>
+        </a>
+        <a ng-click="filterByStatus('2');" ng-class="{'btn-info': status == '2'}" class="btn">
+          待审核 <span class="badge">{{total[2]}}</span>
+        </a>
+        <a ng-click="filterByStatus('3');" ng-class="{'btn-info': status == '3'}" class="btn">
+          待生产 <span class="badge">{{total[3]}}</span>
+        </a>
+        <a ng-click="filterByStatus('11');" ng-class="{'btn-info': status == '11'}" class="btn">
+          波次中 <span class="badge">{{total[11]}}</span>
+        </a>
+        <a ng-click="filterByStatus('12');" ng-class="{'btn-info': status == '12'}" class="btn">
+          待分拣 <span class="badge">{{total[12]}}</span>
+        </a>
+        <a ng-click="filterByStatus('13');" ng-class="{'btn-info': status == '13'}" class="btn">
+          已复核 <span class="badge">{{total[13]}}</span>
+        </a>
+        <a ng-click="filterByStatus('14');" ng-class="{'btn-info': status == '14'}" class="btn">
+          已分拨 <span class="badge">{{total[14]}}</span>
+        </a>
+        <a ng-click="filterByStatus('5');" ng-class="{'btn-info': status == '5'}" class="btn">
+          已出库 <span class="badge">{{total[5]}}</span>
+        </a>
+        <a ng-click="filterByStatus('8');" ng-class="{'btn-info': status == '8'}" class="btn">
+          已装车 <span class="badge">{{total[8]}}</span>
+        </a>
+        <a ng-click="filterByStatus('6');" ng-class="{'btn-info': status == '6'}" class="btn">
+          已签收 <span class="badge">{{total[6]}}</span>
+        </a>
+        <a ng-click="filterByStatus('1');" ng-class="{'btn-info': status == '1'}" class="btn">
+          已完成 <span class="badge">{{total[1]}}</span>
+        </a>
+        <a ng-click="filterByStatus('0');" ng-class="{'btn-info': status == '0'}" class="btn">
+          已关闭 <span class="badge">{{total[0]}}</span>
+        </a>
+        <a ng-click="filterByStatus('7');" ng-class="{'btn-info': status == '7'}" class="btn">
+          已拒收 <span class="badge">{{total[7]}}</span>
+        </a>
+        <div class="block mt-10 ml-default">
+          <form class="form-inline" role="form">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">订单类别</div>
+                <select class="form-control" ng-model="orderType" ng-options="m.msg for m in orderTypeList">
+                    <option value="">请选择订单类别</option>
+                </select>
+              </div>
+            </div>
+            <!--
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">所属系统</div>
+                <select class="form-control" ng-change="switchCity()" ng-model="site" ng-options="m.name for m in siteList">
+                  <option value="">请选择系统</option>
+                </select>
+              </div>
+            </div>
+            -->
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">城市</div>
+                <select class="form-control" ng-model="city" ng-options="m.name for m in cityList">
+                  <option value="">请选择城市</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">关键词</div>
+                <input type="text" ng-model="searchValue" class="form-control" placeholder="请输入搜索关键词" />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">送货起始时间</div>
+                <input type="text" is-open="opened"  datepicker-popup="yyyy-MM-dd" ng-click="open($event)" datepicker-options="dateOptions"  class="form-control" ng-model="startTime"  id="startTime" placeholder="点击获取时间">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">送货截止时间</div>
+                <input type="text" ng-model="endTime" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-options="endDateOptions"  ng-click="endOpen($event)" is-open="endOpened" id="endTime" placeholder="点击获取时间">
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-warning" ng-click="reset()">重置</button>
+            </div>
+            <div class="form-group" style="margin-left:10px;">
+              <button class="btn btn-block btn-danger" ng-click="confirmZip()">生成出库单</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+              <tr>
+                <td class="text-center" width="5%"><h5>内部编号</h5></td>
+                <td class="text-center" width="5%"><h5>母订单</h5></td>
+                <td class="text-center" width="12%"><h5>订单编号</h5></td>
+                <td class="text-center" width="8%"><h5>客户姓名</h5></td>
+                <td class="text-center" width="10%"><h5>客户电话</h5></td>
+                <td class="text-center" width="10%"><h5>店铺名称</h5></td>
+                <td class="text-center" width="15%"><h5>送货地址</h5></td>
+                <td class="text-center" width="10%"><h5>送货时间</h5></td>
+                <td class="text-center" width="5%"><h5>订单金额</h5></td>
+                <td class="text-center" width="5%"><h5>应付金额</h5></td>
+                <td class="text-center" width="5%"><h5>订单状态</h5></td>
+                <td class="text-center" width="10%"><h5>支付状态</h5></td>
+                <td class="text-center" width="5%"><h5>订单内容</h5></td>
+              </tr>
+            </thead>
+            <tbody ng-if="list.length===0">
+              <tr>
+                <td colspan="12" class="text-center"><h5>暂无数据</h5></td>
+              </tr>
+            </tbody>
+            <tbody ng-if="list.length>0">
+              <tr ng-repeat="item in list">
+                <td class="text-center">
+                  <h5>{{item.id}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5><a ng-href="order/detail/{{item.main_order_number}}">{{item.order_id}}</a></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.order_number}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.realname}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5><a ng-href="/user/dynamic/{{item.user_id}}">{{item.mobile}}</a></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.shop_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.deliver_addr}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.deliver_date}}</h5>
+                  <h5>{{item.deliver_time}}</h5>
+                  <h5 ng-if="item.is_urgent==1" class="label label-danger">加急送</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.total_price}}</h5>
+                  <h5><span class="label label-danger" ng-if="item.minus_amount > 0">优惠{{item.minus_amount}}元</span></h5>
+                  <h5><span class="label label-warning" ng-if="item.deliver_fee > 0">运费{{item.deliver_fee}}元</span></h5>
+                  <h5><span class="label label-warning" ng-if="item.pay_reduce > 0">支付减免{{item.pay_reduce}}元</span></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.final_price}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5 class="label {{item.class}}">{{item.status_cn}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.pay_type_cn}}</h5>
+                  <h5 ng-if="item.pay_type == 1 && item.pay_status == 0" class="label label-warning">未支付</h5>
+                  <h5 ng-if="item.pay_type == 1 && item.pay_status == 1" class="label label-success">支付成功</h5>
+                  <h5 ng-if="item.pay_type == 1 && item.pay_status == -1" class="label label-danger">支付失败</h5>
+                </td>
+                <td class="text-center">
+                  <h5><a ng-click="getpage()" ng-href="order/subDetail/{{item.order_number}}">查看</a></h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

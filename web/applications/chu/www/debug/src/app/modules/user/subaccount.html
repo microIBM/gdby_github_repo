@@ -1,0 +1,11 @@
+<div class="m-t-41">
+  <dl class="subaccount-list" ng-if="DC.subList.length > 0" ng-repeat="sub in DC.subList">
+    <dt>{{sub.shop_name}}</dt>
+    <dd>
+      <p>{{sub.name}}</p>
+      <p>{{sub.mobile}}</p>
+      <p>{{sub.address}}</p>
+    </dd>
+  </dl>
+  <p class="text-center" ng-if="DC.subList.length == 0">您现在没有子帐号</p>
+</div>

@@ -1,0 +1,45 @@
+<div  class="warp-page customerVisitClass container-fluid">
+<div class="bd-customer-ul-list">
+   <div>
+	   <ul  id="customer-column">
+	   	<li> 店铺名称：{{info.shop_name}}</li>
+	   	<li> 拜访日期：{{info.visit_date}}</li>
+	   </ul>
+   </div>
+   <div id="customerType">
+       <div>客户关系品类：</div>
+       <ul class="clearfix">
+       	   <li ng-repeat="item in focusCategories">
+             <label>
+		          <input type="checkbox" ng-model="item.checked" ng-click="checkClick(item,1)" >
+		          <span>{{item.name}}</span>
+            </label>
+            </li>
+       </ul>
+   </div>
+   <div id="questionType">
+       <div>意见类型：</div>
+       <ul class="clearfix">
+           <li ng-repeat="item in suggestions">
+		       	 <label>
+			          <input type="checkbox" ng-model="item.checked" ng-click="checkClick(item,2)" >
+			           <span>{{item.name}}</span>
+		         </label>
+            </li>
+       </ul>
+   </div>
+   <div class="row" id="remarkText">
+       <span>备注：</span>
+       <input type="text" ng-model="remark" value="">
+   </div>
+   <div class="row" id="btnCustomerList">
+         <div class="col-md-8">
+	          <div class="btn-block-colomn">
+				<a class="btn btn-danger" ng-click="reset()">重置</a>
+				<a class="btn btn-success" ng-if="stateVid != 0" ng-click="update()" >确定</a>
+        <a class="btn btn-success" ng-if="stateVid == 0"  ng-click="create()" >确定</a>
+			</div>
+	      </div>
+   </div>
+   </div>
+</div>

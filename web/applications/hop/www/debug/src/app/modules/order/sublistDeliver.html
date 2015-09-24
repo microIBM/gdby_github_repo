@@ -1,0 +1,129 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>待生产子订单列表</h5>
+      </div>
+      <div class="bs-callout">
+        <div class="block mt-10 ml-default">
+          <div class="row">
+            <!--时间筛选-->
+            <div class="col-xs-2">
+              <div class="input-group">
+                <div class="input-group-addon">订单类别</div>
+                <select class="form-control" ng-model="orderType" ng-options="m.msg for m in orderTypeList">
+                    <option value="">请选择订单类别</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="input-group">
+                <div class="input-group-addon">城市</div>
+                <select class="form-control" ng-model="city" ng-options="m.name for m in cityList">
+                    <option value="">请选择城市</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="input-group">
+                <div class="input-group-addon">送货日期</div>
+                <input type="text" is-open="opened" datepicker-popup="yyyy-MM-dd" ng-click="open($event)" datepicker-options="dateOptions" min-mode="day" class="form-control" ng-model="dateValue" id="dateValue" placeholder="点击获取时间">
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="input-group">
+                <div class="input-group-addon">时段</div>
+                <select class="form-control" ng-model="time" ng-options="m.val for m in timeList">
+                    <option value="">请选择</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <a class="btn btn-block btn-primary" target="_blank" ng-click="downloadAll()">导出订单汇总表</a>
+            </div>
+            <div class="col-xs-2">
+              <a class="btn btn-block btn-primary" target="_blank" ng-click="downloadDetail()">导出本次出库单</a>
+            </div>
+            <!--
+            <div class="col-xs-2">
+              <a class="btn btn-block btn-notice" target="_blank" href="{{site_url}}/temp_export/everyday_order">导出所有历史订单</a>
+            </div>
+            <div class="form-group">
+              <a ng-href="/orderMap/index" class="btn btn-block btn-info" >线路规划地图</a>
+            </div>
+            -->
+          </div>
+        </div>
+        <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+              <tr>
+                <td class="text-center" width="5%"><h5>内部编号</h5></td>
+                <td class="text-center" width="5%"><h5>母订单</h5></td>
+                <td class="text-center" width="12%"><h5>订单编号</h5></td>
+                <td class="text-center" width="8%"><h5>客户姓名</h5></td>
+                <td class="text-center" width="10%"><h5>客户电话</h5></td>
+                <td class="text-center" width="10%"><h5>店铺名称</h5></td>
+                <td class="text-center" width="15%"><h5>送货地址</h5></td>
+                <td class="text-center" width="10%"><h5>送货时间</h5></td>
+                <td class="text-center" width="5%"><h5>订单金额</h5></td>
+                <td class="text-center" width="5%"><h5>订单状态</h5></td>
+                <td class="text-center" width="5%"><h5>订单内容</h5></td>
+              </tr>
+            </thead>
+            <tbody ng-if="list.length===0">
+              <tr>
+                <td colspan="11" class="text-center"><h5>暂无数据</h5></td>
+              </tr>
+            </tbody>
+            <tbody ng-if="list.length>0">
+              <tr ng-repeat="item in list">
+                <td class="text-center">
+                  <h5>{{item.id}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5><a ng-href="order/detail/{{item.main_order_number}}">{{item.order_id}}</a></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.order_number}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.realname}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.mobile}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.shop_name}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.deliver_addr}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.deliver_date}}</h5>
+                  <h5>{{item.deliver_time}}</h5>
+                  <h5 ng-if="item.is_urgent==1" class="label label-danger">加急送</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.total_price}}</h5>
+                  <h5><span class="label label-danger" ng-if="item.minus_amount > 0">优惠{{item.minus_amount}}元</span></h5>
+                  <h5><span class="label label-warning" ng-if="item.deliver_fee > 0">运费{{item.deliver_fee}}元</span></h5>
+                  <h5><span class="label label-warning" ng-if="item.pay_reduce > 0">支付减免{{item.pay_reduce}}元</span></h5>
+                </td>
+                <td class="text-center">
+                  <h5 class="label label-success">{{item.status_cn}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5><a ng-click="getpage()"  ng-href="order/subDetail/{{item.order_number}}">查看</a></h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

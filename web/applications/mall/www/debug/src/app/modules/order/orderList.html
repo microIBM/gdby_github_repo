@@ -1,0 +1,268 @@
+<div class="container">
+  <div class="orderList-hd">
+    <div class="row">
+      <div class="orderList-hd-type col-xs-6">
+        <ul class="ordertype-ul">
+          <li ng-class="{active : showType == tab.status}" ng-repeat="tab in tabs">
+          <a tjid ng-click="setStatus({{tab.status}});">{{tab.name}} </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-xs-6 form-inline orderList-date">
+        <div class="input-group">
+          <input type="text" is-open="opened" datepicker-popup="yyyy-MM-dd" ng-click="open($event)" datepicker-options="dateOptions" class="form-control" ng-model="startTime" clear-text="关闭" close-text="清除" current-text="今天" id="startTime" placeholder="起始时间">
+        </div>
+        <span class="m-l-5 m-r-5">到</span>
+        <div class="input-group">
+          <input type="text" ng-model="endTime" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-options="endDateOptions" ng-click=" endOpen($event)" is-open="endOpened" clear-text="关闭" close-text="清除" current-text="今天" id="endTime" placeholder="结束时间" >
+        </div>
+        <button tjid type="submit" ng-click="filterTime()" class="btn data-btn">确定</button>
+        <button tjid type="submit" ng-click="initTime()" class="btn init-btn">重置</button>
+      </div>
+    </div>
+  </div>
+  <!--从账单筛选过来时展示-->
+  <div class="orderList-b" ng-if="!orderlist[0].suborders">
+    <div class="orderList-hover" ng-repeat="order in orderlist">
+      <div class="row orderList-number">
+        <div class="col-sm-7">
+          <span class="orderList-n">订单编号：{{order.order_number}}</span>
+          <span class="orderList-t m-r-15">{{order.status_cn}}</span>
+        </div>
+      </div>
+      <table class="table table-condensed orderList-table">
+        <colgroup>
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>商品货号</th>
+            <th>商品名称</th>
+            <th>规格</th>
+            <th>单价/斤</th>
+            <th>价格/件</th>
+            <th>订货斤数</th>
+            <th>订货件数</th>
+            <th>拒收斤数</th>
+            <th>拒收件数</th>
+            <th>收货斤数</th>
+            <th>收货件数</th>
+            <th>订货金额</th>
+            <th>拒收金额</th>
+            <th>收货金额</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="o in order.details">
+            <td>{{$index+1}}</td>
+            <td>{{o.sku_number}}</td>
+            <td>{{o.name}}</td>
+            <td><span ng-repeat = "spec in o.spec"><p ng-if="spec.name == '规格'">{{spec.val}}</p></span></td>
+            <td>{{o.net_weight_price | currency : '&yen;' : 2}}</td>
+            <td>{{o.price | currency : '&yen;' : 2}}</td>
+
+            <td>{{o.ordered_catties}}</td>
+            <td>{{o.quantity}}</td>
+
+            <td><span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">{{o.rejected_catties}}</span></td>
+            <td><span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">{{o.rejected_quantity}}</span></td>
+
+            <td><span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">{{o.accept_catties}}</span></td>
+            <td><span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">{{o.actual_quantity}}</span></td>
+
+            <td>{{o.sum_price | currency : '&yen;' :2}}</td>
+            <td>
+              <span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">{{o.rejected_amount | currency : '&yen;' :2}}</span>
+              <span ng-if="order.status !='6' && order.status != '7' && order.status != '0' && order.status != '1'"></span>
+              <span ng-if="((order.status == '1' || order.status == '7' || order.status == '6') && o.rejected_amount == '-') && o.rejected_amount != '0'">0</span>
+            </td>
+            <td><span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">{{o.actual_sum_price | currency : '&yen;' :2}}</span></td>
+          </tr>
+
+          <tr>
+            <td colspan="8">
+              <p class="text-left orderList-beizhu" ng-if="orders.remarks">备注：{{orders.remarks}}</p>
+            </td>
+            <td colspan="7">
+              <div class="orderList-paytype">
+                <p class="payType">
+                <span>支付方式：{{orders.pay_type_cn}}</span>
+                <span>运费：{{order.deliver_fee | currency : '&yen;' : 2}}</span>
+                <span>优惠：{{order.minus_amount | currency : '&yen;' : 2}}</span>
+                <span>押金：{{0 | currency : '&yen;' : 2}}</span>
+                </p>
+                <p class="payType">
+                <span>订单金额：{{order.final_price | currency : '&yen;' : 2}}</span>
+                <span ng-if="order.status =='6' || order.status == '7' || order.status == '0' || order.status == '1'">应付金额：{{order.deal_price | currency : '&yen;' : 2}}</span>
+                </p>
+              </div> 
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+ </div>
+  <!--正常订单列表显示-->
+  <div class="orderList-b" ng-if="orderlist.suborders.length !=0 && orderlist[$index].suborders" ng-repeat="orders in orderlist">
+    <h3 class="suborder-title" ng-if="orders.suborders.length > 1">尊敬的顾客，由于你的商品在不同仓库或属不同品类，所以您的订单被拆分为多个订单分开配送，给您带来的不便敬请谅解。</h3>
+    <div class="mu-suborder row clearfix">
+      <div class="col-sm-8">
+        <span>订单编号：{{orders.order_number}}</span>
+        <span class="m-l-10">收货地址：{{orders.deliver_addr}}</span>
+      </div>
+      <div class="col-sm-4 orderList-btn text-right">
+        <a tjid ui-sref="page.pay({orderId : orders.id})">
+          <button tjid ng-if="orders.pay_type =='1' && orders.pay_status != 1 && orders.status != '0'" type="submit" class="btn">付款</button>
+        </a>
+        <button tjid ng-if="(orders.pay_type =='0' || orders.pay_type == '2') && orders.status == '2'" type="submit" ng-click="cancel({{orders.id}}, orders.minus_amount)" class="btn">取消</button>
+        <button tjid ng-if="orders.pay_status != 1 && orders.pay_type =='1' && orders.status != '0' " type="submit" ng-click="cancel({{orders.id}}, orders.minus_amount)" class="btn">取消</button>
+        <button tjid type="submit" ng-if="orders.status == '1' || orders.status == '0'" ng-click="toggleItems(orders, orders.quantity)" class="btn">再次购买</button>
+        <a tjid class="btn btn-default bill-print" target="_blank" href="{{getUrl.url}}/order/export_order/{{orders.id}}">导出</a>
+      </div>
+    </div>
+    <div class="deliver_time mu-suborder">
+      <span class="m-l-5">下单时间：{{orders.created_time}}</span>
+      <span class="m-l-15">配送时间：{{orders.deliver_date}} </span>
+    </div>
+    <div class="orderList-hover" ng-repeat="order in orders.suborders" >
+      <div class="row orderList-number">
+        <div class="col-sm-12">
+          <span class="orderList-n">订单编号：{{order.order_number}}</span>
+          <span>(子订单{{$index+1}})</span>
+          <span class="orderList-t m-r-15" ng-if="order.status == '6' || order.status == '1' || order.status == '7'">已收货</span>
+          <span class="orderList-t m-r-15" ng-if="order.status == '0'">已取消</span>
+          <span class="orderList-t m-r-15" ng-if="order.status != '0' && order.status != '7' && order.status != '1' && order.status != '6'">{{order.status_cn}}</span>
+          <button ng-if="order.status == '6' || order.status == '1' || order.status == '7'" ng-click="sign(order.sign_img_url)" type="submit" class="btn btn-order">签收凭证</button>
+        </div>
+      </div>
+      <table class="table table-condensed orderList-table">
+        <colgroup>
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+          <col class="col-xs-1">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>商品货号</th>
+            <th>商品名称</th>
+            <th>规格</th>
+            <th>单价/斤</th>
+            <th>价格/件</th>
+
+            <th>订货斤数</th>
+            <th>订货件数</th>
+
+            <th>拒收斤数</th>
+            <th>拒收件数</th>
+
+            <th>收货斤数</th>
+            <th>收货件数</th>
+
+            <th>订货金额</th>
+            <th>拒收金额</th>
+            <th>收货金额</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="o in order.details">
+            <td>{{$index+1}}</td>
+            <td>{{o.sku_number}}</td>
+            <td>{{o.name}}</td>
+            <td><span ng-repeat = "spec in o.spec"><p ng-if="spec.name == '规格'">{{spec.val}}</p></span></td>
+            <td>{{o.net_weight_price | currency : '&yen;' : 2}}</td>
+            <td>{{o.price | currency : '&yen;' : 2}}</td>
+
+            <td>{{o.ordered_catties}}</td>
+            <td>{{o.quantity}}</td>
+
+            <td><span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">{{o.rejected_catties}}</span></td>
+            <td><span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">{{o.rejected_quantity}}</span></td>
+
+            <td><span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">{{o.accept_catties}}</span></td>
+            <td><span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">{{o.actual_quantity}}</span></td>
+
+            <td>{{o.sum_price | currency : '&yen;' :2}}</td>
+            <td>
+              <span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">{{o.rejected_amount | currency : '&yen;' :2}}</span>
+              <span ng-if="order.status !='6' && order.status != '7' && order.status != '0' && order.status != '1'"></span>
+              <span ng-if="((order.status == '1' || order.status == '7' || order.status == '6') && o.rejected_amount == '-') && o.rejected_amount != '0'">0</span>
+            </td>
+            <td><span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">{{o.actual_sum_price | currency : '&yen;' :2}}</span></td>
+          </tr>
+          <tr>
+            <td colspan="7">
+            </td>
+            <td colspan="8">
+              <div class="orderList-paytype">
+                <p class="payType">
+                <span>支付方式：{{orders.pay_type_cn}}</span>
+                <span>运费：{{order.deliver_fee | currency : '&yen;' : 2}}</span>
+                <span>优惠：{{order.minus_amount | currency : '&yen;' : 2}}</span>
+                <span>押金：{{order.deposit | currency : '&yen;' : 2}}</span>
+                </p>
+                <p class="payType">
+                <span>订单金额：{{order.final_price | currency : '&yen;' : 2}}</span>
+                <span ng-if="order.status =='6' || order.status == '7' || order.status == '0' || order.status == '1'">应付金额：{{order.deal_price | currency : '&yen;' : 2}}</span>
+                </p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="final-price">
+      <div class="orderList-paytype">
+        <p class="payType">
+        <span>支付方式：{{orders.pay_type_cn}}</span>
+        <span>运费：{{orders.deliver_fee | currency : '&yen;' : 2}}</span>
+        <span>优惠：{{orders.minus_amount | currency : '&yen;' : 2}}</span>
+        <span>押金：{{orders.deposit | currency : '&yen;' : 2}}</span>
+        </p>
+        <p class="payType">
+        <span ng-if="order.status =='6' || order.status == '7' || order.status == '1'">应付金额：{{order.final_price | currency : '&yen;' : 2}}</span>
+        </p>
+      </div>
+      <p class="payMoney">订单金额总计：<span>{{orders.final_price | currency : '&yen;' : 2}}</span></p>
+      <p ng-if="orders.status =='6' || orders.status == '7' || orders.status == '0' || orders.status == '1' || orders.deal_price != '0'" class="m-r-15 payMoney">应付金额总计：<span>{{orders.deal_price | currency : '&yen;' : 2}}</span></p>
+    </div>
+  </div>
+  <div>
+    <nav class="text-center p-tb-50">
+      <dachu-pagination conf="paginationConf">
+      </dachu-pagination>
+      <div ng-show="conf.totalItems <= 0">
+        <p><img src="assets/images/gwc.jpg" /></p>
+        <p tjid class="no-order m-t-20">暂无订单，去逛逛</p>
+        <p class="go-home m-t-40"><button tjid class="btn" ui-sref="page.home">去商城</button></p>
+      </div>
+    </nav>
+  </div>
+
+</div>

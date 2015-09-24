@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <script type="text/ng-template" id="set_status.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+        <h2 class="text-center">{{items.bodyText}}</h2>
+        <div class="form-group" ng-if="items.order.status == 6 || items.order.status == 5">
+        请填写备注信息
+        <textarea cols="20" rows="6" class="form-control" ng-model="items.sign_msg"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="items.ok(items.sign_msg);cancel();" ng-if="items.actionText">
+          {{items.actionText}}
+        </button>
+        <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+  <div class="width_change" id="row block-title">
+    <div class=" col-xs-offset-2">
+    <div class="bs-callout bs-callout-danger">
+      <h4>波次编号：{{info.id}}</h4>
+      <h5>波次类型：{{info.wave_type}}</h5>
+      <h5>所属系统：{{info.site_src}}</h5>
+      <h5>波次状态：{{info.task_created}}</h5>
+      <h5>订单数：{{info.order_count}}</h5>
+    </div>
+    <div class="row text-center" ng-if="info==''">
+      <h5>暂无记录</h5>
+    </div>
+    <div>
+      <table class="table table-bordered table-striped">
+        <colgroup>
+          <col class="col-xs-3">
+          <col class="col-xs-3">
+          <col class="col-xs-3">
+          <col class="col-xs-3">
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="text-center"><h5>订单号</h5></td>
+            <td class="text-center"><h5>波次号</h5></td>
+            <td class="text-center"><h5>线路</h5></td>
+            <td class="text-center"><h5>总件数</h5></td>
+            <td class="text-center"><h5>客户名称</h5></td>
+            <td class="text-center"><h5>订单状态</h5></td>
+            <td class="text-center"><h5>送货时间</h5></td>
+          </tr>
+          <tr ng-repeat="item in relatedOrders">
+            <td class="text-center">
+              <h5>{{item.order_number}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.wave_id}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.line}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.detail.length}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.shop_name}}</h5>
+              <h5>{{item.address}}</h5>
+              <h5>{{item.realname}}</h5>
+              <h5>{{item.mobile}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.status_cn}}</h5>
+            </td>
+            <td class="text-center">
+              <h5>{{item.deliver_date}} {{item.deliver_time}}</h5>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

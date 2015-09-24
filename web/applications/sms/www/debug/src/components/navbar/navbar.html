@@ -1,0 +1,108 @@
+
+    <div ng-show="is_loading" class="loading-mask">
+      <em></em>
+      
+    </div>
+<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="TopCtrl">
+  <script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header"> 
+      <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+      <h2 ng-bind-html="items.bodyText | unsafe"></h2>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="items.ok();cancel();" ng-if="items.actionText">
+          {{items.actionText}}
+        </button>
+      <button class="btn btn-warning" ng-click="cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+ <script type="text/ng-template" id="password.html">
+    <div class="modal-header">
+      <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+  <form class="row block block-col form-horizontal" role="form"  name="passwordForm">
+    <div class="form-group col-xs-12">
+      <label for="password" class="col-sm-2 control-label">
+        <h5>
+          <b>旧密码</b>
+        </h5>
+      </label>
+      <div class="col-sm-10">
+        <input type="password" required class="input-lg form-control" ng-model="reg.password" id="password" placeholder="请输入您的旧密码" ng-minlength="6" name="oldpassword">
+        <div class="col-xs-12  block-col label label-danger" ng-show="passwordForm.oldpassword.$dirty && passwordForm.oldpassword.$invalid">
+          <small ng-show="passwordForm.oldpassword.$error.minlength">旧密码至少6位</small>
+          <small ng-show="passwordForm.oldpassword.$error.required">旧密码必填</small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-xs-12">
+      <label for="newpassword" class="col-sm-2 control-label">
+        <h5>
+          <b>新密码</b>
+        </h5>
+      </label>
+      <div class="col-sm-10">
+        <input type="password" required class="input-lg form-control" ng-model="reg.newPassword" id="newPassword" placeholder="请输入您的新密码" ng-minlength="6" name="password">
+        <div class="col-xs-12  block-col label label-danger" ng-show="passwordForm.password.$dirty && passwordForm.password.$invalid">
+          <small ng-show="passwordForm.password.$error.minlength">密码至少6位</small>
+          <small ng-show="passwordForm.password.$error.required">密码必填</small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-xs-12">
+      <label for="newpassword" class="col-sm-2 control-label">
+        <h5>
+          <b>输入新密码</b>
+        </h5>
+      </label>
+      <div class="col-sm-10">
+        <input type="password" required class="input-lg form-control" ng-model="reg.newRePassword" id="newRePassword" ng-minlength="6" placeholder="请再次输入您的新密码" name="repassword">
+        <div class="col-xs-12  block-col label label-danger" ng-show="passwordForm.repassword.$dirty && passwordForm.repassword.$invalid">
+          <small ng-show="passwordForm.repassword.$error.minlength">确认密码至少6位</small>
+          <small ng-show="passwordForm.repassword.$error.required">确认密码必填</small>
+          </div>
+          <div class="col-xs-12 block-col label label-danger" ng-show="passwordForm.repassword.$dirty && passwordForm.repassword.$valid && reg.newRePassword != reg.newPassword">
+          <small>两次密码不一致</small>
+        </div>
+      </div>
+    </div>
+     </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="items.ok(reg);cancel()" ng-if="items.actionText">
+      {{items.actionText}}
+      </button>
+      <button class="btn btn-warning" ng-click="cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+  
+  <div class="container-fluid" ng-controller="NavbarCtrl">
+    <div class="navbar-header" style="width:100%;">
+      <a style="padding-right:0;" href="javascript:history.back()" class="glyphicon navbar-brand glyphicon-chevron-left"></a>
+      <a href="/" class="navbar-brand">{{title}}</a>
+      <div ng-if="isLogin">
+         <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown" dropdown>
+                <a href="/" class="dropdown-toggle" dropdown-toggle>{{userInfo}}<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li ng-click="changePwd()"><a href="#"> 修改密码 </a></li>
+                  <li ng-click="logout()"><a href="#">登出</a></li>
+                
+                <div class="mobile_menu" ng-controller='SidebarCtrl'>
+                  <ul ng-repeat="url in urls">
+                    <li ng-repeat="item in url.val">
+                      <a ng-href="{{item.val}}" ng-class="{'active': item.val==currentUrl}"class="nav-li-child">{{item.name}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="nav-mt"></div>

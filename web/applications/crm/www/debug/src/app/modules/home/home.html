@@ -1,0 +1,89 @@
+<div class="warp-page">
+  <div class="head-bottom" ng-if="showTabs">
+    <div class="flex-nav">
+      <ul class="flex-center-50">
+        <li ng-class="{active : showType == tab.status}" ng-repeat="tab in tabLists">
+        <a ng-click="func.changeStatus({{tab.status}});">{{tab.name}} </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="mt-nav" ng-if="isloading">
+    <div class="loading_spinner">
+      <div class="loading_bounce1"></div>
+      <div class="loading_bounce2"></div>
+      <div class="loading_bounce3"></div>
+    </div>
+  </div>
+  <div class="mt-nav" ng-if="showType===0 && isloading===false">
+    <accordion close-others="false">
+      <accordion-group ng-repeat="table in statistics" is-open="openstatus.list[$index]">
+        <accordion-heading>
+        {{table.heading}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': openstatus.list[$index],'glyphicon-chevron-right': !openstatus.list[$index]}"></i>
+        </accordion-heading>
+        <table class="table my-table">
+          <tr ng-repeat="item in table.data" ng-click="func.showDetail($index, table.heading, item.val)">
+            <td>{{item.key}}</td>
+            <td ng-class="{'td-relative' : $index >=2 && item.val!==0}">{{item.val}}<span ng-if="$index >=2 && item.val !==0" class="glyphicon glyphicon-chevron-right td-abs" ></span></td>
+          </tr>
+        </table>
+      </accordion-group>
+      <accordion-group is-open="openstatus.query">
+        <accordion-heading>
+          自选时间段<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': openstatus.query,'glyphicon-chevron-right': !openstatus.query}"></i>
+        </accordion-heading>
+        <form class="form" novalidate name="query_form" ng-submit="func.query()">
+          <div class="form-group">
+            <label class="control-label">起始时间</label>
+            <input name="btime" class="form-control" type="text" datepicker-popup="{{date_format}}" ng-model="date.begin_time" is-open="dpicker.begin.status" min-date="{{format.min}}" max-date="{{format.max}}" current-text="今日" clear-text="清除" close-text="关闭" ng-click="func.openDatepicker($event,1)" placeholder="点击选择日期" required>
+          </div>
+          <div class="form-group">
+            <label class="control-label">结束时间</label>
+            <input name="etime" class="form-control" type="text" datepicker-popup="{{date_format}}" ng-model="date.end_time" is-open="dpicker.end.status" min-date="{{format.min}}" max-date="{{format.max}}" current-text="今日" clear-text="清除"  close-text="确定" ng-click="func.openDatepicker($event,2)" placeholder="点击选择日期" required>
+          </div>
+          <div class="form-group" ng-if="isquering===false">
+            <button class="btn btn-primary btn-block" type="submit">查询</button>
+          </div>
+          <div ng-if="isquering===true">
+            <div class="loading_spinner">
+              <div class="loading_bounce1"></div>
+              <div class="loading_bounce2"></div>
+              <div class="loading_bounce3"></div>
+            </div>
+          </div>
+        </form>
+        <table class="table my-table" ng-show="show_metabolic">
+          <tr ng-repeat="item in metabolic">
+            <td>{{item.key}}</td>
+            <td>{{item.val}}</td>
+          </tr>
+        </table>
+      </accordion-group>
+      <accordion-group ng-repeat="table in capacity" is-open="capacity_openstatus.list[$index]">
+        <accordion-heading>
+        {{table.heading}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': capacity_openstatus.list[$index],'glyphicon-chevron-right': !capacity_openstatus.list[$index]}"></i>
+        </accordion-heading>
+        <table class="table my-table">
+          <thead>
+            <tr>
+              <th>类别</th>
+              <th>当前</th>
+              <th>上限</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in table.data">
+              <td>{{item.key}}</td>
+              <td>{{item.val.current}}</td>
+              <td>{{item.val.upper}}</td>
+            </tr>
+          </tbody>
+          <tr>
+        </table>
+      </accordion-group>
+    </accordion>
+  </div>
+  <div class="mt-nav" ng-if="showType!==0">
+    <div class="alert alert-warning" role="alert">正在开发中……</div>
+  </div>
+</div>

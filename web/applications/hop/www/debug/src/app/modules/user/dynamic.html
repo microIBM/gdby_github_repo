@@ -1,0 +1,339 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-sm-offset-2 col-sm-10 col-xs-12">
+      <div class="bs-callout bs-callout-danger">
+        <h5>客户动态</h5>
+      </div>
+      <!-- 基本信息 -->
+      <tabs>
+            <pane title="基本信息">
+               <div class="table-responsive" style="margin-top:10px;">
+                  <table class="table table-bordered table-striped table-hover">
+                    <tbody>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>店铺名称</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.shop_name}}</h5></td>
+                          <td class="text-center" width="10%"><h5>所属系统</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.site_name}}</h5></td>
+                          <td class="text-center" rowspan="3">
+                          <!-- <a ng-click="openLightboxModal(0)" href="javascript:;"><img style="width:120px;height:120px;" src="{{info.image[1].url}}" alt=""></a> -->
+                          <image-box  url='{{ info.image[0].url }}'>
+                              <image-modal show="0" url='{{ info.image[0].url}},{{info.image[1].url }}'></image-modal>
+                          </image-box>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>客户名称</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.name}}</h5></td>
+                          <td class="text-center" width="10%"><h5>店铺规模</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.dimension_name}}</h5></td>
+                      </tr>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>客户电话</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.mobile}}</h5></td>
+                          <td class="text-center" width="10%"><h5>所属城市</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.city_name}}</h5></td>
+                      </tr>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>注册时间</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.created_time}}</h5></td>
+                          <td class="text-center" width="10%"><h5>详细地址</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.address}}</h5></td>
+                          <td class="text-center" rowspan="4">
+                           <image-box url='{{info.image[1].url}}'>
+                                <image-modal show="1"  url='{{ info.image[0].url}},{{info.image[1].url }}'></image-modal>
+                           </image-box>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>餐饮类别</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.shop_type_name}}</h5></td>
+                          <td class="text-center" width="10%"><h5>配送路线</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.line_name}}</h5></td>
+                      </tr>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>所属销售</h5></td>
+                          <td class="text-center" width="30%"><h5><p ng-if='info.sale.name'>BD:{{info.sale.name}}</p><p ng-if='info.sale.mobile'>电话:{{info.sale.mobile}}</p></h5></td>
+                          <td class="text-center" width="10%"><h5>备注信息</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.remark}}</h5></td>
+                      </tr>
+                      <tr>
+                          <td class="text-center" width="10%"><h5>收货人姓名</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.recieve_name}}</h5></td>
+                          <td class="text-center" width="10%"><h5>收货人电话</h5></td>
+                          <td class="text-center" width="30%"><h5>{{info.recieve_mobile}}</h5></td>
+                     </tr>
+                    </tbody>
+                  </table>
+                </div>
+            </pane>
+            <pane title="数据分析">
+              <div style="margin:50px 0 50px 0;"><h3>正在开发.......</h3></div>
+            </pane>
+      </tabs>
+
+      <!-- 历史订单 -->
+      <tabs>
+            <pane title="历史订单">
+                <div class="bs-callout" style="margin-top:10px;border-left-width:none;">
+                  <a ng-click="func.filterByStatus('-1');" ng-class="{'btn-info': model_order.status == '-1'}" class="btn">
+                    全部 <span class="badge">{{totalArr[-1]}}</span>
+                  </a>
+                  <a ng-click="func.filterByStatus('2');" ng-class="{'btn-info': model_order.status == '2'}" class="btn">
+                    待审核 <span class="badge">{{totalArr[2]}}</span>
+                  </a>
+                  <a ng-click="func.filterByStatus('3');" ng-class="{'btn-info': model_order.status == '3'}" class="btn">
+                    待生产 <span class="badge">{{totalArr[3]}}</span>
+                  </a>
+                  <a ng-click="func.filterByStatus('11');" ng-class="{'btn-info': model_order.status == '11'}" class="btn">
+                    波次中 <span class="badge">{{totalArr[11]}}</span>
+                  </a>
+                  <a ng-click="func.filterByStatus('12');" ng-class="{'btn-info': model_order.status == '12'}" class="btn">
+                    待分拣 <span class="badge">{{totalArr[12]}}</span>
+                  </a>
+                  <a ng-click="func.filterByStatus('13');" ng-class="{'btn-info': model_order.status == '13'}" class="btn">
+                    已复核 <span class="badge">{{totalArr[13]}}</span>
+                  </a>
+                  <a ng-click="func.filterByStatus('14');" ng-class="{'btn-info': model_order.status == '14'}" class="btn">
+                    已分拨 <span class="badge">{{totalArr[14]}}</span>
+                  </a>
+                  <a ng-click="func.filterByStatus('5');" ng-class="{'btn-info': model_order.status == '5'}" class="btn">
+                    已出库 <span class="badge">{{totalArr[5]}}</span>
+                  </a>
+                  <a ng-click="func.filterByStatus('6');" ng-class="{'btn-info': model_order.status == '6'}" class="btn">
+                    已签收 <span class="badge">{{totalArr[6]}}</span>
+                  </a>
+                  <a ng-click="func.filterByStatus('1');" ng-class="{'btn-info': model_order.status == '1'}" class="btn">
+                    已完成 <span class="badge">{{totalArr[1]}}</span>
+                  </a>
+                  <a ng-click="func.filterByStatus('0');" ng-class="{'btn-info': model_order.status == '0'}" class="btn">
+                    已关闭 <span class="badge">{{totalArr[0]}}</span>
+                  </a>
+                  <a ng-click="func.filterByStatus('7');" ng-class="{'btn-info': model_order.status == '7'}" class="btn">
+                    已退货 <span class="badge">{{totalArr[7]}}</span>
+                  </a>
+                  <div class="block mt-10 ml-default">
+                    <form class="form-inline" role="form">
+                       <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">关键词</div>
+                          <input type="text" ng-model="model_order.searchValue" class="form-control" placeholder="请输入搜索关键词" />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">送货起始时间</div>
+                          <input type="text" is-open="model_order.opened"  datepicker-popup="yyyy-MM-dd" ng-click="func.open($event)" datepicker-options="model_order.dateOptions"  class="form-control" ng-model="model_order.startTime"  id="startTime" placeholder="点击获取时间">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">送货截止时间</div>
+                          <input type="text" is-open="model_order.endOpened" ng-model="model_order.endTime" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-options="model_order.endDateOptions"  ng-click="func.endOpen($event)"  id="endTime" placeholder="点击获取时间">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <button class="btn-block btn btn-info" ng-click="func.search()"> 筛选 </button>
+                      </div>
+                      <div class="form-group">
+                        <button class="btn btn-block btn-warning" ng-click="func.reset(1)">重置</button>
+                      </div>
+                    </div>
+                  </form>
+
+                  <div class="table-responsive" style="margin-top:10px;">
+                    <table class="table table-bordered table-striped table-hover">
+                      <thead>
+                        <tr>
+                          <td class="text-center" width="5%"><h5>内部编号</h5></td>
+                          <td class="text-center" width="12%"><h5>订单编号</h5></td>
+                          <td class="text-center" width="8%"><h5>客户姓名</h5></td>
+                          <td class="text-center" width="10%"><h5>客户电话</h5></td>
+                          <td class="text-center" width="10%"><h5>店铺名称</h5></td>
+                          <td class="text-center" width="15%"><h5>送货地址</h5></td>
+                          <td class="text-center" width="10%"><h5>送货时间</h5></td>
+                          <td class="text-center" width="5%"><h5>订单金额</h5></td>
+                          <td class="text-center" width="5%"><h5>订单状态</h5></td>
+                          <td class="text-center" width="10%"><h5>支付状态</h5></td>
+                          <td class="text-center" width="5%"><h5>订单内容</h5></td>
+                        </tr>
+                      </thead>
+                      <tbody ng-if="orderHistoryList.length===0">
+                        <tr>
+                          <td colspan="12" class="text-center"><h5>暂无数据</h5></td>
+                        </tr>
+                      </tbody>
+                      <tbody ng-if="orderHistoryList.length>0">
+                        <tr ng-repeat="item in orderHistoryList">
+                          <td class="text-center">
+                            <h5>{{item.id}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.order_number}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.realname}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.mobile}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.shop_name}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.deliver_addr}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.deliver_date}}</h5>
+                            <h5>{{item.deliver_time}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.total_price}}</h5>
+                            <h5><span class="label label-danger" ng-if="item.minus_amount > 0">优惠{{item.minus_amount}}元</span></h5>
+                            <h5><span class="label label-warning" ng-if="item.deliver_fee > 0">运费{{item.deliver_fee}}元</span></h5>
+                          </td>
+                          <td class="text-center">
+                            <h5 class="label {{item.class}}">{{item.status_cn}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <div ng-if="item.pay_type == 1 && item.pay_status == 0"><h5>微信支付</h5><h5 class="label label-warning">未支付</h5></div>
+                            <div ng-if="item.pay_type == 1 && item.pay_status == 1"><h5>微信支付</h5><h5 class="label label-success">支付成功</h5></div>
+                            <div ng-if="item.pay_type == 1 && item.pay_status == -1"><h5>微信支付</h5><h5 class="label label-danger">支付失败</h5></div>
+                            <h5 class="label label-info" ng-if="item.pay_type == 0">货到付款</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5><a ng-click="getpage()" ng-href="order/detail/{{item.order_number}}">查看</a></h5>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <nav>
+                    <dachu-pagination conf="paginationConf"></dachu-pagination>
+                  </nav>
+                </div>
+            </pane>
+            <pane title="历史投诉单">
+                <div class="bs-callout" style="margin-top:10px;border-left-width:none;">
+                  <a ng-click="func.filterByStatus_complaint('-1');" ng-class="{'btn-info': model_complaint.status == '-1'}" class="btn">
+                    全部 
+                  </a>
+                  <a ng-click="func.filterByStatus_complaint('1');" ng-class="{'btn-info': model_complaint.status == '1'}" class="btn">
+                    处理中
+                  </a>
+                  <a ng-click="func.filterByStatus_complaint('2');" ng-class="{'btn-info': model_complaint.status == '2'}" class="btn">
+                    已处理 
+                  </a>
+                  <div class="block mt-10 ml-default">
+                    <form class="form-inline" role="form2">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">关键词</div>
+                          <input type="text" ng-model="model_complaint.searchValue" class="form-control" placeholder="请输入搜索关键词" />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">起始时间</div>
+                          <input type="text" is-open="model_complaint.opened"  datepicker-popup="yyyy-MM-dd" ng-click="func.open_complaint($event)" datepicker-options="model_complaint.dateOptions"  class="form-control" ng-model="model_complaint.startTime"  id="startTime" placeholder="点击获取时间">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">截止时间</div>
+                          <input type="text" ng-model="model_complaint.endTime" class="form-control" datepicker-popup="yyyy-MM-dd" datepicker-options="model_complaint.endDateOptions"  ng-click="func.endOpen_complaint($event)" is-open="model_complaint.endOpened" id="endTime" placeholder="点击获取时间">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <button class="btn-block btn btn-info" ng-click="func.search_complaint()"> 筛选 </button>
+                      </div>
+                      <div class="form-group">
+                        <button class="btn btn-block btn-warning" ng-click="func.reset(2)">重置</button>
+                      </div>
+                    </div>
+                  </form>
+
+                  <div class="table-responsive" style="margin-top:10px;">
+                    <table class="table table-bordered table-striped table-hover">
+                      <thead>
+                        <tr>
+                         <!--  <td class="text-center" width="5%"><h5><input type="checkbox" ng-click="checkAll();" ng-model="check_all"/></h5></td> -->
+                          <td class="text-center" width="5%"><h5>投诉单号</h5></td>
+                          <td class="text-center" width="10%"><h5>填写时间</h5></td>
+                          <td class="text-center" width="5%"><h5>处理状态</h5></td>
+                          <td class="text-center" width="10%"><h5>投诉单类型</h5></td>
+                          <td class="text-center" width="5%"><h5>所属系统</h5></td>
+                          <td class="text-center" width="5%"><h5>地区</h5></td>
+                          <td class="text-center" width="5%"><h5>所属销售</h5></td>
+                          <td class="text-center" width="10%"><h5>订单号</h5></td>
+                          <td class="text-center" width="10%"><h5>店铺名称</h5></td>
+                          <td class="text-center" width="5%"><h5>客户姓名</h5></td>
+                          <td class="text-center" width="5%"><h5>客户电话</h5></td>
+                          <td class="text-center" width="15%"><h5>投诉单内容</h5></td>
+                          <td class="text-center" width="5%"><h5>操作</h5></td>
+                        </tr>
+                      </thead>
+                      <tbody ng-if="orderComplaintList.length===0">
+                        <tr>
+                          <td colspan="14" class="text-center"><h5>暂无数据</h5></td>
+                        </tr>
+                      </tbody>
+                      <tbody ng-if="orderComplaintList.length>0">
+                        <tr ng-repeat="item in orderComplaintList">
+                          <!-- <td class="text-center">
+                            <h5><input type="checkbox" ng-model="item.checked"/></h5>
+                          </td> -->
+                          <td class="text-center">
+                            <h5>{{item.id}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.created_time}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5><span class="label label-warning" ng-if="item.status == 1">处理中</span></h5>
+                            <h5><span class="label label-success" ng-if="item.status == 2">已处理</span></h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.ctype_name}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.site_name}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.city_name}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.invite_name}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.order_number}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.shop_name}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.name}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5>{{item.mobile}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5 ng-repeat="content in item.contents">{{content.name}}</h5>
+                          </td>
+                          <td class="text-center">
+                            <h5><a class="btn btn-primary btn_mb5 btn-sm" ng-href="complaint/edit/{{item.id}}">编辑</a></h5>
+                            <h5><a class="btn btn-danger btn-sm" ng-click="func.delete(item.id)">删除</a></h5>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <nav>
+                    <dachu-pagination conf="_paginationConf"></dachu-pagination>
+                  </nav>
+                </div>
+            </pane>
+      </tabs>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,184 @@
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+      <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+      <h4>{{items.bodyText}}</h4>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="items.ok();cancel();" ng-if="items.actionText">
+        {{items.actionText}}
+      </button>
+      <button class="btn btn-alert" ng-click="items.close();cancel()">{{items.closeText}}</button>
+    </div>
+</script>
+<div class="container-fluid">
+  <!--login form-->
+  <form name="regForm" class="row block block-col form-horizontal" name="regForm" role="form" novalidate ng-submit="register()" ng-controller="UserRegisterCtrl">
+    <div class="form-group col-xs-12">
+      <label for="market" class="col-sm-2 control-label">
+        <h6>
+          <b><em class="text-danger">*</em> 您的身份</b>
+        </h6>
+      </label>
+      <div class="col-sm-10">
+        <select required ng-model="addr.userType" name="userType" class="form-control input-md"
+          ng-options="m.name for m in types">
+          <option value="">选择身份</option>
+        </select>
+        <div class="col-xs-12 block-col label label-danger" ng-show="regForm.submitted && regForm.userType.$invalid">
+          <small ng-show="regForm.userType.$error.required">请选择一个注册身份</small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-xs-12">
+      <label for="tel" class="col-sm-2 control-label"><h6><b><em class="text-danger">*</em> 手机</b></h6></label>
+      <div class="col-sm-10">
+        <input type="text" phone-unique="mobile" required class="input-md form-control"  ng-pattern="/^1[3|5|6|7|8|9]\d{9}$/" ng-minlength="11" ng-model="reg.mobile" name="mobile" id="tel" placeholder="请输入您的手机号">
+        <div class="col-xs-12  block-col label label-danger" ng-show="(regForm.submitted || regForm.mobile.$dirty)  && regForm.mobile.$invalid">
+          <small ng-show="regForm.mobile.$error.minlength">请输入正确的手机号</small>
+          <small ng-show="!regForm.mobile.$error.minlength && regForm.mobile.$error.pattern">您输入的手机号格式不正确</small>
+          <small ng-show="regForm.mobile.$error.required">请输入您的手机号</small>
+          <small ng-if="regForm.mobile.$error.unique">手机号已被注册</small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-xs-12">
+      <label for="name" class="col-sm-2 control-label">
+        <h6><b><em class="text-danger">*</em> 姓名</b></h6>
+      </label>
+      <div class="col-sm-10">
+        <input type="text"  required class="input-md form-control"  ng-model="reg.name" name="name" id="name" placeholder="请输入您的真实姓名">
+        <div class="col-xs-12 block-col   label label-danger" ng-show="(regForm.submitted || regForm.name.$dirty)  && regForm.name.$invalid">
+          <small ng-show="regForm.name.$error.required">请输入您的姓名</small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-xs-12" ng-if="addr.userType.type == 30">
+      <label for="address" class="col-sm-2 control-label">
+        <h6><b><em class="text-danger">*</em> 您所在的批发市场 </b></h6>
+      </label>
+      <div class="col-sm-10">
+        <select required ng-model="addr.city" name="city" ng-options="c.name for c in cities" ng-change="getMarket()" class="block-space form-control input-md">
+          <option value="">选择城市</option>
+        </select>
+        <div class="col-xs-12 block-col  label label-danger" ng-show="(regForm.submitted || regForm.city.$dirty)  && regForm.city.$invalid">
+          <small ng-show="regForm.city.$error.required">请选择您所在的城市</small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-xs-12" ng-if="addr.userType.type == 30">
+      <div class="col-sm-10 col-sm-offset-2">
+        <select required ng-model="addr.market" class="form-control input-md" name="market" ng-options="m.name for m in markets">
+          <option value="">
+          选择批发市场
+          </option>
+        </select>
+        <div class="col-xs-12 block-col  label label-danger" ng-show="(regForm.submitted || regForm.market.$dirty)  && regForm.market.$invalid">
+          <small ng-show="regForm.market.$error.required">请选择您所在的批发市场</small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-xs-12" ng-if="addr.userType.type == 30">
+      <label for="detail_address" class="col-sm-2 control-label">
+        <h6>
+          <b><em class="text-danger">*</em> 档口位置</b>
+        </h6>
+      </label>
+      <div class="col-sm-10">
+        <input required type="text" class="input-md form-control" ng-model="reg.detailAddress" name="detail_address" id="detail_address" placeholder="请描述您在市场里的具体位置">
+        <div class="col-xs-12  block-col label label-danger" ng-show="(regForm.submitted || regForm.detail_address.$dirty)  && regForm.detail_address.$invalid">
+          <small ng-show="regForm.detail_address.$error.required">请输入您在市场里的具体位置</small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-xs-12" ng-if="addr.userType.type == 30">
+      <label for="detail_address" class="col-sm-2 control-label">
+        <h6>
+          <b>您的招牌(如 XX果业 )(选填)</b>
+        </h6>
+      </label>
+      <div class="col-sm-10">
+        <input type="text" class="input-md form-control" ng-model="reg.brand" name="brand" id="brand" placeholder="填写您的招牌，树立品牌意识">
+      </div>
+    </div>
+    <div class="form-group col-xs-12">
+      <label for="password" class="col-sm-2 control-label">
+        <h6>
+          <b><em class="text-danger">*</em> 密码</b>
+        </h6>
+      </label>
+      <div class="col-sm-10">
+        <input type="password" required class="input-md form-control" ng-model="reg.password" id="password"  name="password" placeholder="请输入您的密码">
+        <div class="col-xs-12  block-col  label label-danger" ng-show="(regForm.submitted || regForm.password.$dirty)  && regForm.password.$invalid">
+          <small ng-show="regForm.password.$error.required">请输入您的密码</small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-xs-12">
+      <label for="password" class="col-sm-2 control-label">
+        <h6>
+          <b><em class="text-danger">*</em> 确认密码</b>
+        </h6>
+      </label>
+      <div class="col-sm-10">
+        <input type="password" required class="input-md form-control" ng-model="reg.checkPassword" id="checkPassword" name="repassword" placeholder="请再次输入你的密码">
+        <div class="col-xs-12  block-col label label-danger" ng-show="(regForm.submitted || regForm.repassword.$dirty) && regForm.repassword.$invalid">
+          <small ng-show="regForm.repassword.$error.required">
+            请再次输入您的密码
+          </small> 
+        </div>
+        <div class="col-xs-12  block-col label label-danger" ng-show="(regForm.submitted || regForm.repassword.$dirty) && regForm.repassword.$valid && reg.checkPassword != reg.password">
+          <small>
+            两次密码输入不一致
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-xs-12">
+      <label for="password" class="col-sm-2 control-label">
+        <h6>
+          <b> 请输入推荐人的邀请码(选填) </b>
+        </h6>
+      </label>
+      <div class="col-sm-10">
+        <input type="text" class="input-md form-control" ng-model="reg.invite_code" id="checkPassword" name="invite_code" placeholder="请输入大果网地推人员邀请码">
+      </div>
+    </div>
+    <div class="form-group col-xs-12">
+      <label for="code" class="col-sm-2 control-label" >
+        <h6>
+          <b><em class="text-danger">*</em> 验证码</b>
+        </h6>
+      </label>
+      <div class="col-sm-10">
+        <div class="input-group">
+          <input class="input-md form-control" ng-pattern="/^\d+$/" required ng-model="reg.vcode" id="code" type="number" name="code"  placeholder="输入短信验证码">
+          <div ng-model="smsinfo" class="input-group-addon btn {{smsdis||smsable}}" ng-disabled="regForm.mobile.$invalid" ng-click="sms()">
+            {{smsinfo || '获取验证码'}}
+          </div>
+        </div>
+        <div class="col-xs-12  block-col label label-danger"  ng-show="(regForm.submitted || regForm.code.$dirty) && regForm.code.$invalid">
+          <small ng-show="regForm.code.$error.required">
+            请输入短信验证码
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="checkbox col-xs-12">
+      <div class="row">
+        <div class="col-xs-12">
+          <label class="control-label" ng-init="agree=true">
+            <h6>
+              <input type="checkbox" name="agree" id="agree" ng-model="agree"> <a href="/user/agreement">我已阅读并同意用户协议</a>
+            </h6>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 block-btn">
+      <button type="submit" class="btn btn-block btn-success btn-lg" ng-disabled="!agree">注册</button>
+    </div>
+  </form>
+  <!--login form end-->
+</div>

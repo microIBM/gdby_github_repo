@@ -1,0 +1,83 @@
+<!--login form-->
+<script type="text/ng-template" id="myModalContent.html">
+  <div class="modal-header">
+        <h3 class="modal-title">{{items.headerText}}</h3>
+      </div>
+      <div class="modal-body">
+        <h2 class="text-center">{{items.bodyText}}</h2>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="items.ok();cancel();" ng-if="items.actionText">
+          {{items.actionText}}
+        </button>
+        <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+      </div>
+</script>
+<div class="container-fluid">
+  <form class="row block block-col form-horizontal" role="form" ng-submit="save()" ng-controller="UserEditCtrl">
+    <div class="form-group col-xs-12">
+      <label for="name" class="col-sm-2 control-label">
+        <h5>
+          <b>姓名</b>
+        </h5>
+      </label>
+      <div class="col-sm-10">
+        <input type="text"  required class="input-lg form-control" ng-model="reg.name" name="mobile" id="name" placeholder="请输入您的姓名">
+      </div>
+    </div>
+    <div class="form-group col-xs-12" ng-if="normalUser">
+      <label for="address" class="col-sm-2 control-label">
+        <h5><b>地理位置</b></h5></label>
+      <div class="col-sm-10">
+        <select ng-model="addr.province" class="input-lg form-control"
+          ng-options="m.name for m in provinces" ng-change="get_child('citys', 'province');get_market('province')" required> 
+          <option value="">
+          选择省份
+          </option>
+        </select>
+        <select ng-model="addr.city" ng-options="c.name for c in citys" ng-change="get_child('countys', 'city');get_market('city')" class="block-space input-lg form-control" required>
+          <option value="">--选择城市--</option>
+        </select>
+        <select ng-model="addr.county" ng-options="x.name for x in countys" class="block-space input-lg form-control">
+          <option value="">--选择县--</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group col-xs-12" ng-if="normalUser">
+      <label for="market" class="col-sm-2 control-label">
+        <h5>
+          <b>市场位置</b>
+        </h5>
+      </label>
+      <div class="col-sm-10">
+        <select required ng-model="addr.market" class="form-control input-lg"
+          ng-options="m.name for m in markets">
+          <option value="">
+          选择市场信息
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group col-xs-12" ng-if="normalUser">
+      <label for="detail_address" class="col-sm-2 control-label">
+        <h5>
+          <b>详细地址(档口,饭馆名)</b>
+        </h5>
+      </label>
+      <div class="col-sm-10">
+        <input required type="text"  required class="input-lg form-control" ng-model="reg.detailAddress" name="detail_address" id="detail_address" placeholder="请输入详细地址">
+      </div>
+    </div>
+    <div class="form-group col-xs-12">
+      <div class="col-xs-6">
+        <button type="submit" class="btn col-xs-12 btn-success btn-lg">保存</button>
+      </div>
+      <div class="col-xs-6">
+        <a ng-click="discard()" class="btn btn-danger btn-lg btn-block ">
+          取消
+        </a>
+      </div>
+    </div>
+  </form>
+  <!--login form end-->
+</div>

@@ -1,0 +1,62 @@
+
+<header class="head">
+  <div class="container-fluid">
+    <div class="row head-top">
+      <div class="col-xs-3 backup text-left">
+        <a reback ng-show="$state.current.data.showBack"><span class="glyphicon glyphicon-menu-left pull-left back_btn"></span><span class="pull-left">返回</span></a>
+        <span ng-show="!$state.current.data.showBack">
+          <a ng-if="!isLogined" ui-sref="page.citySelect"> {{localInfo.name}}
+            <span class="glyphicon glyphicon-chevron-down"></span>
+          </a>
+          <a ng-if="isLogined">{{localInfo.name}}</a>
+        </span>
+      </div>
+      <div class="col-xs-9 backup text-center">
+        <form novalidate name="searchForm" class="pr">
+          <div class="form-group m-0 search_box w100">
+            <input type='text' class="form-control m-0 hei-30 text-center br-white" name="searchForm.name" ng-model="DC.search_name" required placeholder="搜索水果" ng-focus="DC.search(searchForm)" >
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+<div class="warp-page container-fluid white_bg ">
+
+<div class="nav  white_bg row nav_list br-b-1 pr">
+  <div class="nav_mask animated"  active_class="mask">
+
+    <span class="zoom5">
+      <img  ng-src="assets/images/arrow.png">
+    </span>
+    <span class="zoom5 m-lr-10">
+      <img  ng-src="assets/images/hand.png" class="animated infinite">
+    </span>
+
+    滑动切换分类
+
+    <span class="zoom5 ml-10">
+      <img  ng-src="assets/images/arrow_r.png">
+    </span>
+
+  </div>
+  <ol class="list-none nav-text pl-0 m-0 text-18" >
+    <li ng-repeat="cate in category" class="" ng-class="{ br_b_2 : DC.cate_id == cate.cate_parent_id}"  active_class="nav_list" ng-click="DC.active_list(cate.cate_child)">
+    {{cate.cate_parent}}</li>
+  </ol>
+</div>
+<section class="i_list pt-10">
+  <div class="row min-500 b_b_0" active_class="autoList">
+    <div class="col-xs-3 min-500 flex-center pt-0 slide_list">
+      <div>
+        <p class="c_mt10  title m-0 p-tb-10" active_class="slide_list"  ng-click="DC.product(cate.id)" ng-repeat="cate in DC.data"  ng-class="{greenB_textF: cate.id == DC.state}" >{{cate.name}}</p>
+
+      </div>
+    </div>
+    <div class="col-xs-9 i_class pt-0 p-0" >
+      <div ui-view="list"></div>
+    </div>
+  </div>
+</section>
+</div>

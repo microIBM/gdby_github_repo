@@ -1,0 +1,88 @@
+
+<div class="warp-page container-fluid  white_bg" active_class="autoCart" scroll-class="getProduct(DC.search_name, DC.page , 'customer/always_buy_products')"   can-load="canLoad" max-length="data.total">
+ 
+  <div ng-show="show_loading === true">
+    <div class="loading_spinner">
+      <div class="loading_bounce1"></div>
+      <div class="loading_bounce2"></div>
+      <div class="loading_bounce3"></div>
+    </div>
+  </div>
+  <div ng-if="products.length == 0" class="row m-0 block block-col"  active_class="autoCart">
+      <div class="col-xs-12 text-center pt-10 pb-10" >
+        <img  ng-src="assets/images/no_bg.png" class="zoom5 mt-100">
+
+        <h4 class="text-gray">暂时没有符合条件的商品</h4>
+      </div>
+  </div>
+
+ <div class="row"  >
+    <div class="row m-0" ng-repeat="product in products track by $index">
+      <ul class="seconedlist-ul clearfix">
+
+        <li ng-class="{ b_b_0 : $index == products.length -1 }">
+        <!--图片-->
+        <div class="col-xs-4 pb-10 mt-10 pr-0 img_show text-center" ng-if="product.pictures[0].pic_url">
+          <img tjid ng-click="lightBox(product.big_imgs)"  class="img-rounded zoom8 " ng-src="{{product.pictures[0].pic_url}}"/>
+        </div>
+        <!--规格-->
+        <div class="pull-left info pl-10 pr-10" ng-class="{'col-xs-8':product.pictures[0].pic_url,'col-xs-12':!product.pictures[0].pic_url}">
+
+        <!--标题-->
+        <div class="col-xs-12 p-0">
+          <h4 class="text-16">{{product.title}}</h4>
+        </div>
+        <!--广告语-->
+        <div class="col-xs-12 p-0" ng-if="product.adv_words">
+          <h6 class="text-danger mt-0">{{product.adv_words}}</h6>
+        </div>
+          <h6 ng-repeat="spec in product.spec track by $index" ng-show="spec.val">{{spec.name}}：<span>{{spec.val}}</span>
+          </h6>
+          <h6>价格：
+            <span ng-if="product.is_round == 1">约</span>
+            <span class="text-danger">&yen;{{product.price}}</span>
+            <span style="text-decoration:line-through" ng-show="false">&nbsp;&yen;{{product.market_price}}
+            </span>
+            <span ng-if="product.unit">
+              /{{product.unit}}
+            </span>
+            <span class="orange" ng-if="product.buy_limit != 0 ">&nbsp; (限购{{product.buy_limit}}{{product.unit}})</span>
+          </h6>
+          <h6 class="text-default" ng-if="product.unit != product.close_unit_name && product.close_unit_name">
+            单价：{{product.single_price}}/{{product.close_unit_name}}
+          </h6>
+          <h6 class="text-danger" ng-if="product.close_unit_name != product.unit && product.close_unit_name">
+            按{{product.unit}}售卖, 按{{product.close_unit_name}}结算
+          </h6>
+        <h6  ng-if="product.storage >0 && product.storage < 30">库存： 剩余{{product.storage}}{{product.unit}}</h6>
+        </div>
+        <!--按钮添加-->
+        <div class="col-xs-12 pd-0 ">
+          <div class="col-xs-6 pr-0 pl-10 pull-left">
+            <div class="text-danger pt-pb-6" ng-show="cartlist.ids.indexOf(product.id) >= 0">已加入{{product.quantity}}{{product.unit}}
+            </div>
+            <div class="diy_cartP input-group input-group-sm mb-0" ng-show="cartlist.ids.indexOf(product.id) < 0">
+              <span class="input-group-addon order-btn-minus">
+                <em tjid class="glyphicon glyphicon-minus disa text-primary" ng-click="minus(product)"></em>
+              </span>
+              <input type="number" min="1" class="prval form-control text-center" ng-model="product.quantity" ng-focus="clearNum(product)" ng-blur="setNum(product, true)" ng-change="setNum(product)">
+              <span class="input-group-addon order-btn-plus">
+                <em tjid class="glyphicon glyphicon-plus  text-primary reset_btn"  ng-disabled="is_limit"  ng-click="plus(product)"></em>
+              </span>
+            </div>
+          </div>
+          <div class="col-xs-5 pl-0 pr-10 pull-right text-right " ng-show="product.storage == 0 ">
+            <button tjid class="btn btn-default w100 cart_btn eee_bg" ng-disabled="true" ><span class="text">&nbsp;补货中&nbsp;</span></button>
+          </div>
+          <div class="col-xs-5 pl-0 pr-10 pull-right text-right " ng-show="product.storage > 0 || product.storage == -1 ">
+            <button class="is_shop btn btn-lightGreen w100 cart_btn" id="{{product.id}}" ng-click="toggleItems(product, product.quantity)" set-class ="{{product}}"> <span class="text">加入购物车</span></button>
+          </div>
+
+        </div>
+      </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+</div>

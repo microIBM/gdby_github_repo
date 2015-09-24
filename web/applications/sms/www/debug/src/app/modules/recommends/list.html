@@ -1,0 +1,137 @@
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>{{title}}</h5>
+      </div>
+      <div class="bs-callout">
+          <div class="mt-10">
+            <div class="form-group row">
+              <div class="col-xs-4">
+                <a class="btn-block btn btn-info" ui-sref="home.recommendCreate">
+                  发布首页推荐
+                </a>
+              </div>
+           </div>
+          </div>
+          <div class="block mt-10">
+           <a ng-click="filterByStatus('all');" 
+            ng-class="{'btn-info': status == 'all'}" class="btn">
+            全部
+            <span class="badge">{{total[4]}}</span>
+          </a>
+          <a ng-click="filterByStatus('1');"
+            ng-class="{'btn-info': status == '1'}" class="btn">
+            已上线
+            <span class="badge">{{total[2]}}</span>
+          </a>
+          <a ng-click="filterByStatus('2');"
+            ng-class="{'btn-info': status == '2'}" class="btn">
+            待下线
+            <span class="badge">{{total[2]}}</span>
+          </a>
+
+          <a ng-click="filterByStatus('0');"
+            ng-class="{'btn-info': status == '0'}" class="btn">
+            已下线
+            <span class="badge">{{total[2]}}</span>
+          </a>
+        </div>
+        <div class="block mt-10 ml-default">
+         <!--时间筛选-->
+          <form class="form-inline" role="form">
+           <div class="form-group">
+
+              <div class="input-group">
+                <div class="input-group-addon">关键词</div>
+                <input type="text" ng-model="key" class="form-control" placeholder="请输入推荐名称" />
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-warning" ng-click="reset();">重置 </button>
+            </div>
+          </form>
+        </div>
+          </div>
+
+        <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+            <colgroup>
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-4">
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+            </colgroup>
+            <thead>
+              <tr>
+               <td><h5><em class="text-danger">推荐id</em></h5></td>
+                <td class="text-center"><h5>推荐名称</h5></td>
+                <td class="text-center"><h5>推荐商品</h5></td>
+                <td class="text-center"><h5>状态</h5></td>
+                <td class="text-center"><h5>所属站点</h5></td>
+                <td class="text-center"><h5>所属城市</h5></td>
+                <td class="text-center"><h5>开始时间</h5></td>
+                <td class="text-center"><h5>结束时间</h5></td>
+                <td class="text-center"><h5>更新时间</h5></td>
+                <td class="text-center"><h5>操作</h5></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in advs">
+                <td>
+                  <h5><em class="text-danger">{{item.id}}</em></h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.title}}</h5>
+                </td>
+                <td>
+                  <h5 ng-repeat="product in item.products">{{product.sku_number}}：{{product.title}}({{product.price}}元/{{product.unit}})</h5>
+                </td>
+                <td class="text-center">
+                  <h5>
+                    <span class="label label-default" ng-if="item.status == 2"> 待上线 </span>
+                    <span class="label label-success" ng-if="item.status == 1"> 已上线 </span>
+                    <span class="label label-danger" ng-if="item.status == 0"> 已下线 </span>
+                  </h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.site_cn}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.location_cn}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.online_time_cn}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.offline_time_cn}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.updated_time}}</h5>
+                </td>
+               <td class="text-center">
+                 <h5>
+                  <a ng-if="item.status == 1" class="btn btn-danger btn-sm btn_mb5" ng-click="setStatus(item, 0)">
+                      下线</a>
+                    <a ng-if="item.status != 1 " class="btn btn-success btn-sm btn_mb5" ng-click="setStatus(item, 1)">
+                      上线</a>
+                 </h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+         </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

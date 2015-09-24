@@ -1,0 +1,27 @@
+ <script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+      <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+      <div class="row form-horizontal">
+      <div class="col-xs-12 form-group">
+        <select ng-model="selectCity" ng-change="items.cityChange(selectCity)" class="form-control" ng-options="item.name for item in items.bodyText">
+          <option value="">请选择所在城市</option>
+        </select>
+     </div>
+      <div class="col-xs-12 form-group">
+        <select ng-model="selectMarket" class="form-control" ng-options="item.name for item in items.markets">
+          <option value="">请选择所在市场</option>
+        </select>
+     </div>
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" ng-click="items.ok(selectCity, selectMarket);cancel();" ng-if="items.actionText">
+      {{items.actionText}}
+      </button>
+      <button class="btn btn-warning" ng-click="cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+  

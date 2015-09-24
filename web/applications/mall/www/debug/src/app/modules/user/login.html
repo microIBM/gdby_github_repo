@@ -1,0 +1,85 @@
+<div class=" p-tb-60 row login-main">
+  <div class="container">
+    <div class=" col-xs-7">
+       <h3>
+         <img ng-src="assets/images/qrCode.jpg" alt="扫一扫">
+         <p class="m-tb-20">微信扫一扫，关注大厨网公众号</p>
+         <img class="col-xs-12" ng-src="assets/images/fruit.png" alt="扫一扫">
+       </h3>
+    </div>
+
+    <div class=" col-xs-5">
+      <h2 class="text-green text-24 m-b-60">欢迎注册大厨网帐号</h2>
+
+      <form class="login-form row m-0 form-horizontal" name="loginForm" role="form" novalidate >
+        <div class="form-group">
+          <label class="control-label col-xs-3">用户名：</label>
+          <div class="col-xs-9">
+            <input type="tel" required class="input-md form-control" ng-model="user.mobile" ng-pattern="/^1[3|4|5|6|7|8|9]\d{9}$/" ng-minlength="11" ng-maxlength="11" name="mobile" id="tel" placeholder="请输入手机号" ng-focus="focuss()" ng-blur="isgreen = 0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-xs-3">密码：</label>
+          <div class="col-xs-9">
+            <input type="password" required class="form-control" ng-minlength="6" ng-model="user.password" name="password" id="password" placeholder="请输入密码" >
+          </div>
+        </div>
+        <div class="form-group" ng-show="isL && loginForm.$valid && error.message">
+          <div class="col-xs-offset-3 col-sm-9">
+            <div class="alert alert-danger min_alert" style="margin-bottom: 0px">
+              <ul>
+                <li role="alert">{{error.message}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="form-group alert_box mg" ng-show="loginForm.$invalid && loginForm.$dirty && show_error">
+
+          <div class="col-xs-offset-3 col-sm-19">
+            <div class="alert alert-danger min_alert" style="margin-bottom: 0px">
+              <ul>
+                <li ng-show="loginForm.mobile.$error.minlength">请输入正确的手机号</li>
+                <li ng-show="!loginForm.mobile.$error.minlength && loginForm.mobile.$error.pattern">手机号格式不正确</li>
+                <li ng-show="loginForm.mobile.$error.required">手机号必填</li>
+                <li ng-show="loginForm.password.$error.minlength">密码至少6位</li>
+                <li ng-show="loginForm.password.$error.required">密码必填</li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      <div class="form-group row m-b-15">
+        <div class="col-xs-offset-3 col-xs-9">
+          <div class="checkbox pull-right p-t-0" ng-if="0">
+            <a tjid class="text-blank">
+                忘记密码?
+            </a>
+          </div>
+          <div class="checkbox p-t-0">
+            <label>
+              <input tjid type="checkbox" ng-model="autoLogin" ng-checked="autoLogin"> 下次自动登录
+            </label>
+          </div>
+        </div>
+        </div>
+      <div class="form-group row">
+        <div class="col-xs-offset-3">
+        <div class=" col-xs-6 pull-right">
+          <button tjid  ng-click="login()" class="btn btn-success btn-md btn-block br-0">
+            登录
+          </button>
+        </div>
+        <div class=" col-xs-6">
+          <button tjid  ng-click="showTips()" class="btn btn-default btn-md btn-block br-0">
+            注册
+          </button>
+        </div>
+
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+</div>

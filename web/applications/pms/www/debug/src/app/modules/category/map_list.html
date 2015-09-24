@@ -1,0 +1,140 @@
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>{{title}}</h5>
+      </div>
+      <div class="bs-callout">
+        <div class="mt-10 text-left">
+          <div class="form-group row">
+            <div class="col-xs-4">
+              <a class="btn btn-success btn-lg btn-block" ui-sref="home.cateMapAdd"> 添加分类映射 </a>
+            </div>
+          </div>
+        </div>
+        <div class="block mt-10">
+          <a ng-click="filterByStatus('1');"
+            ng-class="{'btn-info': status == '1'}" class="btn">
+            使用中
+            <span class="badge">{{total[2]}}</span>
+          </a>
+          <a ng-click="filterByStatus('0');"
+            ng-class="{'btn-info': status == '0'}" class="btn">
+            已禁用
+            <span class="badge">{{total[2]}}</span>
+          </a>
+        </div>
+
+        <div class="block mt-10 ml-default">
+         <!--时间筛选-->
+          <form class="form-inline" role="form">
+            <div class="form-group">
+              <div class="input-group">
+                <select ng-model="locate" class="form-control" ng-options="location.name for location in locations">
+                  <option>--选择所属城市--</option>
+                </select>
+              </div>
+            </div>
+
+        <!-- 客户类型-->
+        <div class="form-group">
+
+          <div class="input-group">
+            <select ng-model="defulat_type" class="form-control"  ng-options="item.name for item in customer_type_options">
+            </select>
+          </div>
+        </div>
+        <!--站点类型 -->
+        <div class="form-group">
+
+          <div class="input-group">
+            <select ng-model="default_site" class="form-control"  ng-options="item.name for item in site_type_options">
+            </select>
+          </div>
+        </div>
+
+            <div class="form-group">
+
+              <div class="input-group">
+                <div class="input-group-addon">关键词</div>
+                <input type="text" ng-model="key" class="form-control" placeholder="分类名" />
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="search(0);"> 筛选 </button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-warning" ng-click="search(1);">重置 </button>
+            </div>
+          </form>
+        </div>
+ 
+      </div>
+
+        <div class="table-responsive" style="margin-top:10px;">
+          <table class="table table-bordered table-striped table-hover">
+            <colgroup>
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-3">
+              <col class="col-xs-2">
+              <col class="col-xs-2">
+              <col class="col-xs-3">
+            </colgroup>
+            <thead>
+              <tr>
+                <td class="text-center label-success"><h5>编号</h5></td>
+                <td class="text-center label-success"><h5>分类权重</h5></td>
+                <td class="text-center label-success"><h5>分类名</h5></td>
+                <td class="text-center label-success"><h5>分类状态</h5></td>
+                <td class="text-center label-success"><h5>所属系统</h5></td>
+                <td class="text-center label-success"><h5>上次更新时间</h5></td>
+                <td class="text-center label-danger"><h5>操作</h5></td>
+              </tr>
+            </thead>
+            <tbody ng-if="list.length===0">
+              <tr>
+                <td colspan="7" class="text-center"><h5>暂无数据</h5></td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr ng-repeat="item in list">
+                <td class="text-center">
+                  <h5>{{item.id}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.weight}}</h5>
+                </td>
+                <td class="text-center">
+                  <h5>
+                   {{item.name}}
+                  </h5>
+                </td>
+                <td class="text-center">
+                  <h5 ng-if="item.status == 1">有效</h5>
+                  <h5 ng-if="item.status == 0">无效</h5>
+                </td>
+                <td class="text-center">
+                  <h5 ng-if="item.site_id == 1">大厨网</h5>
+                  <h5 ng-if="item.site_id == 2">大果网</h5>
+                </td>
+                <td class="text-center">
+                  <h5>{{item.updated_time}}</h5>
+                </td>
+               <td class="text-center">
+                  <h5>
+                    <a class="btn btn-primary btn_mb5 btn-sm"
+                      ui-sref="home.editMap({id:item.id})">编辑分类</a>
+                   <a class="btn btn-danger btn-sm btn_mb5" ng-click="setStatus($index, 0)" ng-show="item.status == 1">禁用分类</a>
+                    <a class="btn btn-success btn-sm btn_mb5" ng-click="setStatus($index, 1)" ng-show="item.status == 0">启用分类</a>
+                 </h5>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+         </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

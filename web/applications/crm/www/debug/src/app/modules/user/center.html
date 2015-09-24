@@ -1,0 +1,28 @@
+<div class="warp-page container-fluid">
+ <div class="row block">
+    <div class="col-xs-12">
+      <h4>账户信息</h4>
+    </div>
+    <div class="col-xs-12 block-col">
+      <a ng-href="/user/password" class="text-primary">
+        <h5>修改密码</h5>
+      </a>
+    </div>
+    <div class="col-xs-12 block-col">
+      <h5>姓名：{{uinfo.name}}</h5>
+    </div>
+   <div class="col-xs-12 block-col">
+      <h5>地址：{{uinfo.address}}</h5>
+    </div>
+    <div class="col-xs-12 block-col">
+      <h5>电话：{{uinfo.mobile}}</h5>
+    </div>
+  </div>
+  <div class="row block-btn pb-10">
+    <div class="col-xs-12">
+      <a ng-click="logout()" class="btn btn-danger btn-lg btn-block">
+        退出登录
+      </a>
+    </div>
+  </div>
+</div>

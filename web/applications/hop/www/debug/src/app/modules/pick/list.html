@@ -1,0 +1,126 @@
+<div class="container-fluid">
+  <div class="width_change" id="row block-title">
+    <div class="col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h5>分拣任务列表</h5>
+      </div>
+      <div class="bs-callout">
+        <a ng-click="filterByStatus('all');" ng-class="{'btn-info': status == 'all'}" class="btn">
+          全部 <span class="badge">{{total[-1]}}</span>
+        </a>
+        <a ng-click="filterByStatus('1');" ng-class="{'btn-info': status == '1'}" class="btn">
+          未开始 <span class="badge">{{total[1]}}</span>
+        </a>
+        <a ng-click="filterByStatus('2');" ng-class="{'btn-info': status == '2'}" class="btn">
+          已完成 <span class="badge">{{total[2]}}</span>
+        </a>
+        <div class="block mt-10 ml-default">
+          <!--时间筛选-->
+          <form class="form-inline" role="form">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">订单类型</div>
+                <select class="form-control" ng-model="order_type" ng-options="m.msg for m in order_types">
+                  <option value="">请选择订单类型</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">所属城市</div>
+                <select ng-model="city" class="form-control" ng-options="m.name for m in cities">
+                  <option value="">
+                  选择所属城市
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">分拣单号</span> 
+              <input type="text" class="form-control" ng-model="init.pickNo" />
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">波次号</span> 
+              <input type="text" class="form-control" ng-model="init.waveId" />
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon">任务号</span> 
+              <input type="text"  class="form-control" ng-model="init.pickTaskId" />
+            </div>
+            <div class="form-group">
+              <button class="btn-block btn btn-info" ng-click="search();"> 筛选 </button>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-warning" ng-click="reset()">重置</button>
+            </div>
+            <div class="form-group">
+              <a class="btn btn-block btn-danger" ng-click="print()">打印</a>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div style="margin-top:10px;" class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+          <colgroup>
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-1">
+            <col class="col-xs-2">
+            <col class="col-xs-2">
+          </colgroup>
+          <thead>
+            <tr>
+              <td class="text-center"><h5><input type="checkbox" ng-click="checkAll();" ng-model="check_all"/></h5></td>
+              <td class="text-center"><h5>分拣单号</h5></td>
+              <td class="text-center"><h5>任务号</h5></td>
+              <td class="text-center"><h5>波次号</h5></td>
+              <td class="text-center"><h5>所属城市</h5></td>
+              <td class="text-center"><h5>订单类别</h5></td>
+              <td class="text-center"><h5>任务状态</h5></td>
+              <td class="text-center"><h5>sku总数</h5></td>
+              <td class="text-center"><h5>线路</h5></td>
+              <td class="text-center"><h5>开始时间</h5></td>
+              <td class="text-center"><h5>结束时间</h5></td>
+              <td class="text-center"><h5>操作</h5></td>
+            </tr>
+          </thead>
+          <tbody ng-if="list.length===0">
+            <tr>
+              <td colspan="11" class="text-center"><h5>暂无数据</h5></td>
+            </tr>
+          </tbody>
+          <tbody ng-if="list.length>0">
+            <tr ng-repeat="item in list">
+              <td class="text-center">
+                <h5><input type="checkbox" ng-model="item.checked"/></h5>
+              </td>
+              <td class="text-center"><h5>{{item.pick_number}}</h5></td>
+              <td class="text-center"><h5>{{item.id}}</h5></td>
+              <td class="text-center"><h5>{{item.wave_id}}</h5></td>
+              <td class="text-center"><h5>{{item.city_name}}</h5></td>
+              <td class="text-center"><h5>{{item.order_type_name}}</h5></td>
+              <td class="text-center"><h5>{{item.status_name}}</h5></td>
+              <td class="text-center"><h5>{{item.sku_count}}</h5></td>
+              <td class="text-center"><h5>{{item.line_name}}</h5></td>
+              <td class="text-center"><h5>{{item.created_time}}</h5></td>
+              <td class="text-center"><h5>{{item.updated_time}}</h5></td>
+              <td class="text-center">
+                <h5>
+                  <a ui-sref="home.pickTaskDetail({task_id:item.id})" class="btn btn-info btn-sm btn_mb5"> 详情</a>
+                </h5>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        <nav>
+          <dachu-pagination conf="paginationConf"></dachu-pagination>
+        </nav>
+    </div>
+  </div>
+</div>

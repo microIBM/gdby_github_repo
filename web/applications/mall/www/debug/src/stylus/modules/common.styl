@@ -1,0 +1,229 @@
+/*
+常用组件css文件 如 一套自定义风格的分页样式
+ */
+/*--雪碧图--*/
+.icon{
+    position:relative;
+    top:1px;
+    display:inline-block;
+    background:url(/assets/images/sprite.png) left top no-repeat;
+}
+.iphone{
+    width:15px;
+    height:25px;
+    left:-4px;
+    background-position:-343px 3px;
+    top:-4px;
+    float:left;
+}
+.cart-b{
+    width:18px;
+    height:21px;
+    left:-4px;
+    background-position:-358px 3px;
+    top:-2px;
+    float:left;
+}
+.chev-down{
+    width:11px;
+    height:9px;
+    top:-2px;
+    @extend .m-l-5;
+    background-position:-376px 3px;
+}
+.phone{
+    width:40px;
+    height:40px;
+    background-position:-289px 3px;
+}
+.youzhi{
+    width:45px;
+    height:48px;
+    background-position:-227px -44px;
+}
+.ruqi{
+    width:56px;
+    height:48px;
+    background-position:-272px -44px;
+}
+.zhangdan{
+    width:56px;
+    height:48px;
+    background-position:-328px -44px;
+}
+.jushou{
+    width:57px;
+    height:57px;
+    top:-3px;
+    background-position:-170px -44px;
+}
+.login-icon{
+    .youzhi{
+        width:37px;
+        height:43px;
+        background-position:-56px 3px;
+    }
+    .ruqi{
+        width:49px;
+        height:43px;
+        background-position:-132px 3px;
+    }
+    .zhangdan{
+        width:50px;
+        height:43px;
+        background-position:0px 3px;
+    }
+    .jushou{
+        width:40px;
+        height:43px;
+        top:3px;
+        background-position:-93px 3px;
+    }
+}
+/*--注册提示 模态框 -- */
+.login-wp{
+    border-radius:0;
+    padding:40px;
+    h3{
+        @extend .text-18;
+        @extend .p-b-15;
+        color:$green;
+        border-bottom:2px solid $green;
+    }
+    .login-hd{
+        color:#333;
+        @extend .text-14;
+        line-height:2.2;
+    }
+    .call-us{
+        @extend .m-t-30;
+        li{
+            height:63px;
+            color:$green;
+            line-height:35px;
+            @extend .text-14;
+            span{
+                font-weight:bold;
+                @extend .text-18;
+            }
+            i{
+                @extend .m-r-15;
+            }
+            .phone{
+                width:36px;
+                height:36px;
+                background-position:-253px 0px
+            }
+            .qq{
+                width:36px;
+                height:36px;
+                background-position:-181px 0px
+            }
+            .weixin{
+                width:36px;
+                height:36px;
+                background-position:-217px 0px;
+            }
+        }
+    }
+}
+
+.pagination {
+    > li{
+        span.prev{
+            font-size:0;
+            width:34px;
+            height:34px;
+            border:none;
+            background:url(/assets/images/left.png) left top no-repeat;
+        }
+        span.next{
+            font-size:0;
+            width:34px;
+            height:34px;
+            border:none;
+            background:url(/assets/images/right.png) left top no-repeat;
+        }
+        > span{
+            padding: 4px 11px;
+        }
+    }
+    .page-total{
+        select{
+            height:30px;
+            border-radius:0px;
+        }   
+    }
+
+}
+/*loading图*/
+.loading-mask{
+    padding 20px
+    width 100%
+    height 100%
+    display block
+    top 0
+    left 0
+    position fixed
+    z-index 9999
+    em{
+        background url(/assets/images/Loading.gif) center center no-repeat
+        background-size 100%
+        width 120px
+        height 120px
+        zoom 0.5
+        display block
+        position fixed
+        top 50%
+        left 50%
+        margin-left -55px
+        margin-top -40px
+        z-index 99999
+        padding 20px
+        border-radius 10px
+        opacity 0.8
+
+    }
+}
+
+/*- 弹出层-*/
+.dialog-block{
+    .modal-header{
+        padding:0;
+    }
+    h6{
+        background:$green;
+        text-align:center;
+        height:30px;
+        color:#fff;
+        padding:0;
+        line-height:2;
+    }
+    .rm-modal{
+        margin:8px;
+        cursor:pointer ;
+     }
+    .modal-body{
+        padding:50px;
+        @extend .text-18;
+    }
+    .modal-footer{
+        border-top:none;
+        text-align:center;
+        padding:10px 0;
+        .btn{
+             color:#fff;
+            padding:5px;
+            border-radius:0;
+        }
+        .btn-green{
+           background:$green;
+        }
+        .btn-gray{
+            background:#999;
+        }
+    }
+}
+
+
+

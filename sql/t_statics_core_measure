@@ -1,0 +1,26 @@
+-- bi数据分析所用
+-- 库名:d_statics
+-- start_date 15-8-29
+CREATE TABLE `t_statics_core_measure` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `city_id` int(10) NOT NULL DEFAULT '0' COMMENT '城市',
+  `city_name` varchar(32) NOT NULL DEFAULT '' COMMENT '城市名称',
+  `sign_order_counts` int(10) NOT NULL DEFAULT '0' COMMENT '签收单数',
+  `sign_sale_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '签收金额',
+  `sign_amount_rate` float(5,4) NOT NULL DEFAULT '0.0000' COMMENT '金额占比',
+  `buy_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '采购成本',
+  `margin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '毛利额',
+  `margin_rate` float(5,4) NOT NULL DEFAULT '0.0000' COMMENT '毛利率',
+  `stock_total_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '库存成本',
+  `turnover_rate` float(5,4) NOT NULL DEFAULT '0.0000' COMMENT '周转率',
+  `transfer_total_cost` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '物流成本',
+  `ontime_rate` float(5,4) NOT NULL DEFAULT '0.0000' COMMENT '准点率',
+  `complaint_order_counts` int(10) NOT NULL DEFAULT '0' COMMENT '投诉单数',
+  `reject_sum` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '拒收金额',
+  `return_sum` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '退货金额',
+  `data_date` varchar(20) NOT NULL DEFAULT '0000-00-00' COMMENT '该条记录所指代的时间',
+  `inhive_date` varchar(20) NOT NULL DEFAULT '0000-00-00' COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `data_date` (`data_date`),
+  KEY `inhive_date` (`inhive_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='分城市核心运营数据';

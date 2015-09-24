@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <h4 class="modal-title">筛选</h4>
+</div>
+<div class="modal-body">
+  <form class="form" novalidate>
+    <div class="form-group">
+      <label class="control-label">起始时间</label>
+      <input class="form-control" type="text" datepicker-popup ng-model="start_time" is-open="datepicker.start.open" close-text="关闭" ng-focus="datepicker.open('start', $event)" current-text="今天" close-text="关闭" clear-text="清除">
+    </div>
+    <div class="form-group">
+      <label class="control-label">结束时间</label>
+      <input class="form-control" type="text" datepicker-popup ng-model="end_time" is-open="datepicker.end.open" close-text="关闭" ng-focus="datepicker.open('end', $event)" close-text="关闭" clear-text="清除">
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="func.ensure()">确认</button>
+  <button class="btn btn-danger" ng-click="func.cancel()">关闭</button>
+</div>

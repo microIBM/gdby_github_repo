@@ -1,0 +1,106 @@
+<div class="container-fluid">
+  <script type="text/ng-template" id="set_status.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{items.headerText}}</h3>
+    </div>
+    <div class="modal-body">
+        <h2 class="text-center">{{items.bodyText}}</h2>
+        <div class="form-group" ng-if="items.order.status == 6 || items.order.status == 5">
+        请填写备注信息
+        <textarea cols="20" rows="6" class="form-control" ng-model="items.sign_msg"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="items.ok(items.sign_msg);cancel();" ng-if="items.actionText">
+          {{items.actionText}}
+        </button>
+        <button class="btn btn-warning" ng-click="items.close();cancel()">{{items.closeText}}</button>
+    </div>
+  </script>
+  <div class="width_change" id="row block-title">
+    <div class=" col-xs-offset-2">
+      <div class="bs-callout bs-callout-danger">
+        <h4>配送单编号：{{data.dist_number}}</h4>
+        <h5 style="margin-top:10px;">状态：{{data.is_printed == 1 ? '已打印' : '未打印'}}</h5>
+      </div>
+      <div ng-if="data">
+        <table class="table table-bordered table-striped">
+          <colgroup>
+            <col class="col-xs-3">
+            <col class="col-xs-3">
+            <col class="col-xs-3">
+            <col class="col-xs-3">
+          </colgroup>
+          <tbody>
+            <tr>
+              <td class="text-center"><h5>创建者</h5></td>
+              <td class="text-center"><h5>{{data.creator}}</h5></td>
+              <td class="text-center"><h5>创建时间</h5></td>
+              <td class="text-center"><h5>{{data.created_time}}</h5></td>
+            </tr>
+            <tr>
+              <td class="text-center"><h5>总单数</h5></td>
+              <td class="text-center"><h5>{{data.order_count}}</h5></td>
+              <td class="text-center"><h5>总金额</h5></td>
+              <td class="text-center"><h5>{{data.total_price}}</h5></td>
+            </tr>
+            <tr>
+              <td class="text-center"><h5>总行数</h5></td>
+              <td class="text-center"><h5>{{data.line_count}}</h5></td>
+              <td class="text-center"><h5>总件数</h5></td>
+              <td class="text-center"><h5>{{data.sku_count}}</h5></td>
+            </tr>
+          </tbody>
+        </table>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <colgroup>
+              <col class="col-xs-2">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+              <col class="col-xs-1">
+              <col class="col-xs-2">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+              <col class="col-xs-1">
+            </colgroup>
+            <tr>
+              <td class="text-center" colspan="10"><h5>订单列表</h5></td>
+            </tr>
+            <tr>
+              <td>店铺名称</td>
+              <td>收件人</td>
+              <td>订单id</td>
+              <td>订单编号</td>
+              <td>货品</td>
+              <td>产品名称</td>
+              <td>规格</td>
+              <td>订货数量</td>
+              <td>单价</td>
+              <td>备注</td>
+            </tr>
+          </thead>
+          <tbody ng-repeat="order in orderList">
+            <tr ng-repeat="detail in order.detail">
+              <td ng-if="$index == 0" rowspan="{{order.detail.length}}">{{order.shop_name}}<p>{{order.deliver_addr}}</p></td>
+              <td ng-if="$index == 0" rowspan="{{order.detail.length}}">{{order.username}}</td>
+              <td ng-if="$index == 0" rowspan="{{order.detail.length}}">{{order.id}}</td>
+              <td ng-if="$index == 0" rowspan="{{order.detail.length}}">{{order.order_number}}</td>
+              <td>{{detail.product_id}}</td>
+              <td>{{detail.name}}</td>
+              <td>{{detail.spec[1].val}}</td>
+              <td>{{detail.quantity}}</td>
+              <td>{{detail.price}}</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-xs-12 btn-group form-group">
+        <button class="btn col-xs-3 btn-lg btn-success" ng-click="back();">返回</button>
+      </div>
+    </div>
+  </div>
+</div>

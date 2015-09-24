@@ -1,0 +1,20 @@
+<nav class="head-nav clearfix">
+  <ul class="nav nav-list">
+    <li ng-class="{'hover-active': hover.list[$index],'' :!hover.list[$index]}" ng-mouseenter="hoverIn($index)" ng-mouseleave="hoverOut($index)" ng-repeat="v in DC.navList.top | limitTo : 8">
+    <i></i>
+    <h3 ng-click="productList(v.origin_id)">{{v.name}}</h3>
+    <div class="sm-title">
+      <a ng-repeat="m in v.itemChild[0] | limitTo :3" ng-click="productList(m.id)">{{m.name}}</a>
+    </div>
+    <div class="nav-hover" ng-show="hover.list[$index]">
+      <div class="seconed-list">
+        <h4 class="seconed-list-title" ng-click="productList(v.origin_id )">{{v.name}}</h4>
+        <div class="seconed-list-bd">
+          <a ng-repeat="m in v.itemChild[0]" ng-click="productList(m.id)">{{m.name}}</a>
+        </div>
+      </div>
+    </div>
+    </li>
+  </ul>
+</nav>
+
